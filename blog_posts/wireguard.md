@@ -19,10 +19,39 @@ Our VM should have wireguard available as a package out of the box which make in
 ```bash
 sudo apt update && apt install -y wireguard
 # TODO: Also enable the firewall on this host
+# TODO: Also may need other dependencies, like resolvconf and some others...
 ```
 
 ### Configure Wireguard
-TODO
+Once we got the software cosily installed we have to configure the bad boy. We can start with generating a keypar for the server.
+To do that run the following command on your cloud instance:
+```bash
+wg genkey | tee private.key | wg pubkey > public.key
+```
+This will create the two key files for you, private and public. The contents of the private one will live in the config on the server while the public one has to be shared with every peer that wishes to connect to this server. Either way, it is a good idea to think about where you're gonna store these keys for safekeeping. I recommend using a secure not in your password manager app. You've got one of these already, right? Right!?
+
+The next step is to create the server configuration for your public endpoint.
+The location of all of the endpoints will be stored in `/etc/wireguard`. We are going to call ours `wg0.conf`. You will notice that once we are done there will be a new virtual network interface on your linux host also called `wg0`. That's because wireguard will create a virtual interface per tunnel endpoint that you configure, but more on that later ;)
+
+Take a look at the following example config file:
+```ini
+[Interface]
+Address    = 10.0.0.1/24
+DNS        = 192.168.1.10
+SaveConfig = false
+ListenPort = 51820
+PrivateKey = mysupersecretgeneratedprivatekey
+
+[Peer]
+PublicKey = mylesssecretbutalsosecretpeerpublickey
+AllowedIPs = 10.0.0.2/32
+```
+
+The above block is a good starting point, and we can go over its contents briefly.
+
+The **interface** block is the configuration parameters for our `wg0` virtual network interface. It also configures some server-side parameters, such as what is the address of the DNS server to be used to resolve domain names on our VPN network. We can also observe the port, which is the network port to be used by peers to establish a connection with the server. We will also need to whitelist this address on our firewall and any security group analogs your cloud provider offers. Lastly we have the private key where, yes, you guessed it, we paste the private key that you so diligently saved in your password manager, haven't you?
+
+The second block we can see is the **peer** block. The first field would be a public key. And no, this is not our server's public key, this is the public key of your peer. A peer in this case is any machine trying to connect to our vpn server. Therefore you will likely have many **peer** blocks in this secrion, as many as there are devices you want to allow to connect to your network. The allopwed IPs field will tell the server what range of IP addresses it will accept traffic from should the handshake with using the public key be successful. This will be the IP address of the `wg0` (or whatever you call name it) interface on the peer. If this is a little confusing, don't worry, we'll be able to connect the dots a little later.
 
 ### Ready script
 [Check out the ready bash script.](https://github.com/octopusx/wireguard-scripting/blob/main/endpoint_host.sh)
