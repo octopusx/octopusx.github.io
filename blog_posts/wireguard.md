@@ -49,6 +49,8 @@ DNS        = 192.168.1.10,my-search-domain.com
 SaveConfig = false
 ListenPort = 51820
 PrivateKey = mysupersecretgeneratedprivatekey
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 [Peer]
 PublicKey = mylesssecretbutalsosecretpeerpublickey
@@ -63,6 +65,8 @@ Another field we can see is the port, which is the network port to be used by pe
 
 We will also need to whitelist this address on our firewall and any security group analogs your cloud provider offers. Lastly we have the private key where, yes, you guessed it, we paste the private key that you so diligently saved in your password manager, haven't you?
 
+`PostUp` and `PostDown` fields allow us to run arbitrary code triggered by the change of our WireGuard tunnel state. Names are quite self-explanatory. Remember, just because we are able to create the tunnel, doesn't mean we will send any traffic through it. It is by modifying network policies after the tunnel is established (and subsequently tearing them down when we take the tunnel down) that we are able to funnel our traffic where it is meant to go.
+
 The second block we can see is the **peer** block. 
 
 The first field would be a public key. And no, this is not our server's public key, this is the public key of your peer. A peer in this case is any machine trying to connect to our vpn server. Therefore you will likely have many **peer** blocks in this secrion, as many as there are devices you want to allow to connect to your network. 
@@ -71,13 +75,10 @@ The allopwed IPs field will tell the server what range of IP addresses (subnets)
 
 If this is a little confusing, don't worry, we'll be able to connect the dots a little later.
 
-### Ready script
-[Check out the ready bash script.](https://github.com/octopusx/wireguard-scripting/blob/main/endpoint_host.sh)
-
 ## Reaching the Unraid server
 Unraid is a very potent platform for managing your home server infrastructure and it makes it extremely easy to deploy services within your home network.
 
-I myself host a piHole and HomeAssistant containers on mine among others.
+I myself host a Pihole and HomeAssistant containers on mine among others.
 It also has the ability to install extensions. When trying to figure out an easy and reliable way to set up a permanent tunnel to my Linode wireguard host I stumbled accross a [nicely written extension](https://forums.unraid.net/topic/84226-wireguard-quickstart/) which at first seemed like it would do the trick. 
 
 After some attempts to make it work however I realised that it won't do the trick, I could not get my Unraid box to forward traffic from the VPN to the rest of my network, which meant my internally-hosted services would not be reachable by other devices on the VPN. Mind you this was the beginning of my journey and I was only learning about wireguard so quite possibly it's entirely  my fault. If you have managed to make it work, more power to you!
@@ -213,12 +214,5 @@ What I observed was that connection request would make all of the hops starting 
 
 After some frantic duckduckgoing and many a-stackoverflow page overturned, I found our that my probems are sympthomatic for MTU-related issues. This means that my laptop is not accepting packets exceeding certain size, and therefore dropping most of the traffic returning to it from my wireguard tunnel. Setting a smaller-than-default MTU made it work instantly, and every tunnel and virtual interface lived happy ever after...
 
-<!-- TODO: figure out what MTU actually does. I have an idea but am not entirely sure. Also, paste relevant links here as well as wireshark commands. -->
-
-### Client config on Android
-
-<!-- TODO: research wireguard qr code generators -->
-
-### Client config on iOS
-
 ## Epilogue
+tbc
