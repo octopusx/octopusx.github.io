@@ -215,4 +215,5 @@ What I observed was that connection request would make all of the hops starting 
 After some frantic duckduckgoing and many a-stackoverflow page overturned, I found our that my probems are sympthomatic for MTU-related issues. This means that my laptop is not accepting packets exceeding certain size, and therefore dropping most of the traffic returning to it from my wireguard tunnel. Setting a smaller-than-default MTU made it work instantly, and every tunnel and virtual interface lived happy ever after...
 
 ## Epilogue
-tbc
+
+So since homelabs are pretty much living beings, by the time I finished writing this blog entry my Wireguard setup has evolved and is used for much more than what is described here. What I must say though, I have myself refered back to this guide when trying to figure out issues with my own setup as well as when helping friends erect their own self hosted VPNs, so I am quite happy with the contents here and hope someone will benefit from reading this document. As to the parts that I omitted in this entry, I guess you will have to check back in to find out the missing bits and peaces as I scatter them across the field of future blog entries ;)

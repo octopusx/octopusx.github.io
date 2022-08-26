@@ -2,10 +2,10 @@
 layout: default
 ---
 
-# SRE blog and other interresting things
+# SRE blog and other interesting things
 
 I love tech, I love coding and I love automation.
-This is my place to store interresting insights, how-to guides and workshops.
+This is my place to store interesting insights, how-to guides and workshops.
 Enjoy this content at your own risk ;)
 
 ## Check out the amazing content:
