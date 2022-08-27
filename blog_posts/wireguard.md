@@ -161,7 +161,60 @@ sudo systemctl start wg-quick@wg0
 Why this magic command? `wg-quick` is a utility that comes with wireguard and it lets you manage wg tunnels easliy as a human being and not a soulless robot. The above will not only start the tunnel but also enable a systemd service for it, meaning that the tunnel will remain up even after reboots. Nice.
 
 ### Quick reality check
-<!-- Here we should talk about testing pinging from both sides and curling stuff -->
+Here if everything went according to plan we should be able to start testing this new tunnel. The first thing you'll likely want to do is make sure traffic is routed within the wireguard network itself.
+
+Let's (IP) address all of the hosts from the start.
+```shell
+# wireguard server
+wg0 = 10.0.0.1
+eth0 = 171.172.173.174
+
+# unraid vm
+wg0 = 10.0.0.2
+eth0 = 192.168.1.5
+```
+
+Let's log into the Wireguard server and ping some stuff:
+```shell
+~ ❯ ping 10.0.0.5 -c 1
+PING 10.0.0.5 (10.0.0.5) 56(84) bytes of data.
+64 bytes from 10.0.0.5: icmp_seq=1 ttl=64 time=29.6 ms
+
+--- 10.0.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 29.618/29.618/29.618/0.000 ms
+```
+
+This means we can communicate with our Unraid VM. Sweet.
+
+The bigger question is, can we also access resources on our LAN, behind our Wireguard gateway? Well, we can test that too.
+Find a local IP address on your home network that will respond to ping and use that. We are going to assume we have a Pihole server running under `192.168.1.10`.
+```
+~ ❯ ping 192.168.1.10 -c 1
+PING 192.168.1.10 (192.168.1.10) 56(84) bytes of data.
+64 bytes from 192.168.1.10: icmp_seq=1 ttl=63 time=20.9 ms
+
+--- 192.168.1.10 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 20.922/20.922/20.922/0.000 ms
+```
+
+Now, pinging traffic is special, in fact it is so special it uses its own specific protocol called `icmp`. What I found while working on this setup is, just because `icmp` traffic makes it through, it doesn't mean that you're all good just yet. Since we are using a `Pihole` endpoint to test the ping, and we know `Pihole` has a web UI, let's try to curl that too.
+```
+~ ❯ curl -I http://192.168.1.10/admin/
+HTTP/1.1 200 OK
+Set-Cookie: PHPSESSID=4215ktt1igaqf8qoj5llbhv376; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-type: text/html; charset=UTF-8
+X-Pi-hole: The Pi-hole Web interface is working!
+X-Frame-Options: DENY
+Date: Sat, 27 Aug 2022 13:16:15 GMT
+Server: lighttpd/1.4.59
+```
+
+See? Now we are pretty sure it works. At least it will do for now and we can perform more practical tests once we set up wireguard on our end client machine.
 
 ## The rest
 
