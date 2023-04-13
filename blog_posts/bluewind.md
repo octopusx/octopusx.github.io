@@ -14,4 +14,18 @@ This was not ideal and definitely did not match my usual "low barier to entry" v
 
 ## Research
 
+First things first, we need to see what is already available. A search and a look around had uncovered a github repository which we can use as a code donnor for our project: [https://github.com/garanj/wearwind](https://github.com/garanj/wearwind). Although it is a Java project, an applicataion for Android wear, we can learn a few interesting facts from it. To start, it is controlling the fan by sending it byte arrays of data in the following format:
+```java
+private val POWER_ON = byteArrayOf(4, 4, 1)
+private val POWER_OFF = byteArrayOf(2, 0)
+```
+[As seen here!](https://github.com/garanj/wearwind/blob/9b7115b4c070d2f2cfa10cb792bb68d4e517a073/app/src/main/java/com/garan/wearwind/FanControlService.kt#L392)
 
+TODO: Talk about decoding how they set speed
+TODO: Talk about the ble library we use to read characteristics
+TODO: Talk about how we realised that normal (Laptop/Desktop) BT modules don't have LE, so we had to use a raspberry pi
+TODO: Talk about how the fan uses bluetooth low energy for discovery and characteristic advertising, but normal bluetooth for control (randomly discovered by accident)
+
+## PoC
+
+## Final Result
