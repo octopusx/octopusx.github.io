@@ -21,11 +21,55 @@ private val POWER_OFF = byteArrayOf(2, 0)
 ```
 [As seen here!](https://github.com/garanj/wearwind/blob/9b7115b4c070d2f2cfa10cb792bb68d4e517a073/app/src/main/java/com/garan/wearwind/FanControlService.kt#L392)
 
-TODO: Talk about decoding how they set speed
+This was a good starting point and following some experimentation I have decoded a few more commands which I found useful, notably sending the unit to sleep:
+```python
+SLEEP = [0x4, 0x1]
+```
+And setting a speed of choice:
+```python
+# Second byte is the speed, values can range from 0x1 to 0x64
+MIN_SPEED = [0x2, 0x1]
+FULL_SPEED = [0x2, 0x64]
+```
+
+[Complete list of commands I use can be seen in the bluewind repo.](https://github.com/octopusx/bluewind/blob/main/headwind/__init__.py)
+
 TODO: Talk about the ble library we use to read characteristics
 TODO: Talk about how we realised that normal (Laptop/Desktop) BT modules don't have LE, so we had to use a raspberry pi
-TODO: Talk about how the fan uses bluetooth low energy for discovery and characteristic advertising, but normal bluetooth for control (randomly discovered by accident)
+
+The beginning of my journey with python and BLE started with doing research on existing libraries and implementations of the BLE stack, where I have discovered the following resources:
+- https://github.com/pybluez/pybluez
+- https://github.com/ukBaz/BLE_GATT
+
+These seemed like they are used in various projects on github, and the pybluez even comes with handy examples for how to do BLE scans:
+- https://github.com/pybluez/pybluez/blob/master/examples/ble/scan.py
+
+Trying to use this library however I quickly learned an interesting fact: BLE is not supported on many laptop or desktop wifi/ble modules! Having had trouble running this code, on a whim I decided to try it our on a raspberry pi 4 I had laying around, and that worked without a hitch. I was able to scan for BLE devices nearby and read their advertised lists of characteristics:
+```
+service000a = "00001801-0000-1000-8000-00805f9b34fb"                    # Generic Attribute Profile
+service000a_char000b = "00002a05-0000-1000-8000-00805f9b34fb"           # Service Changed
+service000a_char000b_desc000d = "00002902-0000-1000-8000-00805f9b34fb"  # Client Characteristic Configuration
+service000e = "0000180a-0000-1000-8000-00805f9b34fb"                    # Device Information
+service000e_char000f = "00002a29-0000-1000-8000-00805f9b34fb"           # Manufacturer Name String
+service000e_char0011 = "00002a25-0000-1000-8000-00805f9b34fb"           # Serial Number String
+service000e_char0013 = "00002a27-0000-1000-8000-00805f9b34fb"           # Hardware Revision String
+service000e_char0015 = "00002a26-0000-1000-8000-00805f9b34fb"           # Firmware Revision String
+service0017 = "a026ee01-0a7d-4ab3-97fa-f1500f9feb8b"                    # Vendor specific
+service0017_char0018 = "a026e002-0a7d-4ab3-97fa-f1500f9feb8b"           # Vendor specific
+service0017_char0018_desc001a = "00002902-0000-1000-8000-00805f9b34fb"  # Client Characteristic Configuration
+service0017_char001b = "a026e004-0a7d-4ab3-97fa-f1500f9feb8b"           # Vendor specific
+service0017_char001b_desc001d = "00002902-0000-1000-8000-00805f9b34fb"  # Client Characteristic Configuration
+service001e = "a026ee0c-0a7d-4ab3-97fa-f1500f9feb8b"                    # Vendor specific
+service001e_char001f = "a026e038-0a7d-4ab3-97fa-f1500f9feb8b"           # Vendor specific
+service001e_char001f_desc0021 = "00002902-0000-1000-8000-00805f9b34fb"  # Client Characteristic Configuration
+```
+
+Characteristics are like fields, or ports, that you can either read from or write to, and after some more experimentation I have identified that in order to control the fan I need to send data to characteristic `a026e038-0a7d-4ab3-97fa-f1500f9feb8b`.
+
+Interestingly however, I had struggled to use the basic pybluez library for this type of communication and have switched over to using an easier to use, more abastract library, i.e. `bleak`: [https://github.com/hbldh/bleak](https://github.com/hbldh/bleak).
+
+It is during this transition that I realised that the BLE protocol is only used for scanning for devices in case of my Headwind fan and actually, once I have found out the characteristic and MAC address to send data to, I no longer rely on the BLE stack for anything and could actually go back to sending data to the fan directly from my laptop. I did not need to scp my code to my local trusty Pi4 no longer from here on out.
 
 ## PoC
 
-## Final Result
+## End Goal
