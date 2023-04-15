@@ -34,9 +34,6 @@ FULL_SPEED = [0x2, 0x64]
 
 [Complete list of commands I use can be seen in the bluewind repo.](https://github.com/octopusx/bluewind/blob/main/headwind/__init__.py)
 
-TODO: Talk about the ble library we use to read characteristics
-TODO: Talk about how we realised that normal (Laptop/Desktop) BT modules don't have LE, so we had to use a raspberry pi
-
 The beginning of my journey with python and BLE started with doing research on existing libraries and implementations of the BLE stack, where I have discovered the following resources:
 - https://github.com/pybluez/pybluez
 - https://github.com/ukBaz/BLE_GATT
