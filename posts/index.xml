@@ -1,0 +1,265 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Developer and Self Hoster Blog</title>
+        <link>http://blog.octopusx.de/posts/</link>
+        <description>Recent content in Posts on Developer and Self Hoster Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+        <lastBuildDate>Thu, 08 Jun 2023 14:46:20 +0200</lastBuildDate>
+        <atom:link href="http://blog.octopusx.de/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>HA in the homelab</title>
+            <link>http://blog.octopusx.de/posts/homelab_ha_edition/</link>
+            <pubDate>Thu, 08 Jun 2023 14:46:20 +0200</pubDate>
+            
+            <guid>http://blog.octopusx.de/posts/homelab_ha_edition/</guid>
+            <description>In general I like things simple. I need technology to work for me and provide value without having to dedicate extraordinary amount of time to it. When it comes to running a homelab this is especially true, since I am likely spending my own free time setting things up and maintaining my infrastrcuture. At a certain point in the life of my homelab however I found myself hosting services for my wife, family and some friends.</description>
+            <content type="html"><![CDATA[<p>In general I like things simple. I need technology to work for me and provide value without having to dedicate extraordinary amount of time to it. When it comes to running a homelab this is especially true, since I am likely spending my own free time setting things up and maintaining my infrastrcuture. At a certain point in the life of my homelab however I found myself hosting services for my wife, family and some friends. This meant that I started considering a new challenge, the challenge of keeping my services up so that the people that rely on them do not face unpleasant disruptions.</p>
+<h2 id="the-humble-beginning">The Humble Beginning</h2>
+<p>In the beginning I hosted everything on a lone Unraid server, which I built by converting an old desktop machine I had laying around, a very common beginning for a homelab. Unraid gives you a very economical way to manage mass storage with some redundancy, with the ability to run docker containers and mount their volumes to either the spinning rust array, or an ssd cache drive.</p>
+<p>This has worked ok for a few years, but in time 3 problems started grating on me:</p>
+<ul>
+<li>If you want to do any maintenance of the server, you must spin the disk array down. And by maintenance I meana changing most basic settings, such as network or storage configuration. And every time you stop the array, you must shut down the VM and docker engines for the duration.</li>
+<li>There were multiple times where failure to resolve dns meant that my containers would fail to update, then promptly &ldquo;disappear&rdquo;, together with all their configuration. These were configured manually and now had to be rebuilt manually&hellip;</li>
+<li>Every time one of these events occured, all of my homelab users would be inconvenienced. Long periods of unavailability is unacceptable if you want to build a system that multiple people rely on on daily bases.</li>
+</ul>
+<h2 id="make-it-double">Make it double</h2>
+<p>I decided to experiment with a HA setup and build a second unraid server. This involved abandoning Unraid&rsquo;s built in docker engine (for the most part), and choosing an alternative way to orchestrate my workloads.
+My first choice was Microk8s from Cannonical, as it was the simplest way to create a HA multinode cluster.</p>
+<p>The goal of this setup was to allow me to take one of the nodes down for &ldquo;maintenance&rdquo; and have the services remain available, running on the second node.</p>
+<p>The initial idea for how to design this system was basically a mirror setup. Each of the Unraid nodes would have:</p>
+<ul>
+<li>2 large HDDs for the main Unraid array, storing the data</li>
+<li>1 NVME SSD used as a separate &ldquo;cache pool&rdquo; for storing the Unraid VM and Docker engine data</li>
+<li>A docker container running Pihole</li>
+<li>A number of VMs running a Kubernetes cluster</li>
+</ul>
+<h3 id="what-are-we-running">What are we running</h3>
+<p>The most important application that we want to host is Nextcloud, with the intention of using it as photo backup for all family phones. To achieve our functionality we needed to run at minimum the following applications in our kubernetes cluster:</p>
+<ul>
+<li>Metallb</li>
+<li>Traefik</li>
+<li>Nextcloud Server</li>
+<li>Redis</li>
+<li>Mariadb</li>
+</ul>
+<h3 id="storage">Storage</h3>
+<p>3 out of the 5 services needed are actually stateful applications with requirements to have some form of either object or block storage. The most obvious solution that comes to mind is to leverage the NFS server hosted on our 2 Unraid servers. It was not a viable option because it would again create a single point of failure. You can not run pure NFS with any sort of failover or HA, which means that it doesn&rsquo;t matter that you have 2 unraid servers, the moment you take the wrong one down for &ldquo;maintenance&rdquo; the whole system collapses.</p>
+<p>I started researching different different distributed filesystem solutions that can be used to provision storage for kubernetes nodes, and I came across the following:</p>
+<ul>
+<li>CephFS + Rook</li>
+<li>GlusterFS</li>
+<li>Longhorn</li>
+</ul>
+<p>I have looked into Ceph for a little while before deciding it is too complex for my simple setup.
+I tried to setup GlusterFS but failed to make it work. I also found information that the GlusterFS Kubernetes provisioner was getting deprecated, which in the end led me to just one realistic choice, Longhorn.
+I looked at Longhorn last because I was hasitant to use a non-generic storage solution from Rancher. I generally try to stick to CNCF and proven open-source projects in my homelab, as I did not want to invest time into setting up infrastructure that may get &ldquo;deprecated&rdquo; or &ldquo;abandoned&rdquo; and have to re-build everything.
+However, I did manage to make longhorn work on my MicroK8S cluster, and I was off to the races with my new HA setup.</p>
+<p>The Longhorn documentation mentions that for best results they recommend a high IOPS NVME drive for storage, so I added a couple of NVME SSDs into each of my Unraid servers to pass through to the VMs for that purpose.</p>
+<h3 id="first-attempt">First attempt</h3>
+<p>For simplicity&rsquo;s sake, I decided I not to create an overly complex and maintenance-heavy system and stayed away from fully featured enterprise-grade K8S solutions. Having played with MicroK8S from Cannonical for a while in a local VM I decided to give it a test run in cluster mode.
+I have initially created a very simple 2 virtual machine setup, one machine on each Unraid server.
+I passed each its own NVME disk and exposed it to Longhorn and everything was fine&hellip; For a while&hellip; Until it wasn&rsquo;t fine anymore.</p>
+<p>The first time I went to reboot one of the Unraid servers the MicroK8S cluster desintegrated.
+In order to maintain operation of the system I had set Longhorn to have 2 replicas of each persistent volume, so one on each node. This means that when one of the nodes comes back after being unavailable for a while, it will discard its copy of the volume and sync it from the nodes that remained available in the cluster. This syncing operation is very IOPS and CPU heavy, to the point that while the sync operation was taking place, the K8S control plane (ETCD) was starved for cycles and the cluster had gone out of sync entirely and failed to come back.</p>
+<p>Some of you might say, well, you should have known this right? This is why you shouldn&rsquo;t host the control plane and data plane on the same host! It is asking for trouble&hellip; Ok, what should we do about it then? To save some words, I tried creating separate MicroK8S nodes for the control plane, data plane and storage, so that I woud have one of each type of nodes, each on a separate VM across the 2 Unraid boxes, and TLDR, it doesn&rsquo;t work because MicroK8S doesn&rsquo;t let you choose which nodes are supposed to act as masters and which are to be workers. The first 3 nodes to be added to the cluster would form the control plane, as necessary to reach quorum in ETCD. Each next added node would not be a part of the control plane. The moment you reboot one of the &ldquo;master&rdquo; nodes though (as long as another node in the cluster is available) another one will pick up that role and you have no say in which one that would be. After a few weeks the cluster has died in much the same way as it did initially. We needed a different solution&hellip;</p>
+<h3 id="move-to-k3s">Move to K3S</h3>
+<p>It seems to be a bit of a theme at this point, but Rancher Labs seems to know what they&rsquo;re doing. Aside from MicroK8S, their K3S distribution of Kubernetes is another viable and likely the most popular option for Kubernetes on the edge and in the homelab. It is lightweight and flexible, allowing you to dedicate nodes specifically to the control plane and even using alternative data stores for control plane state.</p>
+<h3 id="final-touches">Final touches</h3>
+<p>Just like before, we have built a 6 VM Kubernetes cluster, 2 master nodes, 2 workers and 2 longhorn storage nodes. To keep the system as vanilla as possible I elected for the default storage technology, which is ETCD. Such a system however is not HA, to have quorum you need 3 ETCD hosts. To ensure that the cluster stayed up while one of the Unraid servers is taken down I decided to host the third ETCD server&hellip; on a spare RaspberryPi I had laying around of course!</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Wireguard &#43; Linode &#43; Unraid = Profit</title>
+            <link>http://blog.octopusx.de/posts/wireguard/</link>
+            <pubDate>Sat, 27 Aug 2022 15:24:20 +0200</pubDate>
+            
+            <guid>http://blog.octopusx.de/posts/wireguard/</guid>
+            <description>I have been using Unraid as a platform to manage my storage at home as well as hosting a few basic services for me and my family for a good few years now. Despite having a fairly fast internet connection I was not able to expose those services to the internet however as my home router does not support dynamic DNS. As an alternative I knew that I could get a small VM with a public IP address which could host a VPN endpoint for me to build a permanent tunnel to my Unraid box.</description>
+            <content type="html"><![CDATA[<p>I have been using Unraid as a platform to manage my storage at home as well as hosting a few basic services for me and my family for a good few years now.
+Despite having a fairly fast internet connection I was not able to expose those services to the internet however as my home router does not support dynamic DNS.
+As an alternative I knew that I could get a small VM with a public IP address which could host a VPN endpoint for me to build a permanent tunnel to my Unraid box.
+For a long time I avoided this as setting up your own VPN seemed a daunting and needlessly complicated task. Then I&rsquo;ve learned of Wireguard.
+It lets you set up temporary and permanent tunnels with ease, it is simple to manage and supposed to provide state-of-the art security.
+Join me on a short trip to find out how you can set up your own easy-to-manage VPN and access your home network resources from anywhere.</p>
+<h2 id="the-public-endpoint">The public endpoint</h2>
+<p>To be able to host a VPN you can connect to from anywhere you will need a machine with a public IP.
+As mentioned before, this can be solved by setting up DDNS instead, but if you&rsquo;re like me and you don&rsquo;t have that option this is a solid alternative.
+The easiest way to obtain a public IP address is to create a small cheap VM with a cloud provider to host your Wireguard VPN.
+In my setup I have used Linode, but you can use anything you like really, so long as it gives you that sweet public IP goodness.</p>
+<h3 id="provision-the-host">Provision the host</h3>
+<p>We are going to build our Linode wireguard VPN on an Ubuntu linux VM, version 20.04.
+Our VM should have wireguard available as a package out of the box which make installation super easy:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update <span style="color:#f92672">&amp;&amp;</span> apt install -y wireguard resolvconf ufw
+</span></span></code></pre></div><p>It is probably also a good idea to enable firewall on this host. For now, we can safely block all traffic except ssh and wireguard ports:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ufw allow ssh
+</span></span><span style="display:flex;"><span>ufw allow 51820/udp
+</span></span><span style="display:flex;"><span>ufw enable
+</span></span></code></pre></div><p>If you&rsquo;ve run the above and are still able to connect to your server over ssh, you&rsquo;ve done well. If your server is now turning a blind eye to your ssh connection attempts, you may have to access it over linode shell, then double check you&rsquo;ve blocked the correct ports and fix the firewall rules if necessary.</p>
+<h3 id="configure-wireguard">Configure Wireguard</h3>
+<p>Once we got the software cosily installed we have to configure the bad boy. We can start with generating a keypair for the server.
+To do that run the following command on your cloud instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wg genkey | tee private.key | wg pubkey &gt; public.key
+</span></span></code></pre></div><p>This will create the two key files for you, private and public. The contents of the private key will live in the config on the server while the public one has to be shared with every peer that wishes to connect to this server. Either way, it is a good idea to think about where you&rsquo;re gonna store these keys for safekeeping. I recommend using a secure note in your password manager app or an encrypted backup drive. You&rsquo;ve got one of these already, right? Right!?</p>
+<p>The next step is to create the server configuration for your public endpoint.
+The location of all of the endpoints will be stored in <code>/etc/wireguard</code>. We are going to call ours <code>wg0.conf</code>. You will notice that once we are done there will be a new virtual network interface on your linux host also called <code>wg0</code>. That&rsquo;s because wireguard will create a virtual interface per tunnel endpoint that you configure, but more on that later ;)</p>
+<p>Take a look at the following example config file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[Interface]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">Address</span>    <span style="color:#f92672">=</span> <span style="color:#e6db74">10.0.0.1/24</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">DNS</span>        <span style="color:#f92672">=</span> <span style="color:#e6db74">192.168.1.10,my-search-domain.com</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SaveConfig</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ListenPort</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">51820</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">PrivateKey</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">mysupersecretgeneratedprivatekey</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">PostUp</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">PostDown</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[Peer]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">PublicKey</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">mylesssecretbutalsosecretpeerpublickey</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">AllowedIPs</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">10.0.0.2/32, 192.168.1.0/24 # The networks that traffic can be routed to over this peer connection</span>
+</span></span></code></pre></div><p>The above block is a good starting point, let&rsquo;s go over its contents briefly.</p>
+<p>The <strong>interface</strong> block is the configuration parameters for our <code>wg0</code> virtual network interface. It also configures some server-side parameters, such as what is the address of the DNS server to be used to resolve domain names on our VPN network. This is useful if you are hosting a DNS server within your lan to resolve internal domain names.</p>
+<p>Another field we can see is the port, which is the network port to be used by peers to establish a connection with the server. For safety reasons (security by obscurity) it is a nice idea to change it to anything else other than the default.</p>
+<p>We will also need to whitelist this address on our firewall and any security group analogs your cloud provider offers. Lastly we have the private key where, yes, you guessed it, we paste the private key that you so diligently saved in your password manager, haven&rsquo;t you?</p>
+<p><code>PostUp</code> and <code>PostDown</code> fields allow us to run arbitrary code triggered by the change of our WireGuard tunnel state. Names are quite self-explanatory. Remember, just because we are able to create the tunnel, doesn&rsquo;t mean we will send any traffic through it. It is by modifying network policies after the tunnel is established (and subsequently tearing them down when we take the tunnel down) that we are able to funnel our traffic where it is meant to go.</p>
+<p>The second block we can see is the <strong>peer</strong> block.</p>
+<p>The first field would be a public key. And no, this is not our server&rsquo;s public key, this is the public key of your peer. A peer in this case is any machine trying to connect to our vpn server. Therefore you will likely have many <strong>peer</strong> blocks in this secrion, as many as there are devices you want to allow to connect to your network.</p>
+<p>The allopwed IPs field will tell the server what range of IP addresses (subnets) it will accept traffic from should the handshake with the matching peer be successful. This will be the IP address of the <code>wg0</code> (or whatever you call name it) interface BUT ON THE PEER. Plus any other network this other peer will expose to us.</p>
+<p>If this is a little confusing, don&rsquo;t worry, we&rsquo;ll be able to connect the dots a little later.</p>
+<h2 id="reaching-the-unraid-server">Reaching the Unraid server</h2>
+<p>Unraid is a very potent platform for managing your home server infrastructure and it makes it extremely easy to deploy services within your home network.</p>
+<p>I myself host a Pihole and HomeAssistant containers on mine among others.
+It also has the ability to install extensions. When trying to figure out an easy and reliable way to set up a permanent tunnel to my Linode wireguard host I stumbled accross a <a href="https://forums.unraid.net/topic/84226-wireguard-quickstart/">nicely written extension</a> which at first seemed like it would do the trick.</p>
+<p>After some attempts to make it work however I realised that it won&rsquo;t do the trick, I could not get my Unraid box to forward traffic from the VPN to the rest of my network, which meant my internally-hosted services would not be reachable by other devices on the VPN. Mind you this was the beginning of my journey and I was only learning about wireguard so quite possibly it&rsquo;s entirely  my fault. If you have managed to make it work, more power to you!</p>
+<p>In the end I decided to go for a small VM instead. Seeing as setting up wireguard on an Ubuntu machine is so quick and simple this went very smoothly.</p>
+<h3 id="provision-the-vm">Provision the VM</h3>
+<p>First, use the Unraid UI to spawn a new Ubuntu Server 20.04 VM. I assigned mine 2 vCPUs and 2GB of RAM, which should be plenty enough for the job. You can adjust this later anyway if you decide it is under or over-provisionned, so no biggie&hellip;</p>
+<p>Once you&rsquo;ve got it up and running, install the wireguard package just like on the Linode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update <span style="color:#f92672">&amp;&amp;</span> apt install -y wireguard resolvconf
+</span></span></code></pre></div><p>Just like before, we will need some freshly baked key material, straight from the oven:
+To do that run the following command on your cloud instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wg genkey | tee private.key | wg pubkey &gt; public.key
+</span></span></code></pre></div><p>I called my VM and configured it to have the hostname of <code>wireguard-gateway</code>, so we will refer to it as such from now on.
+Yup, nothing more to see here, let&rsquo;s move on&hellip;</p>
+<h3 id="configure-a-permanent-tunnel">Configure a permanent tunnel</h3>
+<p>On the <code>wireguard-gateway</code> VM we will need to setup the basic wireguard tunnel peer config with a few small extras.
+Let&rsquo;s take a look at what my config includes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Interface<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>PrivateKey <span style="color:#f92672">=</span> privatekeyofthewireguard-gateway
+</span></span><span style="display:flex;"><span>Address <span style="color:#f92672">=</span> 10.0.0.3/24
+</span></span><span style="display:flex;"><span>PostUp <span style="color:#f92672">=</span> iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</span></span><span style="display:flex;"><span>PostDown <span style="color:#f92672">=</span> iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Peer<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>PublicKey <span style="color:#f92672">=</span> publickeyofthewireguardlinodehost
+</span></span><span style="display:flex;"><span>Endpoint <span style="color:#f92672">=</span> my-linode-wireguard.com:51820
+</span></span><span style="display:flex;"><span>AllowedIPs <span style="color:#f92672">=</span> 0.0.0.0/0
+</span></span><span style="display:flex;"><span>PersistentKeepalive <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+</span></span></code></pre></div><p>Well now that finally looks like some black magic. If you&rsquo;re familiar with <code>iptables</code> it likely makes perfect sense, I had to learn through strategic use of duckduckgo and trial-and-error&hellip;</p>
+<p>The important bits here are the <code>PostUP</code> and <code>PostDown</code> commands, which are hooks to be executed when the tunnel is set to be up or down respectively. Here we are:</p>
+<ul>
+<li>Enabling forwarding of any traffic that enters through the wireguard interface <code>wg0</code></li>
+<li>Enabling NAT Masquarading when traffic is forwarded to <code>eth0</code> to allow it to find its way back to the VPN subnet
+Then the <code>PostDown</code> reverts the changes, to make sure routing works correctly also when the tunnel is down.</li>
+</ul>
+<p>Since this machine is going to be the one establishing the connection with the Linode wireguard host as it itself lives behind the nasty nasty NAT, we want to set the <code>PersistentKeepalive = 20</code> here too. Wireguard&rsquo;s noise protocol will not transfer any data whatsoever unless actual data is requested or sent by peers on either side of the connection. This means that your host behind the layer of NAT will become unavailable after a little while unless you artificially keep pinging it via this setting, extending the lifespan of this connection.</p>
+<ul>
+<li>Enable forwarding</li>
+<li>Use systemd to start and enable the wg service, make sure it auto-reconnects on reboot</li>
+</ul>
+<h3 id="launch-the-guard-of-wires">Launch the guard of wires</h3>
+<p>There are a couple of more steps necessary to turn our <code>wireguard-gateway</code> into a defacto gateway router. First of all, generic linux will have packet forwarding disabled by default. We will need to enable it and permanently, so that the setting survives any planned (or indeed unplanned) reboots and shutdown.</p>
+<p>Go and add the following line to <code>/etc/sysctl.conf</code>:</p>
+<pre tabindex="0"><code>net.ipv4.ip_forward=1
+</code></pre><p>To check that it worked run the following command:</p>
+<pre tabindex="0"><code>sysctl net.ipv4.ip_forward
+</code></pre><p>The expected return value if it worked is this:</p>
+<pre tabindex="0"><code>net.ipv4.ip_forward = 1
+</code></pre><p>We should be able to to turn on our wireguard tunnel at this point. And for that, we have a special magic command:</p>
+<pre tabindex="0"><code>sudo systemctl start wg-quick@wg0
+</code></pre><p>Why this magic command? <code>wg-quick</code> is a utility that comes with wireguard and it lets you manage wg tunnels easliy as a human being and not a soulless robot. The above will not only start the tunnel but also enable a systemd service for it, meaning that the tunnel will remain up even after reboots. Nice.</p>
+<h3 id="quick-reality-check">Quick reality check</h3>
+<p>Here if everything went according to plan we should be able to start testing this new tunnel. The first thing you&rsquo;ll likely want to do is make sure traffic is routed within the wireguard network itself.</p>
+<p>Let&rsquo;s (IP) address all of the hosts from the start.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># wireguard server</span>
+</span></span><span style="display:flex;"><span>wg0 <span style="color:#f92672">=</span> 10.0.0.1
+</span></span><span style="display:flex;"><span>eth0 <span style="color:#f92672">=</span> 171.172.173.174
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># unraid vm</span>
+</span></span><span style="display:flex;"><span>wg0 <span style="color:#f92672">=</span> 10.0.0.2
+</span></span><span style="display:flex;"><span>eth0 <span style="color:#f92672">=</span> 192.168.1.5
+</span></span></code></pre></div><p>Let&rsquo;s log into the Wireguard server and ping some stuff:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>~ ❯ ping 10.0.0.5 -c <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>PING 10.0.0.5 <span style="color:#f92672">(</span>10.0.0.5<span style="color:#f92672">)</span> 56<span style="color:#f92672">(</span>84<span style="color:#f92672">)</span> bytes of data.
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">64</span> bytes from 10.0.0.5: icmp_seq<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> ttl<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span> time<span style="color:#f92672">=</span>29.6 ms
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>--- 10.0.0.5 ping statistics ---
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> packets transmitted, <span style="color:#ae81ff">1</span> received, 0% packet loss, time 0ms
+</span></span><span style="display:flex;"><span>rtt min/avg/max/mdev <span style="color:#f92672">=</span> 29.618/29.618/29.618/0.000 ms
+</span></span></code></pre></div><p>This means we can communicate with our Unraid VM. Sweet.</p>
+<p>The bigger question is, can we also access resources on our LAN, behind our Wireguard gateway? Well, we can test that too.
+Find a local IP address on your home network that will respond to ping and use that. We are going to assume we have a Pihole server running under <code>192.168.1.10</code>.</p>
+<pre tabindex="0"><code>~ ❯ ping 192.168.1.10 -c 1
+PING 192.168.1.10 (192.168.1.10) 56(84) bytes of data.
+64 bytes from 192.168.1.10: icmp_seq=1 ttl=63 time=20.9 ms
+
+--- 192.168.1.10 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 20.922/20.922/20.922/0.000 ms
+</code></pre><p>Now, pinging traffic is special, in fact it is so special it uses its own specific protocol called <code>icmp</code>. What I found while working on this setup is, just because <code>icmp</code> traffic makes it through, it doesn&rsquo;t mean that you&rsquo;re all good just yet. Since we are using a <code>Pihole</code> endpoint to test the ping, and we know <code>Pihole</code> has a web UI, let&rsquo;s try to curl that too.</p>
+<pre tabindex="0"><code>~ ❯ curl -I http://192.168.1.10/admin/
+HTTP/1.1 200 OK
+Set-Cookie: PHPSESSID=4215ktt1igaqf8qoj5llbhv376; path=/; HttpOnly
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Content-type: text/html; charset=UTF-8
+X-Pi-hole: The Pi-hole Web interface is working!
+X-Frame-Options: DENY
+Date: Sat, 27 Aug 2022 13:16:15 GMT
+Server: lighttpd/1.4.59
+</code></pre><p>See? Now we are pretty sure it works. At least it will do for now and we can perform more practical tests once we set up wireguard on our end client machine.</p>
+<h2 id="the-rest">The rest</h2>
+<h3 id="client-config-on-ubuntu">Client config on Ubuntu</h3>
+<p>Now, this one gave me a lot of trouble for a while but I am very happy that I managed to figure it out all on my own, like a propper big boy with access to stack overflow! Let&rsquo;s take a look at my final configuration file first, as I assume that&rsquo;s mainly what you&rsquo;re here for and postpone story time for a moment.</p>
+<pre tabindex="0"><code>[Interface]
+Address = 10.0.0.20/24
+DNS = 192.168.1.10,my-search-domain.com
+PrivateKey = myclientprivatekeypleasedontshare
+MTU = 1280
+
+[Peer]
+AllowedIPs = 0.0.0.0/0
+Endpoint = my-linode-wireguard.com:51820
+PublicKey = thepublickeyofmylinodevpswireguarserverendpoint
+</code></pre><p>This configuration block lives on my laptop in the usual place, i.e. <code>/etc/wireguard/wg0.conf</code>.</p>
+<p>We will start from the <strong>peer</strong> block for a change.
+Allowed IPs here should be set to <code>0.0.0.0/0</code>, which means that all of the traffic generated by our host will go through the tunnel. We can use this setting to adjust what goes through the tunnel and if, for example, we limit the subnet to <code>10.0.0.0/24,192.168.1.0/24</code>, then the VPN subnet and our homelab subnet will be routed through the VPN tunnel, while all other internet traffic will be ommited and shot out straight onto the interwebz.</p>
+<p>Endpoint will be identical for the wireguard-gateway and all of the peers that are not the VPS machine itself. It is the public address of the VPS machine, followed by the VPS&rsquo; public key to allow this peer to authenticate.</p>
+<p>The <strong>interface</strong> configuration, as always, refers to the virtual wg0 interface on my laptop. The address will be the IP my client wants to assume within the VPN subnet.</p>
+<p>The DNS entry just as before is telling my computer where to reach my internal domain name server and what my private search domain is.</p>
+<p>The private key is to be generated and stored safely, as all of the previously generated keys.</p>
+<h3 id="story-time">Story time</h3>
+<p>Last but not least, the <code>MTU</code>. This is an optional parameter and was at the center of my problems with this entire setup.
+Generally most people do not need to touch this, though hopfully this will be a cautionary tale for anyone experiencing weird issues with their wireguard tunnels.
+My first attempt of making my roadwarrior peer working omitted this parameter, as most guides and vanilla setup documentations do not mention needing it. Indeed my VPN tunnel would connect without it. I could ping all of the hosts on the VPN subnet as well as my private subnet behind NAT. I could even resolve DNS. But when I tried to perform any other type of data transfer over the tunnel however, it would fail.</p>
+<p>To troubleshoot this I had tested reachability from and to each host on my network, and all would work besides connections to and from my roadwarrior peer.
+This would have indicated that either my <code>wireguarad-gateway</code> host is not forwarding traffic correctly to the VPN subnet, or that there is an error in the VPN tunnel configuration on the VPS. At the time however I already had one working android peer, which could access and use all of the services hosted in my private subnet via the wireguard tunnel, so neither of the aformentnioned was a likely conclussion.</p>
+<p>I have resorted to take an even closer look at what is happening on the network when I try to establish an ssh connectino between my roadwarrior peer and an ssh server in my private subnet. I set up probes listenning for ssh traffic on all 4 contact points:</p>
+<ul>
+<li>the roadwarrior peer</li>
+<li>the vps server</li>
+<li>the wireguard-gateway</li>
+<li>the target server in the private subnet</li>
+</ul>
+<p>What I observed was that connection request would make all of the hops starting from the roadwarrior and ending on the targert server. Return traffic originating from the target server however could be observed on the target server itself, the wireguard-gateway, then the vps server, but the trail would end there. This was an indicator that it is strictly a problem with my ubuntu roadwarriror host.</p>
+<p>After some frantic duckduckgoing and many a-stackoverflow page overturned, I found our that my probems are sympthomatic for MTU-related issues. This means that my laptop is not accepting packets exceeding certain size, and therefore dropping most of the traffic returning to it from my wireguard tunnel. Setting a smaller-than-default MTU made it work instantly, and every tunnel and virtual interface lived happy ever after&hellip;</p>
+<h2 id="epilogue">Epilogue</h2>
+<p>So since homelabs are pretty much living beings, by the time I finished writing this blog entry my Wireguard setup has evolved and is used for much more than what is described here. What I must say though, I have myself refered back to this guide when trying to figure out issues with my own setup as well as when helping friends erect their own self hosted VPNs, so I am quite happy with the contents here and hope someone will benefit from reading this document. As to the parts that I omitted in this entry, I guess you will have to check back in to find out the missing bits and peaces as I scatter them across the field of future blog entries ;)</p>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>

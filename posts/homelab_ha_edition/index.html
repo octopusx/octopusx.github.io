@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="In general I like things simple. I need technology to work for me and provide value without having to dedicate extraordinary amount of time to it. When it comes to running a homelab this is especially true, since I am likely spending my own free time setting things up and maintaining my infrastrcuture. At a certain point in the life of my homelab however I found myself hosting services for my wife, family and some friends." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="http://blog.octopusx.de/posts/homelab_ha_edition/" />
+
+
+    <title>
+        
+            HA in the homelab :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="/main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="HA in the homelab">
+<meta itemprop="description" content="In general I like things simple. I need technology to work for me and provide value without having to dedicate extraordinary amount of time to it. When it comes to running a homelab this is especially true, since I am likely spending my own free time setting things up and maintaining my infrastrcuture. At a certain point in the life of my homelab however I found myself hosting services for my wife, family and some friends."><meta itemprop="datePublished" content="2023-06-08T14:46:20+02:00" />
+<meta itemprop="dateModified" content="2023-06-08T14:46:20+02:00" />
+<meta itemprop="wordCount" content="1391"><meta itemprop="image" content="http://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="HA in the homelab"/>
+<meta name="twitter:description" content="In general I like things simple. I need technology to work for me and provide value without having to dedicate extraordinary amount of time to it. When it comes to running a homelab this is especially true, since I am likely spending my own free time setting things up and maintaining my infrastrcuture. At a certain point in the life of my homelab however I found myself hosting services for my wife, family and some friends."/>
+
+
+
+    <meta property="og:title" content="HA in the homelab" />
+<meta property="og:description" content="In general I like things simple. I need technology to work for me and provide value without having to dedicate extraordinary amount of time to it. When it comes to running a homelab this is especially true, since I am likely spending my own free time setting things up and maintaining my infrastrcuture. At a certain point in the life of my homelab however I found myself hosting services for my wife, family and some friends." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.octopusx.de/posts/homelab_ha_edition/" /><meta property="og:image" content="http://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-06-08T14:46:20+02:00" />
+<meta property="article:modified_time" content="2023-06-08T14:46:20+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-06-08 14:46:20 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods --all-namespaces</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/posts">blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        7 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="http://blog.octopusx.de/posts/homelab_ha_edition/">HA in the homelab</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>In general I like things simple. I need technology to work for me and provide value without having to dedicate extraordinary amount of time to it. When it comes to running a homelab this is especially true, since I am likely spending my own free time setting things up and maintaining my infrastrcuture. At a certain point in the life of my homelab however I found myself hosting services for my wife, family and some friends. This meant that I started considering a new challenge, the challenge of keeping my services up so that the people that rely on them do not face unpleasant disruptions.</p>
+<h2 id="the-humble-beginning">The Humble Beginning</h2>
+<p>In the beginning I hosted everything on a lone Unraid server, which I built by converting an old desktop machine I had laying around, a very common beginning for a homelab. Unraid gives you a very economical way to manage mass storage with some redundancy, with the ability to run docker containers and mount their volumes to either the spinning rust array, or an ssd cache drive.</p>
+<p>This has worked ok for a few years, but in time 3 problems started grating on me:</p>
+<ul>
+<li>If you want to do any maintenance of the server, you must spin the disk array down. And by maintenance I meana changing most basic settings, such as network or storage configuration. And every time you stop the array, you must shut down the VM and docker engines for the duration.</li>
+<li>There were multiple times where failure to resolve dns meant that my containers would fail to update, then promptly &ldquo;disappear&rdquo;, together with all their configuration. These were configured manually and now had to be rebuilt manually&hellip;</li>
+<li>Every time one of these events occured, all of my homelab users would be inconvenienced. Long periods of unavailability is unacceptable if you want to build a system that multiple people rely on on daily bases.</li>
+</ul>
+<h2 id="make-it-double">Make it double</h2>
+<p>I decided to experiment with a HA setup and build a second unraid server. This involved abandoning Unraid&rsquo;s built in docker engine (for the most part), and choosing an alternative way to orchestrate my workloads.
+My first choice was Microk8s from Cannonical, as it was the simplest way to create a HA multinode cluster.</p>
+<p>The goal of this setup was to allow me to take one of the nodes down for &ldquo;maintenance&rdquo; and have the services remain available, running on the second node.</p>
+<p>The initial idea for how to design this system was basically a mirror setup. Each of the Unraid nodes would have:</p>
+<ul>
+<li>2 large HDDs for the main Unraid array, storing the data</li>
+<li>1 NVME SSD used as a separate &ldquo;cache pool&rdquo; for storing the Unraid VM and Docker engine data</li>
+<li>A docker container running Pihole</li>
+<li>A number of VMs running a Kubernetes cluster</li>
+</ul>
+<h3 id="what-are-we-running">What are we running</h3>
+<p>The most important application that we want to host is Nextcloud, with the intention of using it as photo backup for all family phones. To achieve our functionality we needed to run at minimum the following applications in our kubernetes cluster:</p>
+<ul>
+<li>Metallb</li>
+<li>Traefik</li>
+<li>Nextcloud Server</li>
+<li>Redis</li>
+<li>Mariadb</li>
+</ul>
+<h3 id="storage">Storage</h3>
+<p>3 out of the 5 services needed are actually stateful applications with requirements to have some form of either object or block storage. The most obvious solution that comes to mind is to leverage the NFS server hosted on our 2 Unraid servers. It was not a viable option because it would again create a single point of failure. You can not run pure NFS with any sort of failover or HA, which means that it doesn&rsquo;t matter that you have 2 unraid servers, the moment you take the wrong one down for &ldquo;maintenance&rdquo; the whole system collapses.</p>
+<p>I started researching different different distributed filesystem solutions that can be used to provision storage for kubernetes nodes, and I came across the following:</p>
+<ul>
+<li>CephFS + Rook</li>
+<li>GlusterFS</li>
+<li>Longhorn</li>
+</ul>
+<p>I have looked into Ceph for a little while before deciding it is too complex for my simple setup.
+I tried to setup GlusterFS but failed to make it work. I also found information that the GlusterFS Kubernetes provisioner was getting deprecated, which in the end led me to just one realistic choice, Longhorn.
+I looked at Longhorn last because I was hasitant to use a non-generic storage solution from Rancher. I generally try to stick to CNCF and proven open-source projects in my homelab, as I did not want to invest time into setting up infrastructure that may get &ldquo;deprecated&rdquo; or &ldquo;abandoned&rdquo; and have to re-build everything.
+However, I did manage to make longhorn work on my MicroK8S cluster, and I was off to the races with my new HA setup.</p>
+<p>The Longhorn documentation mentions that for best results they recommend a high IOPS NVME drive for storage, so I added a couple of NVME SSDs into each of my Unraid servers to pass through to the VMs for that purpose.</p>
+<h3 id="first-attempt">First attempt</h3>
+<p>For simplicity&rsquo;s sake, I decided I not to create an overly complex and maintenance-heavy system and stayed away from fully featured enterprise-grade K8S solutions. Having played with MicroK8S from Cannonical for a while in a local VM I decided to give it a test run in cluster mode.
+I have initially created a very simple 2 virtual machine setup, one machine on each Unraid server.
+I passed each its own NVME disk and exposed it to Longhorn and everything was fine&hellip; For a while&hellip; Until it wasn&rsquo;t fine anymore.</p>
+<p>The first time I went to reboot one of the Unraid servers the MicroK8S cluster desintegrated.
+In order to maintain operation of the system I had set Longhorn to have 2 replicas of each persistent volume, so one on each node. This means that when one of the nodes comes back after being unavailable for a while, it will discard its copy of the volume and sync it from the nodes that remained available in the cluster. This syncing operation is very IOPS and CPU heavy, to the point that while the sync operation was taking place, the K8S control plane (ETCD) was starved for cycles and the cluster had gone out of sync entirely and failed to come back.</p>
+<p>Some of you might say, well, you should have known this right? This is why you shouldn&rsquo;t host the control plane and data plane on the same host! It is asking for trouble&hellip; Ok, what should we do about it then? To save some words, I tried creating separate MicroK8S nodes for the control plane, data plane and storage, so that I woud have one of each type of nodes, each on a separate VM across the 2 Unraid boxes, and TLDR, it doesn&rsquo;t work because MicroK8S doesn&rsquo;t let you choose which nodes are supposed to act as masters and which are to be workers. The first 3 nodes to be added to the cluster would form the control plane, as necessary to reach quorum in ETCD. Each next added node would not be a part of the control plane. The moment you reboot one of the &ldquo;master&rdquo; nodes though (as long as another node in the cluster is available) another one will pick up that role and you have no say in which one that would be. After a few weeks the cluster has died in much the same way as it did initially. We needed a different solution&hellip;</p>
+<h3 id="move-to-k3s">Move to K3S</h3>
+<p>It seems to be a bit of a theme at this point, but Rancher Labs seems to know what they&rsquo;re doing. Aside from MicroK8S, their K3S distribution of Kubernetes is another viable and likely the most popular option for Kubernetes on the edge and in the homelab. It is lightweight and flexible, allowing you to dedicate nodes specifically to the control plane and even using alternative data stores for control plane state.</p>
+<h3 id="final-touches">Final touches</h3>
+<p>Just like before, we have built a 6 VM Kubernetes cluster, 2 master nodes, 2 workers and 2 longhorn storage nodes. To keep the system as vanilla as possible I elected for the default storage technology, which is ETCD. Such a system however is not HA, to have quorum you need 3 ETCD hosts. To ensure that the cluster stayed up while one of the Unraid servers is taken down I decided to host the third ETCD server&hellip; on a spare RaspberryPi I had laying around of course!</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1391 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-06-08 12:46
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="http://blog.octopusx.de/posts/wireguard/">
+                    <span class="button__text">Wireguard &#43; Linode &#43; Unraid = Profit</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>

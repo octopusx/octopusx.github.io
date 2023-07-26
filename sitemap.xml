@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://blog.octopusx.de/</loc>
+    <lastmod>2023-06-08T14:46:20+02:00</lastmod>
+  </url><url>
+    <loc>http://blog.octopusx.de/posts/homelab_ha_edition/</loc>
+    <lastmod>2023-06-08T14:46:20+02:00</lastmod>
+  </url><url>
+    <loc>http://blog.octopusx.de/posts/</loc>
+    <lastmod>2023-06-08T14:46:20+02:00</lastmod>
+  </url><url>
+    <loc>http://blog.octopusx.de/posts/wireguard/</loc>
+    <lastmod>2022-08-27T15:24:20+02:00</lastmod>
+  </url><url>
+    <loc>http://blog.octopusx.de/blog/</loc>
+  </url><url>
+    <loc>http://blog.octopusx.de/series/</loc>
+  </url><url>
+    <loc>http://blog.octopusx.de/tags/</loc>
+  </url>
+</urlset>
