@@ -112,25 +112,25 @@ The static storage class will be a persistent volume class created inside of Kub
 <p>The rest of the steps is identical to bootstrapping the original Gitea instance! Just make it use the existing, restored PVC which conveniently already has the correct name :)</p>
 <h3 id="switching-traffic-to-the-offsite-backup">Switching traffic to the offsite backup</h3>
 <p>As it can be seen on the beautiful visualisation I produced, the way I access services in my homelab from the outside world is by hosting a HA proxy in the public cloud. A subnet router node is deployed on both my Homelab LAN and Offsite LAN (not actually represented on the graph) that is able to route traffic to the respective networks. This means that switching traffic from one deployment to the other is as simple as changing a few lines of code in the HAProxy config:</p>
-<pre tabindex="0"><code>frontend traefik_public
-        bind *:443
-        default_backend    homelab # &lt;- We change homelab to offsite here
-        option             forwardfor
-
-# Homelab LAN Backend
-backend homelab
-        # Use roundrobin to balance traffic
-        balance            roundrobin
-        # Define the backend servers
-        server             backend01 192.168.50.50:443 check
-
-# Offside LAN Backend
-backend offsite
-        # Use roundrobin to balance traffic
-        balance            roundrobin
-        # Define the backend servers
-        server             backend01 192.168.150.50:443 check
-</code></pre><p>Then we restart the HAProxy service, all done!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#a6e22e">frontend traefik_public</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">bind *:443</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">default_backend    homelab # &lt;- We change homelab to offsite here</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">option             forwardfor</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Homelab LAN Backend</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">backend homelab</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Use roundrobin to balance traffic</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">balance            roundrobin</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Define the backend servers</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">server             backend01 192.168.50.50:443 check</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Offside LAN Backend</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">backend offsite</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Use roundrobin to balance traffic</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">balance            roundrobin</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Define the backend servers</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">server             backend01 192.168.150.50:443 check</span>
+</span></span></code></pre></div><p>Then we restart the HAProxy service, all done!</p>
 <h2 id="the-neat-outcome-of-it-all">The neat outcome of it all</h2>
 <p>So, for those of you that are more familiar with Kubernetes, you will have spotted that I omitted a number of other things that have to be synced between the two clusters in order to be able to switch traffic freely between them. For a start, Gitea has a database, so you will need to backup its volume and restore that two. However, the neat thing about this solution is, the backup and restore procedures are identical for each and every volume, and they should work just as well, so I didn&rsquo;t feel it was worth doubling up on the explanation.</p>
 <p>Another, and crucially, untouched topic here would be certificates. One way to solve this cleanly would be to resolve TLS at the HA proxy, which means you don&rsquo;t need to do anything with the certs when you fail over. Alternatively you would have to sync your certificates between the clusters in some other way, or use features of Traefik or another ingress controller to generate all of the certs you want on both systems in parallel.</p>
