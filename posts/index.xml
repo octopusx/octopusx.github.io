@@ -6,8 +6,137 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Thu, 08 Jun 2023 14:46:20 +0200</lastBuildDate>
+        <lastBuildDate>Fri, 04 Aug 2023 21:47:00 +0200</lastBuildDate>
         <atom:link href="https://blog.octopusx.de/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Backup and Restore</title>
+            <link>https://blog.octopusx.de/posts/backup_restore/</link>
+            <pubDate>Fri, 04 Aug 2023 21:47:00 +0200</pubDate>
+            
+            <guid>https://blog.octopusx.de/posts/backup_restore/</guid>
+            <description>So, you have a backup. Wait, two backups? And a third one off site too?? But&amp;hellip; You have tested the restore procedure, right? No!? Damn son, what do you need a backup for if you don&amp;rsquo;t even know if you can restore it???
+If you can&amp;rsquo;t restore it, you don&amp;rsquo;t really have a backup&amp;hellip; Protecting your data doesn&amp;rsquo;t end at having a 3-2-1 backup. Whether you are self hosting services or handle company data in the cloud it pays to have a practiced plan for bringing your services and data back to life.</description>
+            <content type="html"><![CDATA[<p>So, you have a backup. Wait, two backups? And a third one off site too?? But&hellip; You have tested the restore procedure, right? No!? Damn son, what do you need a backup for if you don&rsquo;t even know if you can restore it???</p>
+<h2 id="if-you-cant-restore-it-you-dont-really-have-a-backup">If you can&rsquo;t restore it, you don&rsquo;t really have a backup&hellip;</h2>
+<p>Protecting your data doesn&rsquo;t end at having a 3-2-1 backup. Whether you are self hosting services or handle company data in the cloud it pays to have a practiced plan for bringing your services and data back to life. If all you&rsquo;re going to do is read this section of the post and move on with your life, I&rsquo;d like you to take with you just this one key lesson: don&rsquo;t leave testing of your restore procedure until you actually need to restore! For anyone more technically minded I recommend to read through the log of a <a href="https://about.gitlab.com/blog/2017/02/01/gitlab-dot-com-database-incident/">GitLab outage from 2017</a>, where in the middle of an outage an employee accidentally deletes a live database, then realises that the S3 backups they thought they had were never actually working! Yikes! Let us see how I deal with backups and disaster recovery in my homelab using the insights I have learned working in the industry. All using open and free software!</p>
+<h2 id="the-chicken-and-egg-situation">The chicken and egg situation</h2>
+<p>So as we are talking about a homelab situation in this article, we are always going to be limited by certain inavitable factors. Like, most people have just one internet connection. Single source of electicity, a UPS in a best case scenario. What most homelabers also have in common is that they&rsquo;re building this entire stack in their own spare time. It often means that we can&rsquo;t just throw more hardware nor more elbow greese at the problems we encounter.</p>
+<p>In a pevious article I outlined how I improved both my uptime and reliability by <a href="../homelab_ha_edition/">building a multinode k3s cluster</a>. In that post I have described a situation where I had to scrap my cluster almost entirely twice before I was able to get it just right. Something however that I did not do was have a decent way to protect my data while this all was happening, which meant that, at least for some applications. I had to rebuild my Nextcloud instance from scratch, but even worse, I lost my Gitea instance and all the automations I ran from it.</p>
+<p>So, if the infrastructure needed to restore your infrastructure is gone, what can you do? Well, let&rsquo;s go over our options.</p>
+<h2 id="how-do-i-back-up-so-far">How do I back up so far&hellip;</h2>
+<p>Logically my storage solution has 3 tiers.</p>
+<h3 id="tier-1">Tier 1</h3>
+<p>Live data being accessed by my applications and services running in my k3s cluster.</p>
+<p>This data is stored on fast NVME storage, and replicated across multiple physical Kubernetes nodes.
+This tier of storage is completely managed by <a href="https://www.rancher.com/products/longhorn">Longhorn</a>.</p>
+<h3 id="tier-2">Tier 2</h3>
+<p>Backup of the live data hosted on the local network, using an NFS share on a virtualised <a href="https://www.truenas.com/truenas-scale/">Truenas Scale</a> node.</p>
+<p>This data is stored on a redundant RaidZ2 array on a single node.
+Data makes its way onto this Truenas instance using Longhorn&rsquo;s nighly snapshotting and backup mechanism.
+Data on this tier is at most 24h old at any given time.</p>
+<h3 id="tier-3">Tier 3</h3>
+<p>Offsite copy of Tier 2 to another <a href="https://www.truenas.com/truenas-scale/">Truenas Scale</a> machine, using Truenas&rsquo; built in replication mechanism.</p>
+<p>This data is also stored on a redundant RaidZ2 array on a single remote node.
+This data makes its way onto the offsite Truenas instance via a Wireguard server hosted in the public cloud. Data is pushed in form of incremental backups and it is at most 48h old at any given time.</p>
+<h3 id="visualisation">Visualisation</h3>
+<p><img src="data_tiers.png" alt="Backup Flow Graph"></p>
+<h2 id="longhorn-and-friends">Longhorn and friends</h2>
+<p>So as you see this backup strategy relies heavily on Longhorn, which is a kubernetes storage orchestrator with a powerful snapshotting and backup capabilities. What I found particularly interesting was that you can point multiple instances of Longhorn, each maintaining the storage of a completely separate Kubernetes cluster, to the same backup lockation. What this allows you to do is essentially use the backup and restore mechanism as a migration utility to move storage volumes between Kubrnetes clusters!</p>
+<p>The beauty of this solution comes likewise from the fact that our workloads are running in Kubernets and that we are using Helm charts to deploy our applications. Helm charts which, conveniently, we are treating as our infrastructure as code.</p>
+<p>Having both, the portability of application data (Longhorn-managed k8s storage volumes) and application configuration (helm charts) means that we have a repeatable, reliable way to migrate our workloads off site and spin them back up at will!</p>
+<p>What is the last thing you need to get started? A good friend who will allow you to spin up an offsite k3s cluster on his Truenas box ;)</p>
+<h2 id="the-nitty-gritty">The nitty gritty</h2>
+<p>Let&rsquo;s go over the different moving parts that we need to set up to see how it all works.</p>
+<h3 id="longhorn-helm-chart">Longhorn helm chart</h3>
+<p>I am using the official longhorn helm chart:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Chart.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">longhorn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.0.1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">appVersion</span>: <span style="color:#ae81ff">v1.4.2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#ae81ff">Longhorn is a distributed block storage system for Kubernetes.</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">icon</span>: <span style="color:#ae81ff">https://raw.githubusercontent.com/cncf/artwork/master/projects/longhorn/icon/color/longhorn-icon-color.png</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">longhorn</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#ae81ff">1.4.2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">https://charts.longhorn.io</span>
+</span></span></code></pre></div><p>You can find all of the parameters in the github repo: <a href="https://github.com/longhorn/charts">https://github.com/longhorn/charts</a>, but what we want to focus here is the following configuration values:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># values.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">longhorn</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">defaultSettings</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">backupTarget</span>: <span style="color:#ae81ff">nfs://scale.octopusx.de:/mnt/hybrid/longhorn-backup</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">backupstorePollInterval</span>: <span style="color:#ae81ff">60</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">defaultLonghornStaticStorageClass</span>: <span style="color:#ae81ff">longhorn-static</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">(...)</span>
+</span></span></code></pre></div><p>Notably, we need to set the <code>backupTarget</code> and the <code>defaultLonghornStaticStorageClass</code>.
+The target will be an NFS share made available by the Truenas Scale running on my local network.
+The static storage class will be a persistent volume class created inside of Kubernetes for all volumes that are created &ldquo;statically&rdquo;, i.e. not automatically as part of bootstrapping a new application. Using this method of provisioning the initial volume as well as restoring one from the backup means that the proces of bootstrapping this application is nearly identical for both the main instance and the backup one on the remote cluster.</p>
+<h3 id="create-a-static-volume-for-gitea">Create a static volume for gitea</h3>
+<p>To create a new static volume for out Gitea to use, we go to the <code>Volumes</code> tab in Longhorn then click on <code>Create Volume</code> and fill in the form:
+<img src="create_static_volume.png" alt="Create Static Volume"></p>
+<p>Next click on the new volume and ask longhorn to create the PVC and PV for you inside Kubernetes:
+<img src="create_pvc.png" alt="Create PVC"></p>
+<h3 id="gitea-helm-chart">Gitea helm chart</h3>
+<p>Normally you can provision new volumes dynamically, declaring the size and class. Since we are using a pre-provisioned volume and the PVC for it already exists, we can use the existing claim variable to pass it to our gitea chart.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">gitea</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">(...)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">persistence</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">size</span>: <span style="color:#ae81ff">20Gi</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">accessModes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ReadWriteOnce</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">existingClaim</span>: <span style="color:#ae81ff">data-gitea-02</span>
+</span></span></code></pre></div><p>You&rsquo;ll obviously need the rest of the chart to deploy gitea, you can find <a href="https://dl.gitea.io/charts/">the template I use here</a>.</p>
+<p>Deploying this chart should looks identically on my main Kubernetes cluster as well as the remote backup instance.</p>
+<h3 id="longhorn-backup">Longhorn Backup</h3>
+<p>If you are following along we should be able to access the Longhorn web UI, so long as you have enabled it in the helm chart:</p>
+<p><img src="longhorn_ui.png" alt="Longhorn Web UI"></p>
+<p>If all of this worked you should be able to go to the <code>Backup</code> tab and not see any connection errors. In my case, that NFS mount already contains earlier backups of various volumes I have backed up from a number of kubernetes clusters.</p>
+<p><img src="longhorn_backup.png" alt="Longhorn Backups View"></p>
+<p>Perfect! Now, we don&rsquo;t want to make backups manually. This is a homelab after all, it&rsquo;s is not our job to do all of the meneal tasks manually, it is to automate them away! The <code>Recurring Jobs</code> tab will let us do just that, here we can schedule nightly backups of whatever volumes we want. We can create a group label and label each volume with it to link it to a specific recurring task. For us, we will use the default group, which is already attatched to every single volume, like so:</p>
+<p><img src="nightly_backup.png" alt="Longhorn Recurring Job Form"></p>
+<p>And that is it for the Longhorn backups, this will trigger a kubernetes job every night at the selected time and do the work. The backups are incremental so it is storage efficient if we desire to keep multiple backups for each volume by setting the <code>Retain</code> value to anything above 1. Once a backup is performed you can verify it by going to the <code>Backup</code> tab or any volume specifically, like this gitea data volume that we use for this example:</p>
+<p><img src="gitea_volume.png" alt="Gitea Volume"></p>
+<h3 id="offsite-backup">Offsite Backup</h3>
+<p>With backups of kubernetes cluster PVCs securely pushed every night to our Truenas server via NFS, the next step for me was to do the push from tier 2 (local backup) to the 3rd tier (offsite backup). This I achieve via the use of Truenas replication feature. I won&rsquo;t be covering this step in detail as the replication itself is a well documented feature, so I will send anyone interested to the official documentation: <a href="https://www.truenas.com/docs/core/coretutorials/tasks/creatingreplicationtasks/remotereplication/">https://www.truenas.com/docs/core/coretutorials/tasks/creatingreplicationtasks/remotereplication/</a>.</p>
+<p>As for how do my local Truenas host talks to the remote Truenas, I use Wireguard VPN. Technically Truenas scale doesn&rsquo;t have the option to configure Wireguard in the UI (though OpenVPN is an option), but Wireguard binaries are preinstalled (at least they are at the time of writing, I am currently running TrueNAS-22.12.3.2 Bluefin). This means that you can easily <a href="(../wireguard/)">follow my previous post</a> and simply add both the local and remote Truenas hosts to your Wireguard network via your cloud-hosted Wireguard server.</p>
+<h3 id="restore-from-offsite-backup">Restore from offsite backup</h3>
+<p><img src="restore.drawio.png" alt="Restore Flow Graph"></p>
+<p>Restoring from backups is very simple in Longhorn. On our remote backup K8S instance we will go to the Longhorn Web UI, the <code>Backup</code> tab, then select the volume to restore:
+<img src="restore_01.png" alt="Select restoration target"></p>
+<p>Create the volume with the same name as the previously backed up volume:
+<img src="restore_02.png" alt="Configure restored volume"></p>
+<p>Ask longhorn to create the PVC and PV for you inside Kubernetes:
+<img src="create_pvc.png" alt="Create PVC"></p>
+<p>The rest of the steps is identical to bootstrapping the original Gitea instance! Just make it use the existing, restored PVC which conveniently already has the correct name :)</p>
+<h3 id="switching-traffic-to-the-offsite-backup">Switching traffic to the offsite backup</h3>
+<p>As it can be seen on the beautiful visualisation I produced, the way I access services in my homelab from the outside world is by hosting a HA proxy in the public cloud. A subnet router node is deployed on both my Homelab LAN and Offsite LAN (not actually represented on the graph) that is able to route traffic to the respective networks. This means that switching traffic from one deployment to the other is as simple as changing a few lines of code in the HAProxy config:</p>
+<pre tabindex="0"><code>frontend traefik_public
+        bind *:443
+        default_backend    homelab # &lt;- We change homelab to offsite here
+        option             forwardfor
+
+# Homelab LAN Backend
+backend homelab
+        # Use roundrobin to balance traffic
+        balance            roundrobin
+        # Define the backend servers
+        server             backend01 192.168.50.50:443 check
+
+# Offside LAN Backend
+backend offsite
+        # Use roundrobin to balance traffic
+        balance            roundrobin
+        # Define the backend servers
+        server             backend01 192.168.150.50:443 check
+</code></pre><p>Then we restart the HAProxy service, all done!</p>
+<h2 id="the-neat-outcome-of-it-all">The neat outcome of it all</h2>
+<p>So, for those of you that are more familiar with Kubernetes, you will have spotted that I omitted a number of other things that have to be synced between the two clusters in order to be able to switch traffic freely between them. For a start, Gitea has a database, so you will need to backup its volume and restore that two. However, the neat thing about this solution is, the backup and restore procedures are identical for each and every volume, and they should work just as well, so I didn&rsquo;t feel it was worth doubling up on the explanation.</p>
+<p>Another, and crucially, untouched topic here would be certificates. One way to solve this cleanly would be to resolve TLS at the HA proxy, which means you don&rsquo;t need to do anything with the certs when you fail over. Alternatively you would have to sync your certificates between the clusters in some other way, or use features of Traefik or another ingress controller to generate all of the certs you want on both systems in parallel.</p>
+<p>Lastly, how I actually use this in practice, and how I recommend you do it - the failover is fancy and shows the power of this solution, but I just use the wireguard network I already have to access my backups if necessary. More importantly, thanks to this wireguard network I can perform these restores once a month or so, to make sure the whole process still works. Because, as I alluded to at the very beginning, if you haven&rsquo;t tested your restore procedure, do you even really have a backup?</p>
+]]></content>
+        </item>
         
         <item>
             <title>HA in the homelab</title>

@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 08 Jun 2023 14:46:20 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Aug 2023 21:47:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Backup and Restore</title>
+      <link>https://blog.octopusx.de/posts/backup_restore/</link>
+      <pubDate>Fri, 04 Aug 2023 21:47:00 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/backup_restore/</guid>
+      <description>So, you have a backup. Wait, two backups? And a third one off site too?? But&amp;hellip; You have tested the restore procedure, right? No!? Damn son, what do you need a backup for if you don&amp;rsquo;t even know if you can restore it???
+If you can&amp;rsquo;t restore it, you don&amp;rsquo;t really have a backup&amp;hellip; Protecting your data doesn&amp;rsquo;t end at having a 3-2-1 backup. Whether you are self hosting services or handle company data in the cloud it pays to have a practiced plan for bringing your services and data back to life.</description>
+    </item>
+    
     <item>
       <title>HA in the homelab</title>
       <link>https://blog.octopusx.de/posts/homelab_ha_edition/</link>
