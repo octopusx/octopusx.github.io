@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Fri, 04 Aug 2023 21:47:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Oct 2023 23:38:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Encrypted Volumes</title>
+      <link>https://blog.octopusx.de/posts/encrypted_volumes/</link>
+      <pubDate>Mon, 02 Oct 2023 23:38:00 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/encrypted_volumes/</guid>
+      <description>When I started self hosting services I was afraid of storing my non-sensitive data encrypted. As I played with different kinds of hardware setups, hypervisors and hosting strategies I have made a decision to not encrypt the volumes attatched to my docker containers. This was so that when I inevitably break stuff, I can easily still access everything and move it to a new home where it can be used again.</description>
+    </item>
+    
     <item>
       <title>Backup and Restore</title>
       <link>https://blog.octopusx.de/posts/backup_restore/</link>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="When I started self hosting services I was afraid of storing my non-sensitive data encrypted. As I played with different kinds of hardware setups, hypervisors and hosting strategies I have made a decision to not encrypt the volumes attatched to my docker containers. This was so that when I inevitably break stuff, I can easily still access everything and move it to a new home where it can be used again." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/encrypted_volumes/" />
+
+
+    <title>
+        
+            Encrypted Volumes :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Encrypted Volumes">
+<meta itemprop="description" content="When I started self hosting services I was afraid of storing my non-sensitive data encrypted. As I played with different kinds of hardware setups, hypervisors and hosting strategies I have made a decision to not encrypt the volumes attatched to my docker containers. This was so that when I inevitably break stuff, I can easily still access everything and move it to a new home where it can be used again."><meta itemprop="datePublished" content="2023-10-02T23:38:00+02:00" />
+<meta itemprop="dateModified" content="2023-10-02T23:38:00+02:00" />
+<meta itemprop="wordCount" content="1445"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Encrypted Volumes"/>
+<meta name="twitter:description" content="When I started self hosting services I was afraid of storing my non-sensitive data encrypted. As I played with different kinds of hardware setups, hypervisors and hosting strategies I have made a decision to not encrypt the volumes attatched to my docker containers. This was so that when I inevitably break stuff, I can easily still access everything and move it to a new home where it can be used again."/>
+
+
+
+    <meta property="og:title" content="Encrypted Volumes" />
+<meta property="og:description" content="When I started self hosting services I was afraid of storing my non-sensitive data encrypted. As I played with different kinds of hardware setups, hypervisors and hosting strategies I have made a decision to not encrypt the volumes attatched to my docker containers. This was so that when I inevitably break stuff, I can easily still access everything and move it to a new home where it can be used again." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/encrypted_volumes/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-02T23:38:00+02:00" />
+<meta property="article:modified_time" content="2023-10-02T23:38:00+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-10-02 23:38:00 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        7 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/encrypted_volumes/">Encrypted Volumes</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>When I started self hosting services I was afraid of storing my non-sensitive data encrypted. As I played with different kinds of hardware setups, hypervisors and hosting strategies I have made a decision to not encrypt the volumes attatched to my docker containers. This was so that when I inevitably break stuff, I can easily still access everything and move it to a new home where it can be used again.</p>
+<p>After many iterations and failed attempts at having a sensible strategy for storing the data of my stateful applications I ended up sticking with Longhorn, which has proven to be reliable and flexible yet simple enough to fit my needs. For more information on how I use it I recommend checking out my previous posts: <a href="https://blog.octopusx.de/posts/backup_restore/">https://blog.octopusx.de/posts/backup_restore/</a> and <a href="https://blog.octopusx.de/posts/homelab_ha_edition/">https://blog.octopusx.de/posts/homelab_ha_edition/</a>.</p>
+<h2 id="building-trust">Building trust</h2>
+<p>Having been using Longhorn now for a good few years, surviving a few cluster and Longhorn version upgrades I decided it is time to start encrypting my volumes again. This is particularly important now that I have an offsite backup. Thankfully Longorn has a built in encryption mechanism that can be used to decrypt volumes on the fly while mounting them to their respective containers for use.</p>
+<h2 id="the-setup">The setup</h2>
+<p>We will be following Longhorn&rsquo;s official guide to set this up: <a href="https://longhorn.io/docs/1.5.1/advanced-resources/security/volume-encryption/">https://longhorn.io/docs/1.5.1/advanced-resources/security/volume-encryption/</a></p>
+<p>It states that we need the <code>dm_crypt</code> kernel module loaded and <code>cryptsetup</code> installed on the worker nodes.
+I can see that I have cryptsetup on my Ubuntu 22.04 server workers:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>~ ❯ sudo apt search cryptsetup                                                                                    5s user@worker01
+</span></span><span style="display:flex;"><span>Sorting... Done
+</span></span><span style="display:flex;"><span>Full Text Search... Done
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cryptsetup/jammy-updates,now 2:2.4.3-1ubuntu1.1 amd64 <span style="color:#f92672">[</span>installed,automatic<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>  disk encryption support - startup scripts
+</span></span></code></pre></div><p>However the dm-crypt kernel module is nowhere to be seen. Since cryptsetup seems to be working fine though, let&rsquo;s see if it is indeed needed or if it is a soft requirement&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsmod | rg crypt
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># (sound of crickets, but in text form...)</span>
+</span></span></code></pre></div><p>First thing we want to create is the secret that will be used by longhorn to encrypt and decrypt all the volumes. It has to look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">longhorn-crypto</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">longhorn-system</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">stringData</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CRYPTO_KEY_VALUE</span>: <span style="color:#e6db74">&#34;super-secret-extra-long-key&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CRYPTO_KEY_PROVIDER</span>: <span style="color:#e6db74">&#34;secret&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CRYPTO_KEY_CIPHER</span>: <span style="color:#e6db74">&#34;aes-xts-plain64&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CRYPTO_KEY_HASH</span>: <span style="color:#e6db74">&#34;sha256&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CRYPTO_KEY_SIZE</span>: <span style="color:#e6db74">&#34;256&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">CRYPTO_PBKDF</span>: <span style="color:#e6db74">&#34;argon2i&#34;</span>
+</span></span></code></pre></div><p>We want to create this secret manually by the means of running <code>kubectl apply -f &lt;filename&gt;</code>, although I recommend storing the <code>CRYPTO_KEY_VALUE</code> in a password manager as a backup. I was wandering as to the length of this key too but didn&rsquo;t imediately find any recommendations, so I chose a 40 character random string for now.</p>
+<p>Also, bear in mind, that whenever you restore an encrypted volume from a backup to a new cluster you will need to re-create this secret, otherwise the data on your volumes won&rsquo;t be readable. I have created this secret on both my production cluster as well as my backup cluster already to enable me to test the backup/restore procedure.</p>
+<p>Next we need to create a new storage class, which we will use when creating encrypted volumes, new and restored from a backup alike:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">StorageClass</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">storage.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">longhorn-crypto-global</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">provisioner</span>: <span style="color:#ae81ff">driver.longhorn.io</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">allowVolumeExpansion</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">parameters</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">numberOfReplicas</span>: <span style="color:#e6db74">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">staleReplicaTimeout</span>: <span style="color:#e6db74">&#34;2880&#34;</span> <span style="color:#75715e"># 48 hours in minutes</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">fromBackup</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">encrypted</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># global secret that contains the encryption key that will be used for all volumes</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">csi.storage.k8s.io/provisioner-secret-name</span>: <span style="color:#e6db74">&#34;longhorn-crypto&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">csi.storage.k8s.io/provisioner-secret-namespace</span>: <span style="color:#e6db74">&#34;longhorn-system&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">csi.storage.k8s.io/node-publish-secret-name</span>: <span style="color:#e6db74">&#34;longhorn-crypto&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">csi.storage.k8s.io/node-publish-secret-namespace</span>: <span style="color:#e6db74">&#34;longhorn-system&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">csi.storage.k8s.io/node-stage-secret-name</span>: <span style="color:#e6db74">&#34;longhorn-crypto&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">csi.storage.k8s.io/node-stage-secret-namespace</span>: <span style="color:#e6db74">&#34;longhorn-system&#34;</span>
+</span></span></code></pre></div><p>You can see in the above example that they refer to our secret name. This way of creating volumes means that they all are encrypted with the same key. If you want to have a different key for each volume, the official Longhorn guide tells you how to do that too.</p>
+<h2 id="conversion-to-encrypted-volumes">Conversion to encrypted volumes</h2>
+<p>There is no automated way to convert an unencrypted volume into an encrypted one in Longhorn as far as I know. In order to achieve this we will have to resort to a few tricks that will allow us to migrate the data from the old unencrypted volumes to the new encrypted ones.</p>
+<p>The first thing I tried, thinking that I am cheeky, was to first make a backup of the Longhorn volume that I wish to have encrypted, then restore that backup with the &ldquo;encrypted&rdquo; flag selected. This however resulted in errors when trying to mount such a volume. It was worth a shot though, it would make our life super easy if this worked!</p>
+<p>So, off to go be more tricksy. Whenever I need to perform any manipulation on data inside my K8S cluster volumes, I usually temporarily attatch said volume to my VSCode server container. This gives me a convenient way to move data around using the built-in VSCode terminal and edit any files then and there if necessary. This turned out the be the way to go.</p>
+<h3 id="create-a-backup">Create a backup</h3>
+<p>First I would go and create an ad-hoc backup of the volume I am trying to migrate. This way I can migrate the current state of the data on each volume without interrupting the opration of the application using said volume.</p>
+<p><img src="create_backup.png" alt="Create New Manual Backup"></p>
+<h3 id="restore-to-a-new-unencrypted-volume">Restore to a new unencrypted volume</h3>
+<p>Now that we have fresh data in our backup system, we can go ahead and use the restore feature while creating a brand new unencrypted volume. This will allow us to have a live copy of the latest data that we can subsequently mount to our VSCode container, again, without interupting the related application.</p>
+<p><img src="restore_backup.png" alt="Create New Volume from Backup"></p>
+<h3 id="create-a-new-encrypted-volume">Create a new encrypted volume</h3>
+<p>Then I go ahead and create a new encrypted volume. This will be the target volume that we will be eventually attatching to the container once all the data is migrated.</p>
+<p><img src="create_encrypted.png" alt="Create New Encrypted Volume"></p>
+<h3 id="attatch-the-new-volumes-to-vscode">Attatch the new volumes to VSCode</h3>
+<p>In order to attatch the 2 volumes we just crated they first have to have PVs and PVCs created. This does not automatically happen when you create a new volume either fresh of from a backup. That is unless you&rsquo;re restoring a backup and select the &ldquo;use previous PVC name&rdquo;, which we do not want to do because that PVC still exists and is attatched to the original container.</p>
+<p><img src="pvc.png" alt="Create PVCs"></p>
+<p>Once you create the PVCs we go to the VSCode helm chart and modify it, adding the extra two volume mounts.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">extraVolumeMounts</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Source volume, restored from backup</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dev-01</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/mnt/gitea-mariadb-02</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">existingClaim</span>: <span style="color:#ae81ff">gitea-mariadb-02</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">readOnly</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Destination encrypted volume, freshly created</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dev-02</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/mnt/gitea-mariadb-04</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">existingClaim</span>: <span style="color:#ae81ff">gitea-mariadb-04</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">readOnly</span>: <span style="color:#66d9ef">false</span>
+</span></span></code></pre></div><p>Then apply the changes so that they take effect:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">helm upgrade vscode .</span>
+</span></span></code></pre></div><h3 id="data-sync">Data sync</h3>
+<p>Our vanilla VSCode container is missing <code>rsync</code>, which is easily remedied. <code>CTRL</code>+<code>j</code> brings up the terminal and off we go:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt install rsync
+</span></span></code></pre></div><p>Just like that:</p>
+<p><img src="vscode.png" alt="Use VSCode"></p>
+<p>Once that is done, run a sync command to copy all of our data from the backup volume and into the new encrypted volume:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo rsync -avxHAX --info<span style="color:#f92672">=</span>progress2 --info<span style="color:#f92672">=</span>name0 /mnt/gitea-mariadb-02/* /mnt/gitea-mariadb-04
+</span></span></code></pre></div><p>Once this is done you can do a quick sanity check, make sure that both the volumes have the same weight before moving on:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>du -sh /mnt/gitea-mariadb-02
+</span></span><span style="display:flex;"><span>du -sh /mnt/gitea-mariadb-04
+</span></span></code></pre></div><p>Now we are ready to detatch these volumes from VSCode and attach them to our target workload. I usually do this by rolling back the last change to VSCode:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm rollback code-server <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><h3 id="do-the-switcheroo">Do the switcheroo</h3>
+<p>The final step is now to swap the volumes from beneath our container. Most helm charts will have a <code>persistence</code> section in the <code>Values</code> file, where we can point it to our new volume using the <code>existingClaim</code> parameter. Here is an example from my mariadb helm chart (imported from Bitnami repo):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">mariadb</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">primary</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">persistence</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">existingClaim</span>: <span style="color:#ae81ff">gitea-mariadb-04</span>
+</span></span></code></pre></div><p>Then we upgrade out deployment and fingers crossed we end up with a working deployment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm upgrade gitea-mariadb .
+</span></span></code></pre></div><p>One caveat here is that sometimes (and it depends on how the helm chart is structured) if you are using a <code>statefulSet</code> K8S deployment type, it will complain that such changes are not allowed on an <code>sts</code> and the deployment will fail. To remedy this you can modify the <code>sts</code> directly using kubectl edit command, replace just the volume name in its config, wait for the changes to take place, then run the <code>helm upgrade</code>. This should help you roll out this change without having to reinstalling the whole deployment.</p>
+<h2 id="epilogue">Epilogue</h2>
+<p>It definitely took me a few good sessions of manual tinkering to migrate all of my data to encrypted volumes. Some of them have been running for a few weeks now and I haven&rsquo;t had any problems with them so far. Evident lack of <code>dm-crypt</code> kernel module on ubuntu 22.04 was apparently also not an issue, the mounted volumes get decrypted and attached just fine. So was it all worth the efford? For the peace of mind, I would definitely say yes&hellip;</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1445 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-10-02 21:38
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/backup_restore/">
+                    <span class="button__text">Backup and Restore</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Comptent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>
