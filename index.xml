@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 02 Oct 2023 23:38:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 Oct 2023 09:23:35 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nextcloud Conference 2023</title>
+      <link>https://blog.octopusx.de/posts/nc_conf_2023/</link>
+      <pubDate>Thu, 05 Oct 2023 09:23:35 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/nc_conf_2023/</guid>
+      <description>Although I do a lot of semi-public speaking in a professional capacity, I have recently given my first talk at a conference for fun! I use nextcloud as the backbone of my open source, privacy focused self hosting infastructure, the WebDav/CalDav integrations really enables my family to largly de-google our smarphone experience. Happy to give something back to a project I sincerely respect. This short lightning talk was based on my previous blog post about how I designed my backup and restore procedures.</description>
+    </item>
+    
     <item>
       <title>Encrypted Volumes</title>
       <link>https://blog.octopusx.de/posts/encrypted_volumes/</link>

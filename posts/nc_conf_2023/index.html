@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Although I do a lot of semi-public speaking in a professional capacity, I have recently given my first talk at a conference for fun! I use nextcloud as the backbone of my open source, privacy focused self hosting infastructure, the WebDav/CalDav integrations really enables my family to largly de-google our smarphone experience. Happy to give something back to a project I sincerely respect. This short lightning talk was based on my previous blog post about how I designed my backup and restore procedures." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/nc_conf_2023/" />
+
+
+    <title>
+        
+            Nextcloud Conference 2023 :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Nextcloud Conference 2023">
+<meta itemprop="description" content="Although I do a lot of semi-public speaking in a professional capacity, I have recently given my first talk at a conference for fun! I use nextcloud as the backbone of my open source, privacy focused self hosting infastructure, the WebDav/CalDav integrations really enables my family to largly de-google our smarphone experience. Happy to give something back to a project I sincerely respect. This short lightning talk was based on my previous blog post about how I designed my backup and restore procedures."><meta itemprop="datePublished" content="2023-10-05T09:23:35+02:00" />
+<meta itemprop="dateModified" content="2023-10-05T09:23:35+02:00" />
+<meta itemprop="wordCount" content="101"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Nextcloud Conference 2023"/>
+<meta name="twitter:description" content="Although I do a lot of semi-public speaking in a professional capacity, I have recently given my first talk at a conference for fun! I use nextcloud as the backbone of my open source, privacy focused self hosting infastructure, the WebDav/CalDav integrations really enables my family to largly de-google our smarphone experience. Happy to give something back to a project I sincerely respect. This short lightning talk was based on my previous blog post about how I designed my backup and restore procedures."/>
+
+
+
+    <meta property="og:title" content="Nextcloud Conference 2023" />
+<meta property="og:description" content="Although I do a lot of semi-public speaking in a professional capacity, I have recently given my first talk at a conference for fun! I use nextcloud as the backbone of my open source, privacy focused self hosting infastructure, the WebDav/CalDav integrations really enables my family to largly de-google our smarphone experience. Happy to give something back to a project I sincerely respect. This short lightning talk was based on my previous blog post about how I designed my backup and restore procedures." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/nc_conf_2023/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-05T09:23:35+02:00" />
+<meta property="article:modified_time" content="2023-10-05T09:23:35+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-10-05 09:23:35 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        One minute
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/nc_conf_2023/">Nextcloud Conference 2023</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>Although I do a lot of semi-public speaking in a professional capacity, I have recently given my first talk at a conference for fun! I use nextcloud as the backbone of my open source, privacy focused self hosting infastructure, the WebDav/CalDav integrations really enables my family to largly de-google our smarphone experience. Happy to give something back to a project I sincerely respect. This short lightning talk was based on my previous blog post about <a href="../backup_restore/">how I designed my backup and restore procedures</a>. Please, enjoy the video and definitely check out the blog entry for the details of how it&rsquo;s done.</p>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/qUFh8sDg7-k" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="Homelab disaster recovery made easy with open source tools! | Nextcloud Conference 2023"></iframe>
+</div>
+
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        101 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-10-05 07:23
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/encrypted_volumes/">
+                    <span class="button__text">Encrypted Volumes</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Comptent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>
