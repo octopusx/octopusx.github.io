@@ -158,16 +158,20 @@
 <blockquote>
 <p>Tell me a joke about large language models</p>
 </blockquote>
-<pre tabindex="0"><code>Why did the large language model go to therapy? Because it had a lot of issues with its input data.
-</code></pre><h1 id="tldr">TLDR;</h1>
+<blockquote>
+<p>Why did the large language model go to therapy? Because it had a lot of issues with its input data.</p>
+</blockquote>
+<h1 id="tldr">TLDR;</h1>
 <p>I am pretty new to this whole AI thing, so we will split this into a few sections and list what worked for me and what didn&rsquo;t. K8S deployment process first, the basics of what models are available and which ones worked best for me, a few simple integration and how to run this locally as an extra.</p>
 <h2 id="k8s-deployment">K8S Deployment</h2>
 <p><strong>Ask Llama!</strong></p>
 <blockquote>
 <p>What is Kubernetes?</p>
 </blockquote>
-<pre tabindex="0"><code>Kubernetes is an open-source container orchestration system that automates the deployment, scaling, and management of containerized applications. It helps to manage complex distributed systems and enables developers to focus on writing code instead of managing infrastructure.
-</code></pre><p>The first well described github repository I have found that explains how to easily host openAI compatible API for an LLM was Umbrel&rsquo;s: <a href="https://github.com/getumbrel/llama-gpt">https://github.com/getumbrel/llama-gpt</a>. They didn&rsquo;t just provide examples and docker-compose files, but even a simple set of Kubernetes templates, which was a nice kick start for me. A few minutes of digging through that and we had a ready helm chart based on their templates. They actually built a slick little web UI that mimic chat GPT&rsquo;s, very handy! What hasn&rsquo;t worked for me though is their mechanism for downloading various models. To load a model into the containerized environment I first created a k8s volume manually, mounted it to a VS Code web server where I used the terminal to download all the models I wanted to use. The container that provides the openAI API is from the llama-cpp-python binding project found here: <a href="https://github.com/abetlen/llama-cpp-python">https://github.com/abetlen/llama-cpp-python</a>.</p>
+<blockquote>
+<p>Kubernetes is an open-source container orchestration system that automates the deployment, scaling, and management of containerized applications. It helps to manage complex distributed systems and enables developers to focus on writing code instead of managing infrastructure.</p>
+</blockquote>
+<p>The first well described github repository I have found that explains how to easily host openAI compatible API for an LLM was Umbrel&rsquo;s: <a href="https://github.com/getumbrel/llama-gpt">https://github.com/getumbrel/llama-gpt</a>. They didn&rsquo;t just provide examples and docker-compose files, but even a simple set of Kubernetes templates, which was a nice kick start for me. A few minutes of digging through that and we had a ready helm chart based on their templates. They actually built a slick little web UI that mimic chat GPT&rsquo;s, very handy! What hasn&rsquo;t worked for me though is their mechanism for downloading various models. To load a model into the containerized environment I first created a k8s volume manually, mounted it to a VS Code web server where I used the terminal to download all the models I wanted to use. The container that provides the openAI API is from the llama-cpp-python binding project found here: <a href="https://github.com/abetlen/llama-cpp-python">https://github.com/abetlen/llama-cpp-python</a>.</p>
 <p>The second project I found was definitely more accomplished and well maintained: the <a href="localai.io">localai.io</a> project. Where the Umbrel setup uses python c++ bindings, this one implements its own in golang: <a href="https://github.com/go-skynet/LocalAI">https://github.com/go-skynet/LocalAI</a>. It does not provide any form of web UI add on, however, unlike the Umbrel repo, this one includes working helm charts, instructions for K8S deployment and a working model download mechanism! All you have to do is add URLs to a list in helm chart&rsquo;s <code>values.yaml</code> file and an init container will take care of it. There is even a flag to force re-download any model that already exists on the volume in case that is necessary.</p>
 <p>I ended up running both of them in my cluster to test and play with, and will likely continue to do so going forward. Having deployed and briefly used both of the setups I realized quickly that they are fairly slow on my current hardware, which means that if I can have 2 different setups with different models at the same time I can avoid long request queueing. Additionally it is worth noting that if you wish to use these LLM containers with multiple models, each model used will be loaded into memory, so you might end up with a container that consumes upwards of 16 GB of RAM. Going forward I decided to use the Umbrel project to host my chat-focused model and LocalAI.io for my code generation one, which means that I have 2 independent services serving distinct functions and 2 separate pods, each of which will use around 8GB of RAM and can run on a different node in my K8S cluster.</p>
 <p>As I mentioned earlier, the <code>llama-cpp-python</code> base configured in Umbrel&rsquo;s repo doesn&rsquo;t come with a proper helm chart, however I will make mine public once I find the time to tidy it up and push it to Github. Stay tuned for that if you&rsquo;re interested!</p>
@@ -176,8 +180,10 @@
 <blockquote>
 <p>What is a large language model</p>
 </blockquote>
-<pre tabindex="0"><code>A large language model is an advanced artificial intelligence system designed to generate human-like text, understand natural language, and perform tasks such as translation, summarization, and question answering by analyzing vast amounts of data.
-</code></pre><p>So, the APIs are not of very much use to anybody if you don&rsquo;t give them a model to work with. Me being super new to all this, I started my research from the Umbrel&rsquo;s <a href="https://github.com/getumbrel/llama-gpt/blob/master/README.md">llama-gpt repo&rsquo;s readme</a>.
+<blockquote>
+<p>A large language model is an advanced artificial intelligence system designed to generate human-like text, understand natural language, and perform tasks such as translation, summarization, and question answering by analyzing vast amounts of data.</p>
+</blockquote>
+<p>So, the APIs are not of very much use to anybody if you don&rsquo;t give them a model to work with. Me being super new to all this, I started my research from the Umbrel&rsquo;s <a href="https://github.com/getumbrel/llama-gpt/blob/master/README.md">llama-gpt repo&rsquo;s readme</a>.
 Handily, it did contain a nice table summarizing the models compatible with this setup:
 <img src="models_table.png" alt="llama-cpp-python tested models"></p>
 <p>What it however does not tell you, at least not explicitly, is what each of these models does or where to get them. I do understand that the <code>B</code> value stands for billions of parameters. The more parameters, the more accurate model, but the more memory and computational resources it needs to run (warning: vast oversimplification). If we dig a little and take a sneak peak at the docker-compose.yaml files in the repo, we will see the following in line 15:</p>
@@ -223,8 +229,10 @@ This is great for general chat usage but also to test that your models are worki
 <blockquote>
 <p>What is Nextcloud?</p>
 </blockquote>
-<pre tabindex="0"><code>Nextcloud is a open-source, self-hosted file synchronization and sharing platform that allows users to access their files from multiple devices, share files with others, and collaborate on projects.
-</code></pre><p>Nextcloud has recently been making noise around their brand spanking new OpenAI integration being made available to use with self hosted LLMs. Being able to try this out was a fairly large motivator for me. Partly to see actually how easy it was to set up and partly because I found the features advertised, if not useful, then at least fun to try. So, once you have your own API endpoint ready, you can go to the administrator settings panel in your Nextcloud instance and enter it somewhere there&hellip; And by somewhere I mean somewhere, because for some reason it is in the <code>Connected Accounts</code> tab, and not the <code>Artificial Intelligence</code> tab, but what do I know. So, I enter it and&hellip; I get a green tick in the top right corner saying admin setting saved. That&rsquo;s good right?</p>
+<blockquote>
+<p>Nextcloud is a open-source, self-hosted file synchronization and sharing platform that allows users to access their files from multiple devices, share files with others, and collaborate on projects.</p>
+</blockquote>
+<p>Nextcloud has recently been making noise around their brand spanking new OpenAI integration being made available to use with self hosted LLMs. Being able to try this out was a fairly large motivator for me. Partly to see actually how easy it was to set up and partly because I found the features advertised, if not useful, then at least fun to try. So, once you have your own API endpoint ready, you can go to the administrator settings panel in your Nextcloud instance and enter it somewhere there&hellip; And by somewhere I mean somewhere, because for some reason it is in the <code>Connected Accounts</code> tab, and not the <code>Artificial Intelligence</code> tab, but what do I know. So, I enter it and&hellip; I get a green tick in the top right corner saying admin setting saved. That&rsquo;s good right?</p>
 <p><img src="nc_ai_config.png" alt="nextcloud openai plugin configuration"></p>
 <p>Well, all of the AI-related functionalities fail&hellip; And they fail after a long long time, which indicates some sort of a timeout issue maybe? I browsed through the logs and all I find this this&hellip;</p>
 <pre tabindex="0"><code>OpenAI API error : Host violates local access rules
@@ -251,8 +259,10 @@ This is great for general chat usage but also to test that your models are worki
 <blockquote>
 <p>What is Visual Studio Code?</p>
 </blockquote>
-<pre tabindex="0"><code>Visual Studio Code is a free, cross-platform source-code editor that runs on Windows, Linux, and macOS. It includes support for debugging, task running, and Git control, among other features. It is popular among developers for its speed, flexibility, and extensibility.
-</code></pre><p>Now we are getting to where it&rsquo;s at for productivity tasks! At least for my use case. AI assisted programming was something that I was already familiar with by the virtue of using the CodeGPT plugin for VSCode. I wouldn&rsquo;t call myself a power user but I certainly found it useful at more than one occasion and wanted to find a self-hosted alternative that will respect my data and not charge me a subscription!</p>
+<blockquote>
+<p>Visual Studio Code is a free, cross-platform source-code editor that runs on Windows, Linux, and macOS. It includes support for debugging, task running, and Git control, among other features. It is popular among developers for its speed, flexibility, and extensibility.</p>
+</blockquote>
+<p>Now we are getting to where it&rsquo;s at for productivity tasks! At least for my use case. AI assisted programming was something that I was already familiar with by the virtue of using the CodeGPT plugin for VSCode. I wouldn&rsquo;t call myself a power user but I certainly found it useful at more than one occasion and wanted to find a self-hosted alternative that will respect my data and not charge me a subscription!</p>
 <p>In the end I found and tested two extensions which can be used with a local OpenAI API endpoint, <a href="https://github.com/nvms/wingman">Wingman</a> and <a href="https://github.com/continuedev/continue">Continue</a>.</p>
 <h4 id="wingman">Wingman</h4>
 <p>Wingman is the first VSCode extension that I found and I really like the project. What it essentially is, is a set of pre-configured but user customizable queries that you can ask your LLM, with a mechanism to automatically paste the responses into the file you&rsquo;re editing.</p>
@@ -309,8 +319,10 @@ This is great for general chat usage but also to test that your models are worki
 <blockquote>
 <p>Generate me an outro section for my technical blog post about LLMs, inviting the reader to come back to the site for the fantastic content in the future.</p>
 </blockquote>
-<pre tabindex="0"><code>Thank you for reading my blog post on large language models and their uses in self-hosted infrastructure. Be sure to check back for more exciting content and insights into the world of AI and natural language processing. Until next time!
-</code></pre>
+<blockquote>
+<p>Thank you for reading my blog post on large language models and their uses in self-hosted infrastructure. Be sure to check back for more exciting content and insights into the world of AI and natural language processing. Until next time!</p>
+</blockquote>
+
       </div>
     </article>
 
