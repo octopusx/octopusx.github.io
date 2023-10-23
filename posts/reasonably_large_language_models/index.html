@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="There&amp;rsquo;s no such thing as free lunch right? I think that openAI are learning this hard way as they are burning all kinds of cash and are no longer providing me with free tokens to use. I must say, I quite liked using CodeGPT in VSCode. Thankfully we have had a bunch of developments lately in the realm of self hosted local AI initiatives, following Facebook&amp;rsquo;s Llama2 release. At the same time more and more applications have plugins that lets them interact with openAI API compatible local LLMs, including VSCode!" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/reasonably_large_language_models/" />
+
+
+    <title>
+        
+            Reasonably Large Language Models :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Reasonably Large Language Models">
+<meta itemprop="description" content="There&rsquo;s no such thing as free lunch right? I think that openAI are learning this hard way as they are burning all kinds of cash and are no longer providing me with free tokens to use. I must say, I quite liked using CodeGPT in VSCode. Thankfully we have had a bunch of developments lately in the realm of self hosted local AI initiatives, following Facebook&rsquo;s Llama2 release. At the same time more and more applications have plugins that lets them interact with openAI API compatible local LLMs, including VSCode!"><meta itemprop="datePublished" content="2023-10-23T20:20:24+02:00" />
+<meta itemprop="dateModified" content="2023-10-23T20:20:24+02:00" />
+<meta itemprop="wordCount" content="3486"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Reasonably Large Language Models"/>
+<meta name="twitter:description" content="There&rsquo;s no such thing as free lunch right? I think that openAI are learning this hard way as they are burning all kinds of cash and are no longer providing me with free tokens to use. I must say, I quite liked using CodeGPT in VSCode. Thankfully we have had a bunch of developments lately in the realm of self hosted local AI initiatives, following Facebook&rsquo;s Llama2 release. At the same time more and more applications have plugins that lets them interact with openAI API compatible local LLMs, including VSCode!"/>
+
+
+
+    <meta property="og:title" content="Reasonably Large Language Models" />
+<meta property="og:description" content="There&rsquo;s no such thing as free lunch right? I think that openAI are learning this hard way as they are burning all kinds of cash and are no longer providing me with free tokens to use. I must say, I quite liked using CodeGPT in VSCode. Thankfully we have had a bunch of developments lately in the realm of self hosted local AI initiatives, following Facebook&rsquo;s Llama2 release. At the same time more and more applications have plugins that lets them interact with openAI API compatible local LLMs, including VSCode!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/reasonably_large_language_models/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-23T20:20:24+02:00" />
+<meta property="article:modified_time" content="2023-10-23T20:20:24+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-10-23 20:20:24 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        17 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/reasonably_large_language_models/">Reasonably Large Language Models</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>There&rsquo;s no such thing as free lunch right? I think that openAI are learning this hard way as they are burning all kinds of cash and are no longer providing me with free tokens to use. I must say, I quite liked using CodeGPT in VSCode. Thankfully we have had a bunch of developments lately in the realm of self hosted local AI initiatives, following Facebook&rsquo;s Llama2 release. At the same time more and more applications have plugins that lets them interact with openAI API compatible local LLMs, including VSCode! So, let&rsquo;s dive in!</p>
+<p><strong>Ask Llama!</strong></p>
+<blockquote>
+<p>Tell me a joke about large language models</p>
+</blockquote>
+<pre tabindex="0"><code>Why did the large language model go to therapy? Because it had a lot of issues with its input data.
+</code></pre><h1 id="tldr">TLDR;</h1>
+<p>I am pretty new to this whole AI thing, so we will split this into a few sections and list what worked for me and what didn&rsquo;t. K8S deployment process first, the basics of what models are available and which ones worked best for me, a few simple integration and how to run this locally as an extra.</p>
+<h2 id="k8s-deployment">K8S Deployment</h2>
+<p><strong>Ask Llama!</strong></p>
+<blockquote>
+<p>What is Kubernetes?</p>
+</blockquote>
+<pre tabindex="0"><code>Kubernetes is an open-source container orchestration system that automates the deployment, scaling, and management of containerized applications. It helps to manage complex distributed systems and enables developers to focus on writing code instead of managing infrastructure.
+</code></pre><p>The first well described github repository I have found that explains how to easily host openAI compatible API for an LLM was Umbrel&rsquo;s: <a href="https://github.com/getumbrel/llama-gpt">https://github.com/getumbrel/llama-gpt</a>. They didn&rsquo;t just provide examples and docker-compose files, but even a simple set of Kubernetes templates, which was a nice kick start for me. A few minutes of digging through that and we had a ready helm chart based on their templates. They actually built a slick little web UI that mimic chat GPT&rsquo;s, very handy! What hasn&rsquo;t worked for me though is their mechanism for downloading various models. To load a model into the containerized environment I first created a k8s volume manually, mounted it to a VS Code web server where I used the terminal to download all the models I wanted to use. The container that provides the openAI API is from the llama-cpp-python binding project found here: <a href="https://github.com/abetlen/llama-cpp-python">https://github.com/abetlen/llama-cpp-python</a>.</p>
+<p>The second project I found was definitely more accomplished and well maintained: the <a href="localai.io">localai.io</a> project. Where the Umbrel setup uses python c++ bindings, this one implements its own in golang: <a href="https://github.com/go-skynet/LocalAI">https://github.com/go-skynet/LocalAI</a>. It does not provide any form of web UI add on, however, unlike the Umbrel repo, this one includes working helm charts, instructions for K8S deployment and a working model download mechanism! All you have to do is add URLs to a list in helm chart&rsquo;s <code>values.yaml</code> file and an init container will take care of it. There is even a flag to force re-download any model that already exists on the volume in case that is necessary.</p>
+<p>I ended up running both of them in my cluster to test and play with, and will likely continue to do so going forward. Having deployed and briefly used both of the setups I realized quickly that they are fairly slow on my current hardware, which means that if I can have 2 different setups with different models at the same time I can avoid long request queueing. Additionally it is worth noting that if you wish to use these LLM containers with multiple models, each model used will be loaded into memory, so you might end up with a container that consumes upwards of 16 GB of RAM. Going forward I decided to use the Umbrel project to host my chat-focused model and LocalAI.io for my code generation one, which means that I have 2 independent services serving distinct functions and 2 separate pods, each of which will use around 8GB of RAM and can run on a different node in my K8S cluster.</p>
+<p>As I mentioned earlier, the <code>llama-cpp-python</code> base configured in Umbrel&rsquo;s repo doesn&rsquo;t come with a proper helm chart, however I will make mine public once I find the time to tidy it up and push it to Github. Stay tuned for that if you&rsquo;re interested!</p>
+<h2 id="models">Models</h2>
+<p><strong>Ask Llama!</strong></p>
+<blockquote>
+<p>What is a large language model</p>
+</blockquote>
+<pre tabindex="0"><code>A large language model is an advanced artificial intelligence system designed to generate human-like text, understand natural language, and perform tasks such as translation, summarization, and question answering by analyzing vast amounts of data.
+</code></pre><p>So, the APIs are not of very much use to anybody if you don&rsquo;t give them a model to work with. Me being super new to all this, I started my research from the Umbrel&rsquo;s <a href="https://github.com/getumbrel/llama-gpt/blob/master/README.md">llama-gpt repo&rsquo;s readme</a>.
+Handily, it did contain a nice table summarizing the models compatible with this setup:
+<img src="models_table.png" alt="llama-cpp-python tested models"></p>
+<p>What it however does not tell you, at least not explicitly, is what each of these models does or where to get them. I do understand that the <code>B</code> value stands for billions of parameters. The more parameters, the more accurate model, but the more memory and computational resources it needs to run (warning: vast oversimplification). If we dig a little and take a sneak peak at the docker-compose.yaml files in the repo, we will see the following in line 15:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">(...)</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MODEL_DOWNLOAD_URL</span>: <span style="color:#e6db74">&#39;${MODEL_DOWNLOAD_URL:-https://huggingface.co/TheBloke/Nous-Hermes-Llama-2-7B-GGML/resolve/main/nous-hermes-llama-2-7b.ggmlv3.q4_0.bin}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">(...)</span>
+</span></span></code></pre></div><p>Aha! This is where they are getting the models from. Short duck duck go later, and we find out that huggingface.co is a fantastic repository for all kinds of AI models, ready to be downloaded for free. I recommend reading the repositories that you can find there, as they describe often in detail what each model does, what it is good at and what requirements it has. The key thing I learned is this:</p>
+<ul>
+<li>Models marked with <code>GGML</code> are an older standard, single-file packaged models that can run on a CPU</li>
+<li>Models marked with <code>GGUF</code> are meant to be a more versatile, improved version of GGML packaging for ML models</li>
+</ul>
+<p>There are a lot of different parameters that each model is pre-configured with, but from reading the info in the repos, models marked <code>q4_0</code> give the best balance of speed and accuracy for a given parameter size (usually).</p>
+<p>Yes, this was a quick search and a bunch of trial and error, so if you want to explain this to me or know of a cool resource online that I could read or watch to understand these parameters better, hit me up on mastodon!</p>
+<p>From my side, I also have to give a shout out to <a href="https://gpt4all.io/">https://gpt4all.io/</a>, as it also has a lot of useful information about the relative qualities and purpose of each model.</p>
+<p>Now, to set out some expectations and context, I am running these LLMs in my K8S cluster on CPUs. My home lab has 3 nodes, each spotting a Ryzen 3000 CPU. This means AVX1 and AVX2 but not AVX512. For the uninitiated, those are vector instruction set extensions which help accelerate some of the AI tasks. On each of these boxes I have a VM with CPU passthrough configured to make sure the workloads see the extensions, and each with 6 virtual CPU cores (6 threads essentially).</p>
+<h3 id="chat-models">Chat Models</h3>
+<p>In the couple of days that I played with all of these, there were 2 models that worked reasonably well on my machines:</p>
+<ul>
+<li><a href="https://huggingface.co/TheBloke/Llama-2-13B-chat-GGML">llama-2-13b-chat.ggmlv3.q4_0</a></li>
+<li><a href="https://huggingface.co/TheBloke/Nous-Hermes-Llama2-GGML">nous-hermes-llama2-13b.ggmlv3.q4_0</a></li>
+</ul>
+<p>Each of those models are about 8GB in size (i.e. will take 8GB of RAM once loaded up) and will run reasonably happily from within the <code>llama-cpp-python</code> container. Most of the queries I asked these models returned quickly enough to be considered &ldquo;interactive&rdquo;.</p>
+<p>Pro tip. When you configure <code>llama-cpp-python</code>, make sure to set the <code>n_threads</code> environment variable to the number of threads you want to make available to the model for computing. All of the parameters available can be found in the <a href="https://abetlen.github.io/llama-cpp-python/#api-reference">official documentation</a>.</p>
+<h3 id="coding-models">Coding Models</h3>
+<p>I had very high hopes for the coding models I have to say, however I found most of them temperamental and tricky to work with. For some reason a lot of them, especially the <code>codellama</code> designated ones, were falling into a loop of repeated output and would generate the same answer over and over before I manually terminated them. I have not found a definitive answer online what causes this behavior and was not able to make them work with the VSCode integrations that I used. This left me with the one model that has been the most consistently working as a coding assistant:</p>
+<ul>
+<li><a href="https://huggingface.co/nomic-ai/gpt4all-falcon-ggml/resolve/main/ggml-model-gpt4all-falcon-q4_0.bin">ggml-model-gpt4all-falcon-q4_0</a></li>
+</ul>
+<p>This model worked fine in the VSCode integrations that I tried with it, though bear in mind, it is not an instruct model. It is good if you need it to explain code for you or suggest code via a chat-like interaction. It will not however work for straight up code generation inside your editor. OpenAI API is apparently not designed for that and you need a dedicated instruct model and an instruct compatible API endpoint. And self hosted versions of such software and models require the use of a GPU which I currently do not have! We will have to explore this avenue at another occasion then&hellip; More details on code generation in the integrations section.</p>
+<h2 id="integrations">Integrations</h2>
+<h3 id="umbrel-llama-ui">Umbrel Llama UI</h3>
+<p>Ok, so we have ourselves a web API deployed, we downloaded our models. It is finally time to use this stuff! The easiest way to start in my opinion is the Umbrel Llama UI that we can get from <a href="https://github.com/getumbrel/llama-gpt">here</a>. This creates a ChatGPT-like web UI for you that you can use to create threads of conversations with different basic parameters, such as the system prompt and temperature.</p>
+<p><img src="umbrel_web_ui_new.png" alt="ubmrel llama web ui - new chat"></p>
+<p>Just as an FYI:</p>
+<ul>
+<li>Temperature: setting on a scale of 0.0 to 1.0, that governs how factual and to the point answers will the model try to give you (0.0) vs how creative you want it to be (1.0), where setting 0.5 could be described as neutral.</li>
+<li>System prompt: information you can feed the model that sets the tone and the desired outcome of the conversation you are trying to have with the model. It can be things like: &ldquo;You are a helpful AI and will answer concisely&rdquo; or &ldquo;We are going to be role playing where I am Mario and you are princess Peach&rdquo;, you get the idea&hellip;
+This is great for general chat usage but also to test that your models are working and performing.</li>
+</ul>
+<p><img src="umbrel_web_ui.png" alt="ubmrel llama web ui"></p>
+<h3 id="nextcloud-assistant">Nextcloud Assistant</h3>
+<p><strong>Ask Llama!</strong></p>
+<blockquote>
+<p>What is Nextcloud?</p>
+</blockquote>
+<pre tabindex="0"><code>Nextcloud is a open-source, self-hosted file synchronization and sharing platform that allows users to access their files from multiple devices, share files with others, and collaborate on projects.
+</code></pre><p>Nextcloud has recently been making noise around their brand spanking new OpenAI integration being made available to use with self hosted LLMs. Being able to try this out was a fairly large motivator for me. Partly to see actually how easy it was to set up and partly because I found the features advertised, if not useful, then at least fun to try. So, once you have your own API endpoint ready, you can go to the administrator settings panel in your Nextcloud instance and enter it somewhere there&hellip; And by somewhere I mean somewhere, because for some reason it is in the <code>Connected Accounts</code> tab, and not the <code>Artificial Intelligence</code> tab, but what do I know. So, I enter it and&hellip; I get a green tick in the top right corner saying admin setting saved. That&rsquo;s good right?</p>
+<p><img src="nc_ai_config.png" alt="nextcloud openai plugin configuration"></p>
+<p>Well, all of the AI-related functionalities fail&hellip; And they fail after a long long time, which indicates some sort of a timeout issue maybe? I browsed through the logs and all I find this this&hellip;</p>
+<pre tabindex="0"><code>OpenAI API error : Host violates local access rules
+</code></pre><p>Which tells me nothing, and duck duck going it ain&rsquo;t helping much either.</p>
+<p>A couple of days pass and I find this beautiful issue on the Github issue tracker for the Nextcloud OpanAI integration: <a href="https://github.com/nextcloud/integration_openai/issues/47">https://github.com/nextcloud/integration_openai/issues/47</a></p>
+<p>Well, I had no idea I am supposed to be able to select the model there. The UI does not show that as an option, not even grayed out. As you see I chimed into the conversation, reporting similar behavior. Low and behold, I get a quick response from a dev and my issue is resolved!</p>
+<p><img src="github_issue.png" alt="github issue response"></p>
+<p>So, now I have two key takeaways from this interaction. One is, that the devs clearly know what they&rsquo;re doing and they were super quick to help me and fix my issue. Two, however, is a big problem in that I needed this help in the first place!</p>
+<p>Basically, in order for Nextcloud to allow you to talk to a locally hosted LLM you need to change this setting:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#e6db74">&#39;allow_local_remote_servers&#39;</span><span style="color:#f92672">=&gt;</span><span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><p>in the main PHP config file for Nextcloud. But (at least at the time of writing) this is not said anywhere on the plugin install page or in the documentation as far as I am aware. And it seems that this flag is set to <code>false</code> by default. Oh dear&hellip;</p>
+<p>So, with that out of the way, now we know that you have set things up correctly once the model field <strong>magically reveals itself to us</strong> in the config UI.</p>
+<p><img src="nc_ai_config_2.png" alt="working nextcloud local ai config"></p>
+<p>We can get to work now! Let&rsquo;s generate some text!</p>
+<p><img src="nc_free_prompt.png" alt="image of nextcloud AI free prompt trigger"></p>
+<p>I press that magical sparkly &ldquo;Free Prompt&rdquo; button and&hellip; Poof! Nothing XD To cut to the chase here and not drag this out much longer, it seems that Nextcloud is trying to execute most of the calls to your local LLM endpoint asynchronously. Which is a good choice in my opinion. The problem for me however is that I am running Nextcloud in Kubernetes, and to facilitate job processing I had set up a web cron container, that basically gets spawned twice per second to pick up any currently queued jobs. This includes but is not limited to the OpenAI API calls. This makes it fairly unpredictable as to when your jobs will be processed, and though largely fine for strictly speaking background jobs, I was expecting my AI queries to complete faster than within an hour or two&hellip; The only call that I found so far to be computed synchronously (as in, while you wait) is the smart picket <code>ChatGPT-like text generation (with LocalAI)</code> option that I triggered inside a note that I was editing. There you get a &ldquo;preview&rdquo; button, which will lock the prompt popup until you get your result from the LLM API.</p>
+<p><img src="smart_picker.png" alt="smart picker popup"></p>
+<p>Sadly my experiences with the ready made prompts that get run async, are also rather bad, and your milage may also vary depending on which LLM you use. With <code>llama-2-13b-chat</code> for example I generally get gems like this:</p>
+<p><img src="summarise.png" alt="no, you sumarise it yourself"></p>
+<p>As far as I am aware there is no way to adjust the query language that is used behind these &ldquo;summarize/generate headline/reformulate&rdquo; buttons, so whether they will actually result in a useful output is up to luck. This is obviously only based on a few days of using this model and integration, so maybe I am just missing something&hellip;</p>
+<p>In summary, with my current setup the local OpenAI API integration with Nextcloud is not very useful or practical. I feel like it lacks basic functionality such as the inability to set model temperature or system prompt, as well as being able to choose if a command is executed by the LLM synchronously or asynchronously. I am relatively positive that Nextcloud will iron out this integration and make it more configurable over time so I will happily revisit it at a later date. Though I really wish that they would come up with some other way to run jobs for Kubernetes deployments altogether, other than web cron&hellip;</p>
+<h3 id="visual-studio-code">Visual Studio Code</h3>
+<p><strong>Ask Llama!</strong></p>
+<blockquote>
+<p>What is Visual Studio Code?</p>
+</blockquote>
+<pre tabindex="0"><code>Visual Studio Code is a free, cross-platform source-code editor that runs on Windows, Linux, and macOS. It includes support for debugging, task running, and Git control, among other features. It is popular among developers for its speed, flexibility, and extensibility.
+</code></pre><p>Now we are getting to where it&rsquo;s at for productivity tasks! At least for my use case. AI assisted programming was something that I was already familiar with by the virtue of using the CodeGPT plugin for VSCode. I wouldn&rsquo;t call myself a power user but I certainly found it useful at more than one occasion and wanted to find a self-hosted alternative that will respect my data and not charge me a subscription!</p>
+<p>In the end I found and tested two extensions which can be used with a local OpenAI API endpoint, <a href="https://github.com/nvms/wingman">Wingman</a> and <a href="https://github.com/continuedev/continue">Continue</a>.</p>
+<h4 id="wingman">Wingman</h4>
+<p>Wingman is the first VSCode extension that I found and I really like the project. What it essentially is, is a set of pre-configured but user customizable queries that you can ask your LLM, with a mechanism to automatically paste the responses into the file you&rsquo;re editing.</p>
+<p><img src="wingman.png" alt="wingman view"></p>
+<p>You can select actions of various categories, such as completion, testing, refactoring or just chat. Where I think the real power comes from here is the customizability. You can add your own prompts in the json config file, here&rsquo;s the example it comes with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;wingman.userCommands&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;exImprove&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;Suggest improvements&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;userMessageTemplate&#34;</span>: <span style="color:#e6db74">&#34;I have the following {{language}} code:\n```{{filetype}}\n{{text_selection}}\n```\nPlease provide a list of suggestions for improving the code in markdown format. Consider aspects such as readability, performance, maintainability, and best coding practices. Explain each suggestion briefly, highlighting the specific areas that could be enhanced. Your suggestions should aim to improve the code without changing its behavior.&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;systemMessageTemplate&#34;</span>: <span style="color:#e6db74">&#34;You are an assistant to a {{language}} developer.&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;callbackType&#34;</span>: <span style="color:#e6db74">&#34;none&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;category&#34;</span>: <span style="color:#e6db74">&#34;My prompts&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span></code></pre></div><p>This article is sadly not going to cover how well most of the features work. This is because most of the more interesting commands that I ran via Wingman (or Continue for that matter), resulted in my server CPUs spinning away and nothing else.</p>
+<p><img src="spinning.png" alt="cpu utilization during coding"></p>
+<p>I was still able to do simple things, such as asking the LLM to generate comments for simple code blocks, or use the built in chat to ask programming-specific questions.</p>
+<h4 id="continue">Continue</h4>
+<p>Continue is another alternative which is very close in functionality to Wingman, with a few subtle differences. For a start, Continue is more keyboard driven. You&rsquo;re not selecting query types from a menu but rather type <code>/</code> followed by the type of command you want to run. This also includes code editing, generating tests, comments, etc.</p>
+<p><img src="continue_ui.png" alt="continue UI"></p>
+<p>You can also configure multiple backends simultaneously and switch between them from the UI, which is very useful if you want to split your use between a local and a public cloud API or just when you&rsquo;re testing multiple models, maybe specific for different programming languages&hellip;</p>
+<p>Also, where Wingman basically overrides the code you pasted into it when you ask it to modify it, Continue creates you a visual diff, which you can either accept, reject or ask for adjustments to. Very neat, and which one you prefer depends on your style of working with code and coding editors.</p>
+<p>With Continue you can also simply add code to the context of specific queries by selecting it and pressing <code>ctrl+m</code>. There will then be a visual queue that the block is attached and you can remove it at any point. All of your chat history and context is also logged for you to browse through later which I definitely like too.</p>
+<p><img src="continue_ui_generation.png" alt="continue generation"></p>
+<p>The models you want to use can be easily configured via modifying a config.py residing in your home dir (<code>~/.continue/config.py</code>). Here&rsquo;s my block for the 3 models available on my local-ai instance:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    models<span style="color:#f92672">=</span>Models(
+</span></span><span style="display:flex;"><span>		saved<span style="color:#f92672">=</span>[OpenAI(
+</span></span><span style="display:flex;"><span>			model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nous-hermes-llama2-13b.ggmlv3.q4_0.bin&#34;</span>,
+</span></span><span style="display:flex;"><span>			api_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>			api_base<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://local-ai.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>		),
+</span></span><span style="display:flex;"><span>		OpenAI(
+</span></span><span style="display:flex;"><span>			model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;starcoder.ggmlv3.q4_0.bin&#34;</span>,
+</span></span><span style="display:flex;"><span>			system_message<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;You are a friendly AI that is helping me write high quality Python code. Give short and concrete answers.&#34;</span>,
+</span></span><span style="display:flex;"><span>			api_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>			api_base<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://local-ai.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>		)],
+</span></span><span style="display:flex;"><span>		default<span style="color:#f92672">=</span>OpenAI(
+</span></span><span style="display:flex;"><span>			model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ggml-model-gpt4all-falcon-q4_0.bin&#34;</span>,
+</span></span><span style="display:flex;"><span>			system_message<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;You are a friendly AI that is helping me write high quality Python code. Give short and concrete answers.&#34;</span>,
+</span></span><span style="display:flex;"><span>			api_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>			api_base<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://local-ai.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>	),
+</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
+</span></span></code></pre></div><p>Sadly again, due to my current hardware limitations, I could not use this extension very much beyond asking it to generate me some simple example code. The same CPU pegging, timeout inducing computation of doom got in my way.</p>
+<h2 id="whats-next">What&rsquo;s next</h2>
+<p>Being mostly hardware restricted in most of my scenarios I think we will have to try GPU-based generation next. Though that will have to wait for another blog post, as I don&rsquo;t even own a single dedicated GPU!</p>
+<p>There are obviously many more extensions and integrations to explore now that I have this whole deployment going, the least of which would be making the Llama 2 chat bot available via chat rooms on my Matrix server. Exciting times.</p>
+<p>So, stay tuned for future shenanigans in the land of generative self hosted AI models!</p>
+<p><strong>Ask Llama!</strong></p>
+<blockquote>
+<p>Generate me an outro section for my technical blog post about LLMs, inviting the reader to come back to the site for the fantastic content in the future.</p>
+</blockquote>
+<pre tabindex="0"><code>Thank you for reading my blog post on large language models and their uses in self-hosted infrastructure. Be sure to check back for more exciting content and insights into the world of AI and natural language processing. Until next time!
+</code></pre>
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        3486 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-10-23 18:20
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/nc_conf_2023/">
+                    <span class="button__text">Nextcloud Conference 2023</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Comptent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>

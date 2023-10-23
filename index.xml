@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 05 Oct 2023 09:23:35 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 23 Oct 2023 20:20:24 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reasonably Large Language Models</title>
+      <link>https://blog.octopusx.de/posts/reasonably_large_language_models/</link>
+      <pubDate>Mon, 23 Oct 2023 20:20:24 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/reasonably_large_language_models/</guid>
+      <description>There&amp;rsquo;s no such thing as free lunch right? I think that openAI are learning this hard way as they are burning all kinds of cash and are no longer providing me with free tokens to use. I must say, I quite liked using CodeGPT in VSCode. Thankfully we have had a bunch of developments lately in the realm of self hosted local AI initiatives, following Facebook&amp;rsquo;s Llama2 release. At the same time more and more applications have plugins that lets them interact with openAI API compatible local LLMs, including VSCode!</description>
+    </item>
+    
     <item>
       <title>Nextcloud Conference 2023</title>
       <link>https://blog.octopusx.de/posts/nc_conf_2023/</link>
