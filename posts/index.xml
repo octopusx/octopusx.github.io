@@ -25,7 +25,7 @@
 <p>Why did the large language model go to therapy? Because it had a lot of issues with its input data.</p>
 </blockquote>
 <h1 id="tldr">TLDR;</h1>
-<p>I am pretty new to this whole AI thing, so we will split this into a few sections and list what worked for me and what didn&rsquo;t. K8S deployment process first, the basics of what models are available and which ones worked best for me, a few simple integration and how to run this locally as an extra.</p>
+<p>I am pretty new to this whole AI thing, so we will split this into a few sections and list what worked for me and what didn&rsquo;t. K8S deployment process first, the basics of what models are available and which ones worked best for me, a few simple integration and what we are going to cover in the future. I got most of what I wanted to work, but to unlock the full potential I need to try this on a GPU&hellip;</p>
 <h2 id="k8s-deployment">K8S Deployment</h2>
 <p><strong>Ask Llama!</strong></p>
 <blockquote>
