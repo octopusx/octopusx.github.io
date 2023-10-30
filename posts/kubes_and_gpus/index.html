@@ -38,7 +38,7 @@
 <meta itemprop="name" content="Kubes and GPUs">
 <meta itemprop="description" content="Graphics cards are once again available. The AI hype is on for sure, but it&rsquo;s not as much of a craze as the the mining fad of yesteryear. Finally, graphics-based compute is semi-affordable again, especially if you look to the second hand market. Having dabbed my toes in the world of self hosting large language models I have come to realize that hosting those on CPUs only is not going to give me a good insight into what this tech is capable of."><meta itemprop="datePublished" content="2023-10-30T13:00:00+02:00" />
 <meta itemprop="dateModified" content="2023-10-30T13:00:00+02:00" />
-<meta itemprop="wordCount" content="2379"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="wordCount" content="2455"><meta itemprop="image" content="https://blog.octopusx.de/"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.octopusx.de/"/>
@@ -153,7 +153,7 @@
       
 
       <div class="post-content">
-        <p>Graphics cards are once again available. The AI hype is on for sure, but it&rsquo;s not as much of a craze as the the mining fad of yesteryear. Finally, graphics-based compute is semi-affordable again, especially if you look to the second hand market. Having dabbed my toes in the world of self hosting large language models I have come to realize that hosting those on CPUs only is not going to give me a good insight into what this tech is capable of. A lot of different models and APIs are either optimized or exclusively available on GPU platforms only. The one that tipped the scale for me is &lt;refact.ai&gt;. I really wanted to give the self hosted version a spin, and so I had gone on to make my wallet slimmer.</p>
+        <p>Graphics cards are once again available. The AI hype is on for sure, but it&rsquo;s not as much of a craze as the the mining fad of yesteryear. Finally, graphics-based compute is semi-affordable again, especially if you look to the second hand market. Having dabbed my toes in the world of self hosting large language models I have come to realize that hosting those on CPUs only is not going to give me a good insight into what this tech is capable of. A lot of different models and APIs are either optimized or exclusively available on GPU platforms only. The one that tipped the scale for me is <a href="https://refact.ai">refact.ai</a>. I really wanted to give the self hosted version a spin, and so I had gone on to make my wallet slimmer.</p>
 <h2 id="the-hardware">The Hardware</h2>
 <p>What GPU you should buy to get the most out of it depends on the models that you want to run on it. There do exist smaller coding-focused LLMs that can be run on a GTX 1060 6GB or an 8GB GTX 1070, which can be sniped on the second hand market for under a 100 euros. AMD has historically sold cards with higher VRAM sizes which would make their second hand units the best bargain, sadly it seems that their ROCm (insert ROCm page url) software platform for running AI compute tasks is still in its early days and not many, if any, consumer cards are supported at the moment.</p>
 <p>Some of the available models and their estimated VRAM requirements:</p>
@@ -483,7 +483,7 @@ Also, I have no idea why I am getting the VRAM warning message. It has been ther
 <p>In my case, it will also allow you to chat with the llama7b model:</p>
 <p><img src="llama7b_chat.png" alt="llama7b chat"></p>
 <h2 id="the-end">The End</h2>
-<p>All in all, I am quite happy with this setup. It was very straight forward and pretty much just worked. I may even sign up for their paid version just to support their project, well done refact.ai! I haven&rsquo;t used this in practice much so I don&rsquo;t feel comfortable giving a verdict on how good the small models that I am able to fit into my 3060&rsquo;s memory are. Something I really wish I was able to do is expose my llama7b model hosted by refact in other apps via an openAI API endpoint. That would make me 120% happy&hellip; For the moment, I have browsed the refact&rsquo;s github issue tracker as well as their discord server (<a href="https://www.smallcloud.ai/discord">https://www.smallcloud.ai/discord</a>) which seems to be active and will see if I can find out more about the project&rsquo;s roadmap and if the few functionalities that are missing will be added over time. Hope you enjoyed this tutorial and will come back again when the next entry rolls in.</p>
+<p>All in all, I am quite happy with this setup. It was very straight forward and pretty much just worked. I may even sign up for their paid version just to support their project, well done refact.ai! I haven&rsquo;t used this in practice much so I don&rsquo;t feel comfortable giving a verdict on how good the small models that I am able to fit into my 3060&rsquo;s memory are. However what I can say is that the models execute extremely fast on the RTX 3060 12GB gpu&hellip; The code generation is very fast and the llama7b models chat is pretty much instant. Much more responsive than my previous attempt at CPU hosted model and downright impressive, with such a relatively small investment in hardware. Something I really wish I was able to do is expose my llama7b model hosted by refact in other apps via an openAI API endpoint. Another would be to be able to host a single larger model that does both code completion as well as chatting. That would make me 120% happy&hellip; For the moment, I have browsed the refact&rsquo;s github issue tracker as well as their discord server (<a href="https://www.smallcloud.ai/discord">https://www.smallcloud.ai/discord</a>) which seems to be active and will see if I can find out more about the project&rsquo;s roadmap and if the few functionalities that are missing will be added over time. Hope you enjoyed this tutorial and will come back again when the next entry rolls in.</p>
 
       </div>
     </article>
@@ -502,7 +502,7 @@ Also, I have no idea why I am getting the VRAM warning message. It has been ther
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        2379 Words
+        2455 Words
       </p>
 
       <p>
