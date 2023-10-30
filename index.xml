@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 23 Oct 2023 20:20:24 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 30 Oct 2023 13:00:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubes and GPUs</title>
+      <link>https://blog.octopusx.de/posts/kubes_and_gpus/</link>
+      <pubDate>Mon, 30 Oct 2023 13:00:00 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/kubes_and_gpus/</guid>
+      <description>Graphics cards are once again available. The AI hype is on for sure, but it&amp;rsquo;s not as much of a craze as the the mining fad of yesteryear. Finally, graphics-based compute is semi-affordable again, especially if you look to the second hand market. Having dabbed my toes in the world of self hosting large language models I have come to realize that hosting those on CPUs only is not going to give me a good insight into what this tech is capable of.</description>
+    </item>
+    
     <item>
       <title>Reasonably Large Language Models</title>
       <link>https://blog.octopusx.de/posts/reasonably_large_language_models/</link>
