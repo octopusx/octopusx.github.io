@@ -10,7 +10,7 @@
         <atom:link href="https://blog.octopusx.de/posts/index.xml" rel="self" type="application/rss+xml" />
         
         <item>
-            <title>Teapot</title>
+            <title>Teapot - host your own helm chart registry</title>
             <link>https://blog.octopusx.de/posts/teapot/</link>
             <pubDate>Mon, 06 Nov 2023 00:24:20 +0200</pubDate>
             

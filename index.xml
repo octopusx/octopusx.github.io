@@ -9,7 +9,7 @@
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Mon, 06 Nov 2023 00:24:20 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Teapot</title>
+      <title>Teapot - host your own helm chart registry</title>
       <link>https://blog.octopusx.de/posts/teapot/</link>
       <pubDate>Mon, 06 Nov 2023 00:24:20 +0200</pubDate>
       
