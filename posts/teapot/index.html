@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="For a while I wanted to host my own helm chart registry and automate my chart build, release and deployment processes. As a homelaber, a one man band, the more things happen on their own without my manual involvement the better. Self hosting to me also means self reliance and local storage for most things needed in order to build and run my services, and getting my own registry is getting one step closer to that goal." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/teapot/" />
+
+
+    <title>
+        
+            Teapot :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Teapot">
+<meta itemprop="description" content="For a while I wanted to host my own helm chart registry and automate my chart build, release and deployment processes. As a homelaber, a one man band, the more things happen on their own without my manual involvement the better. Self hosting to me also means self reliance and local storage for most things needed in order to build and run my services, and getting my own registry is getting one step closer to that goal."><meta itemprop="datePublished" content="2023-11-06T00:24:20+02:00" />
+<meta itemprop="dateModified" content="2023-11-06T00:24:20+02:00" />
+<meta itemprop="wordCount" content="2252"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Teapot"/>
+<meta name="twitter:description" content="For a while I wanted to host my own helm chart registry and automate my chart build, release and deployment processes. As a homelaber, a one man band, the more things happen on their own without my manual involvement the better. Self hosting to me also means self reliance and local storage for most things needed in order to build and run my services, and getting my own registry is getting one step closer to that goal."/>
+
+
+
+    <meta property="og:title" content="Teapot" />
+<meta property="og:description" content="For a while I wanted to host my own helm chart registry and automate my chart build, release and deployment processes. As a homelaber, a one man band, the more things happen on their own without my manual involvement the better. Self hosting to me also means self reliance and local storage for most things needed in order to build and run my services, and getting my own registry is getting one step closer to that goal." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/teapot/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-06T00:24:20+02:00" />
+<meta property="article:modified_time" content="2023-11-06T00:24:20+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-11-06 00:24:20 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        11 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/teapot/">Teapot</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>For a while I wanted to host my own helm chart registry and automate my chart build, release and deployment processes. As a homelaber, a one man band, the more things happen on their own without my manual involvement the better. Self hosting to me also means self reliance and local storage for most things needed in order to build and run my services, and getting my own registry is getting one step closer to that goal.</p>
+<p>When I first started my homelab journey and decided to go the kubernetes route, the <a href="https://github.com/k8s-at-home">k8s-at-home project</a> was not only a source of quality helm charts for me to deploy but also an inspiration for how to write reusable charts and manage my own helm chart repositories. Sadly the project has been archived since then as the main maintainer had struggled to keep up with the updates without sufficient help from the community. At the time I either didn&rsquo;t have the time or the skills to support the project. Today, a few years later, I feel like I may finally have what it takes to bring back at least a small part of the project alive, starting from their library chart. In this blog post I will walk you through how I&rsquo;ve set up a public Gitea instance to be used as a helm chart registry and git repository for myself and anyone else who wishes to use the charts.</p>
+<p>Before we go further, a quick disclaimer that, for all intents and purposes, <a href="https://truecharts.org/">https://truecharts.org/</a> has taken the place that k8s-at-home used to have. It is a fantastic resource for helm charts not just to use with TrueNas Scale but on any homelab k8s cluster. I highly recommend checking it out. That is not however what this blog is about, we&rsquo;re going to explore the fun but also the complex side of self hosting. So let&rsquo;s crack on!</p>
+<h2 id="primary-objective">Primary Objective</h2>
+<p>I am still running a lot of helm charts from the k8s-at-home public repository (<a href="https://github.com/k8s-at-home/charts">https://github.com/k8s-at-home/charts</a>) and all of them are built based on their library chart (<a href="https://github.com/k8s-at-home/library-charts)">https://github.com/k8s-at-home/library-charts)</a>. Now, so far this hasn&rsquo;t been a problem as K8S releases haven&rsquo;t deprecated many APIs lately, but it is only a matter of time before a change will break compatibility with the library chart. As the project is no longer in development, we will host the library chart ourselves and build a simple pipeline to publish it to our own registry. This way we will be able to update the base library chart when needed and port the k8s-at-home charts on our new updated version.</p>
+<p>For this we will:</p>
+<ul>
+<li>Deploy a dedicated instance of Gitea, and call it Teapot!</li>
+<li>Deploy Gitea runners and connect them to the Gitea instance.</li>
+<li>Clone and sanitize the library chart, then host it in our new Gitea instance.</li>
+<li>Write a Gitea action to build and release the library chart.</li>
+<li>Build and push the library chart to Gitea&rsquo;s built in registry.</li>
+</ul>
+<h2 id="gitea-deployment">Gitea Deployment</h2>
+<p>We will be deploying Gitea on our usual K8S cluster, as always. We will use the <a href="https://gitea.com/gitea/helm-chart/">official Gitea helm chart</a> as a base. Their chart is very robust and highly customizable. All we need to do is import it into our deployment chart and run <code>helm install</code> on it.</p>
+<p>Chart.yaml:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">teapot</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#ae81ff">A public instance of Gitea, notably a Teapot.</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">application</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">appVersion</span>: <span style="color:#e6db74">&#34;1.20.5&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">maintainers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Tomasz Fratczak</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">email</span>: <span style="color:#ae81ff">sre@octopusx.de</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">gitea</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#ae81ff">9.5.1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">https://dl.gitea.io/charts/</span>
+</span></span></code></pre></div><p>Here is my values file. I disabled all of the unnecessary bells and whistles, configured ingress as well as the SSH load balancer service (for SSH traffic ingress), storage, disabled built in databases and pointed it at my existing postgres instance.</p>
+<p>values.yaml:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">gitea</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">image</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">gitea/gitea</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tag</span>: <span style="color:#ae81ff">1.20.5</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingress</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubernetes.io/ingress.class</span>: <span style="color:#ae81ff">traefik-210-external</span> <span style="color:#75715e">## Class of dedicated Traefik ingress controller for external connectivity</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">traefik.ingress.kubernetes.io/router.entrypoints</span>: <span style="color:#ae81ff">websecure,web</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">traefik.ingress.kubernetes.io/router.middlewares</span>: <span style="color:#ae81ff">default-redirect-https@kubernetescrd</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">host</span>: <span style="color:#ae81ff">teapot.octopusx.de</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">pathType</span>: <span style="color:#ae81ff">Prefix</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tls</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;tls-secret-name&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#ae81ff">teapot.octopusx.de</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ssh</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LoadBalancer</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">persistence</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">size</span>: <span style="color:#ae81ff">30Gi</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">accessModes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">ReadWriteOnce</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">redis-cluster</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">postgresql-ha</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">gitea</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">actions</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ENABLED</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">server</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">START_SSH_SERVER</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ROOT_URL</span>: <span style="color:#ae81ff">https://teapot.octopusx.de</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">DISABLE_REGISTRATION</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">cache</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ENABLED</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">session</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">PROVIDER</span>: <span style="color:#ae81ff">db</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">database</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">DB_TYPE</span>: <span style="color:#ae81ff">postgres</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">HOST</span>: <span style="color:#ae81ff">&lt;postgres-url&gt;:&lt;postgres-port&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">NAME</span>: <span style="color:#ae81ff">teapot</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">USER</span>: <span style="color:#ae81ff">teapot</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">PASSWD</span>: <span style="color:#e6db74">&#34;&lt;PASSWORD&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">SCHEMA</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span></code></pre></div><p>For the database connection to be established I had pre-created a teapot database and user in my postges instance, like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> teapot
+</span></span><span style="display:flex;"><span>      LOGIN
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ENCRYPTED</span> PASSWORD <span style="color:#e6db74">&#39;&lt;password&gt;&#39;</span>;
+</span></span><span style="display:flex;"><span>	  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">DATABASE</span> teapot
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">ENCODING</span> <span style="color:#e6db74">&#39;UTF8&#39;</span>
+</span></span><span style="display:flex;"><span>      LC_COLLATE<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;C&#39;</span>
+</span></span><span style="display:flex;"><span>      LC_CTYPE<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;C&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">template</span><span style="color:#f92672">=</span>template0
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">OWNER</span> teapot;
+</span></span></code></pre></div><p>Armed with the database credentials, we can now deploy the chart:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install teapot . --set gitea.gitea.postgresql.password<span style="color:#f92672">=</span>&lt;PASSWORD&gt; --set gitea.gitea.admin.password<span style="color:#f92672">=</span>&lt;PASSWORD&gt;
+</span></span></code></pre></div><p>With the following result:
+<img src="teapot_lens.png" alt="teapot lens"></p>
+<p>We can now log into our new instance, in my case under <a href="https://teapot.octopusx.de">https://teapot.octopusx.de</a>, as <code>gitea_admin</code> with the password we just set and start messing around.</p>
+<h2 id="gitea-runner">Gitea Runner</h2>
+<p>Now that we have our Gitea instance up and running, we need to create a runner to be able to deploy the library chart.</p>
+<p>The Gitea act runner is easiest deployed as a container. I won&rsquo;t get into too much detail on how you can confiture it as Gitea&rsquo;s documentation is very detailed already: <a href="https://docs.gitea.com/next/usage/actions/act-runner">https://docs.gitea.com/next/usage/actions/act-runner</a>. What I will point to in addition though is the examples folder in the gitea act runner repo, to be found here: <a href="https://gitea.com/gitea/act_runner/src/branch/main/examples">https://gitea.com/gitea/act_runner/src/branch/main/examples</a>. Having read this I have realised that it basically needs to orchestrate a docker daemon, docker-in-docker style. This is generally not a good idea inside of a Kubernetes cluster, for practical as well as security reasons. I have therefore opted to run this workload in its own LXC container on one of my proxmox servers instead. I installed docker inside of the of my LXC and ran the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -v $PWD/config.yaml:/config.yaml <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -v $PWD/data:/data <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -v /var/run/docker.sock:/var/run/docker.sock <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -e CONFIG_FILE<span style="color:#f92672">=</span>/config.yaml <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -e GITEA_INSTANCE_URL<span style="color:#f92672">=</span>https://teapot.octopusx.de:443 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -e GITEA_RUNNER_REGISTRATION_TOKEN<span style="color:#f92672">=</span>&lt;get your own token lol&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -e GITEA_RUNNER_NAME<span style="color:#f92672">=</span>act01 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -e GITEA_RUNNER_LABELS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ubuntu-22.04:docker://node:18-bullseye&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --name act_runner <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    -d gitea/act_runner:nightly
+</span></span></code></pre></div><p>If you&rsquo;re wandering how to get the registration token from your Gitea server, I recommend reading the quick start guide: <a href="https://docs.gitea.com/next/usage/actions/quickstart">https://docs.gitea.com/next/usage/actions/quickstart</a>.</p>
+<p>And here we go, a newly registered runner, fresh out of the LXC and still warm:
+<img src="act_runner.png" alt="Gitea Actions Runner"></p>
+<h2 id="library-chart-repository">Library Chart Repository</h2>
+<p>I don&rsquo;t think I need to tell you how to create a new repository in Gitea do I? To make scoping and access rights management easier in the future I created an organization first, called it octocloudlab. It is hard to find good names that aren&rsquo;t already copy righted, so I thought this one is just nonsense enough to get the job done. I then created a new repository called library-chart under this new organization. I did not want to just create a fork of k8s-at-home library-charts repository, as that was indeed a complex project that would be somewhat hard for one person to wrap their head around. The original repository was shared under the Apache 2.0 license, so I started by creating a README.md with the appropriate attributions to the original project contributors (<a href="https://teapot.octopusx.de/octocloudlab/library-chart/src/branch/main/ATTRIBUTION.md">which you can find here</a>). Then I tool just the stable common chart from here: <a href="https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common">https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common</a> to use as the blueprint for my release. BTW, this is the first time I am basing a project on someone else&rsquo;s work, if you think I could have done anything better when it comes to attribution or other license-related issues, please let me know on the socials.</p>
+<p>Before I committed it to my new repository I made sure to update all of the metadata, removing any references to the original contributors and documentation from the code itself, in order to make sure there are no misunderstandings as to who the maintainer of this repository is and where one should go to seek help if necessary.</p>
+<p>To update all of the auto-generated Helm documentation I then ran:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm-docs generate -t README_CHANGELOG.md.gotpl -t README_CONFIG.md.gotpl -t README.md.gotpl
+</span></span></code></pre></div><p>from inside the <code>chart</code> folder, which produced the updated <code>README.md</code>.</p>
+<p>The final result is a clean and simple, publicly available repository with just the necessary basics to allow me to maintain and update the common library chart for my own benefits.</p>
+<p><img src="library_chart.png" alt="Library Chart"></p>
+<p>Should you wish to explore it, feel free to visit <a href="https://teapot.octopusx.de/octocloudlab/library-chart/">https://teapot.octopusx.de/octocloudlab/library-chart/</a>.</p>
+<h2 id="gitea-action">Gitea Action</h2>
+<p>Gitea&rsquo;s actions system is drop-in compatible with Github actions. Even better, by default they use the Github actions repository and you can use use the same workflows and ready-made actions that you normally see on Github. For me this is a fantastic opportunity to try out and learn Github actions, which my company uses at work but I had no opportunity to play with. So, the first thing I decided to do is run a test demo workflow to make sure that my runners are operating correctly. I found this demo example on Gitea&rsquo;s blog here <a href="https://blog.gitea.com/feature-preview-gitea-actions/">https://blog.gitea.com/feature-preview-gitea-actions/</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Gitea Actions Demo</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">${{ github.actor }} is testing out Gitea Actions 🚀</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>: [<span style="color:#ae81ff">push]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Explore-Gitea-Actions</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">echo &#34;🎉 The job was automatically triggered by a ${{ github.event_name }} event.&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">echo &#34;🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">echo &#34;🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}.&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Check out repository code</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v3</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">echo &#34;💡 The ${{ github.repository }} repository has been cloned to the runner.&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">echo &#34;🖥️ The workflow is now ready to test your code on the runner.&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">List files in the repository</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          </span>          <span style="color:#ae81ff">ls ${{ github.workspace }}</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">echo &#34;🍏 This job&#39;s status is ${{ job.status }}.&#34;</span>
+</span></span></code></pre></div><p>I added this to <code>.gitea/workflows/demo.yaml</code> in my <code>library-chart</code> repo and&hellip; nothing. The action was waiting forever. This is the point where I have learned that actions and act runners need to have matching labels. In this case, the</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-latest</span>
+</span></span></code></pre></div><p>has to match the label <code>ubuntu-22.04:docker://node:18-bullseye</code> on my action runner in order for it to pick up the action. The interesting and unusual thing about this system is that this label (or tag) not only identifies the runner but also provides the specification of what the runner is capable of. In this case:</p>
+<pre tabindex="0"><code>ubuntu-22.04 : docker       : // node:18-bullseye
+Runner OS    : runner type  : docker image used
+</code></pre><p>So, once we fixed that and labeled the job and the runner correctly, it triggered on the next push and executed no problem. Let&rsquo;s move onto the actual workflow that we want to build though. The strength of the actions model is that they are reusable and you can find a multitude of pre-configured workflows to use in your own pipelines straight on Github&rsquo;s &ldquo;marketplace&rdquo;: <a href="https://github.com/marketplace?type=actions">https://github.com/marketplace?type=actions</a>. What I tried to do was:</p>
+<ul>
+<li>check out the project</li>
+<li>package up the helm chart</li>
+<li>push the new package to the gitea registry</li>
+</ul>
+<p>To check out the repo we can use the same action as the demo action, i.e. <code>actions/checkout@v4</code>. I then tried using plain <code>run</code> commands that allow you to execute arbitrary bash code, but my action was slowly becoming pretty complex. This is because I would have to:</p>
+<ul>
+<li>install helm</li>
+<li>install helm plugin cm-push</li>
+<li>add my gitea registry as helm repository</li>
+<li>package the chart</li>
+<li>publish the package to the helm repository</li>
+</ul>
+<p>I started searching for a ready made Github action, thinking that someone must have needed this functionality at some point, and yeah, I found one pretty quickly. The <code>bsord/helm-push@v4.1.0</code> does all of the above in a single step with minimal configuration needed. It had some problems itself, as for some reason all of the documentation for it was listing a non-existent <code>4.2.0</code> tag, and without the <code>v</code>, so it took me a while to figure out why the heck it&rsquo;s failing. Finally though, I made it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Gitea Actions Demo</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">${{ gitea.actor }} is testing out Gitea Actions 🚀</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workflow_dispatch</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">main</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#39;chart/**&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Explore-Gitea-Actions</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-22.04:docker://node:18-bullseye</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Check out repository code</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v4</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Push Helm Chart to Gitea Registry</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">bsord/helm-push@v4.1.0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">username</span>: <span style="color:#ae81ff">${{ secrets.USERNAME }}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">password</span>: <span style="color:#ae81ff">${{ secrets.PUBLIC_PACKAGE_WRITE }}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">registry-url</span>: <span style="color:#e6db74">&#39;https://teapot.octopusx.de/api/packages/octocloudlab/helm&#39;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">force</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">chart-folder</span>: <span style="color:#ae81ff">chart</span>
+</span></span></code></pre></div><p>This is basically all I needed to get this basic workflow running. Now, this workflow will be triggered each time a change to the <code>chart</code> folder in the <code>main</code> branch is made. In order to be able to download and use this library chart you can now do the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add octocloudlab https://teapot.octopusx.de/api/packages/octocloudlab/helm
+</span></span><span style="display:flex;"><span>helm repo update
+</span></span></code></pre></div><p>And to include it in your helm chart add the following to your dependencies section in the <code>Chart.yaml</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e">## Chart.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">name</span>: <span style="color:#ae81ff">common</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">4.5.2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">https://teapot.octopusx.de/api/packages/octocloudlab/helm</span>
+</span></span></code></pre></div><h2 id="what-now">What now?</h2>
+<p>Now that I have this library chart published and a way to modify it and publish patches reliably, I will slowly replace the current helm chart that I am using in my infrastructure with a version of them that is based on this library chart. Since at this point I haven&rsquo;t made any changes to the k8s-at-home library chart this should be a drop in replacement. Then, going forward, I will start adapting the library chart to my needs, adding capabilities that I am missing in my homelab and trying to patch it for newer versions of kubernetes API.</p>
+<p>The first victim on the chopping block however will be the chart I pieced together to deploy <code>refact.ai</code>, about which you can read in my previous blog entry. As far as I know there is no official helm chart for that project, so it will be interesting to publish a nice clean helm chart for them and see if anyone, besides me, actually ends up using it.</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        2252 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-11-05 22:24
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/kubes_and_gpus/">
+                    <span class="button__text">Kubes and GPUs</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Comptent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>
