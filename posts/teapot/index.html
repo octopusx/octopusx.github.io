@@ -38,7 +38,7 @@
 <meta itemprop="name" content="Teapot - host your own helm chart registry">
 <meta itemprop="description" content="For a while I wanted to host my own helm chart registry and automate my chart build, release and deployment processes. As a homelaber, a one man band, the more things happen on their own without my manual involvement the better. Self hosting to me also means self reliance and local storage for most things needed in order to build and run my services, and getting my own registry is getting one step closer to that goal."><meta itemprop="datePublished" content="2023-11-06T00:24:20+02:00" />
 <meta itemprop="dateModified" content="2023-11-06T00:24:20+02:00" />
-<meta itemprop="wordCount" content="2252"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="wordCount" content="2250"><meta itemprop="image" content="https://blog.octopusx.de/"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.octopusx.de/"/>
@@ -317,8 +317,8 @@ Runner OS    : runner type  : docker image used
 <li>publish the package to the helm repository</li>
 </ul>
 <p>I started searching for a ready made Github action, thinking that someone must have needed this functionality at some point, and yeah, I found one pretty quickly. The <code>bsord/helm-push@v4.1.0</code> does all of the above in a single step with minimal configuration needed. It had some problems itself, as for some reason all of the documentation for it was listing a non-existent <code>4.2.0</code> tag, and without the <code>v</code>, so it took me a while to figure out why the heck it&rsquo;s failing. Finally though, I made it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Gitea Actions Demo</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">${{ gitea.actor }} is testing out Gitea Actions 🚀</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Publishing Chart</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">Publishing Helm Library Chart to the Teapot Registry</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">workflow_dispatch</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
@@ -370,7 +370,7 @@ Runner OS    : runner type  : docker image used
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        2252 Words
+        2250 Words
       </p>
 
       <p>
