@@ -3,10 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.octopusx.de/</loc>
-    <lastmod>2023-11-06T00:24:20+02:00</lastmod>
+    <lastmod>2023-11-06T20:19:18+02:00</lastmod>
   </url><url>
     <loc>https://blog.octopusx.de/posts/</loc>
-    <lastmod>2023-11-06T00:24:20+02:00</lastmod>
+    <lastmod>2023-11-06T20:19:18+02:00</lastmod>
+  </url><url>
+    <loc>https://blog.octopusx.de/posts/refact_chart/</loc>
+    <lastmod>2023-11-06T20:19:18+02:00</lastmod>
   </url><url>
     <loc>https://blog.octopusx.de/posts/teapot/</loc>
     <lastmod>2023-11-06T00:24:20+02:00</lastmod>

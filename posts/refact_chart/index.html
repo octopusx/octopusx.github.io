@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Let&amp;rsquo;s get charting! I honestly wasn&amp;rsquo;t expecting to be writing this post quite so soon, but it turns out that the library chart we adapted from the k8s-at-home is extremely versatile and that their old github actions translate very well to my new Teapot instance. So, let&amp;rsquo;s have a look at what it takes to create an application chart and publish it with our awesome new setup.
+Starting point The starting point is our hand-written set of kubernetes templates that we wrapped into a helm chart to deploy in our kubes and gpus tutorial." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/refact_chart/" />
+
+
+    <title>
+        
+            Refact Helm Chart :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Refact Helm Chart">
+<meta itemprop="description" content="Let&rsquo;s get charting! I honestly wasn&rsquo;t expecting to be writing this post quite so soon, but it turns out that the library chart we adapted from the k8s-at-home is extremely versatile and that their old github actions translate very well to my new Teapot instance. So, let&rsquo;s have a look at what it takes to create an application chart and publish it with our awesome new setup.
+Starting point The starting point is our hand-written set of kubernetes templates that we wrapped into a helm chart to deploy in our kubes and gpus tutorial."><meta itemprop="datePublished" content="2023-11-06T20:19:18+02:00" />
+<meta itemprop="dateModified" content="2023-11-06T20:19:18+02:00" />
+<meta itemprop="wordCount" content="1059"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Refact Helm Chart"/>
+<meta name="twitter:description" content="Let&rsquo;s get charting! I honestly wasn&rsquo;t expecting to be writing this post quite so soon, but it turns out that the library chart we adapted from the k8s-at-home is extremely versatile and that their old github actions translate very well to my new Teapot instance. So, let&rsquo;s have a look at what it takes to create an application chart and publish it with our awesome new setup.
+Starting point The starting point is our hand-written set of kubernetes templates that we wrapped into a helm chart to deploy in our kubes and gpus tutorial."/>
+
+
+
+    <meta property="og:title" content="Refact Helm Chart" />
+<meta property="og:description" content="Let&rsquo;s get charting! I honestly wasn&rsquo;t expecting to be writing this post quite so soon, but it turns out that the library chart we adapted from the k8s-at-home is extremely versatile and that their old github actions translate very well to my new Teapot instance. So, let&rsquo;s have a look at what it takes to create an application chart and publish it with our awesome new setup.
+Starting point The starting point is our hand-written set of kubernetes templates that we wrapped into a helm chart to deploy in our kubes and gpus tutorial." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/refact_chart/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-06T20:19:18+02:00" />
+<meta property="article:modified_time" content="2023-11-06T20:19:18+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-11-06 20:19:18 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        5 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/refact_chart/">Refact Helm Chart</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>Let&rsquo;s get charting! I honestly wasn&rsquo;t expecting to be writing this post quite so soon, but it turns out that the library chart we adapted from the <a href="https://github.com/k8s-at-home/library-charts">k8s-at-home</a> is extremely versatile and that their old github actions translate very well to my new <a href="https://teapot.octopusx.de">Teapot</a> instance. So, let&rsquo;s have a look at what it takes to create an application chart and publish it with our awesome new setup.</p>
+<h2 id="starting-point">Starting point</h2>
+<p>The starting point is our hand-written set of kubernetes templates that we wrapped into a helm chart to deploy in our <a href="https://blog.octopusx.de/posts/kubes_and_gpus/">kubes and gpus tutorial</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Source: refact/templates/service.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">helm.sh/chart</span>: <span style="color:#ae81ff">refact-0.1.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/instance</span>: <span style="color:#ae81ff">release-name</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/version</span>: <span style="color:#e6db74">&#34;latest&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/managed-by</span>: <span style="color:#ae81ff">Helm</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ClusterIP</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8008</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">targetPort</span>: <span style="color:#ae81ff">http</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">http</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/instance</span>: <span style="color:#ae81ff">release-name</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Source: refact/templates/deployment.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">helm.sh/chart</span>: <span style="color:#ae81ff">refact-0.1.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/instance</span>: <span style="color:#ae81ff">release-name</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/version</span>: <span style="color:#e6db74">&#34;latest&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/managed-by</span>: <span style="color:#ae81ff">Helm</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">serviceName</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">revisionHistoryLimit</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app.kubernetes.io/name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app.kubernetes.io/instance</span>: <span style="color:#ae81ff">release-name</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app.kubernetes.io/name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app.kubernetes.io/instance</span>: <span style="color:#ae81ff">release-name</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">hostNetwork</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">runtimeClassName</span>: <span style="color:#ae81ff">nvidia</span> <span style="color:#75715e"># IMPORTANT!</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">dnsPolicy</span>: <span style="color:#ae81ff">ClusterFirstWithHostNet</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">enableServiceLinks</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#34;smallcloud/refact_self_hosting:latest&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">securityContext</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">privileged</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;TZ&#34;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;UTC+02:00&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">http</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">8008</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">data</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/perm_storage</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">affinity</span>: <span style="color:#75715e"># This is how we tell it to only spawn on the node with our GPU</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">nodeAffinity</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">requiredDuringSchedulingIgnoredDuringExecution</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">nodeSelectorTerms</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">matchExpressions</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">key</span>: <span style="color:#ae81ff">gpu</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">operator</span>: <span style="color:#ae81ff">Exists</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">data</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">persistentVolumeClaim</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">claimName</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Source: refact/templates/ingress.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">helm.sh/chart</span>: <span style="color:#ae81ff">refact-0.1.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/instance</span>: <span style="color:#ae81ff">release-name</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/version</span>: <span style="color:#e6db74">&#34;latest&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">app.kubernetes.io/managed-by</span>: <span style="color:#ae81ff">Helm</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetes.io/ingress.class</span>: <span style="color:#75715e"># insert your own ingress class to use</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># insert any other annotations you need for your ingress controller</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tls</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#ae81ff">refact.example.com</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">secretName</span>: <span style="color:#e6db74">&#34;wildcard-cert&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">host</span>: <span style="color:#ae81ff">refact.example.com</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">http</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">path</span>: <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">pathType</span>: <span style="color:#ae81ff">Prefix</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">backend</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">name</span>: <span style="color:#ae81ff">refact</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">port</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">number</span>: <span style="color:#ae81ff">8008</span>
+</span></span></code></pre></div><h2 id="the-new-base">The new base</h2>
+<!-- raw HTML omitted -->
+<p>So, to host my helm charts based on the common library chart I made a new repository: <a href="https://teapot.octopusx.de/octocloudlab/chart-catalog">https://teapot.octopusx.de/octocloudlab/chart-catalog</a>. Nothing special here, basically just a <code>charts</code> folder where all of our, yes you guessed it, charts will live. So we create a folder in that folder, and it is called refact.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── ATTRIBUTION.md
+</span></span><span style="display:flex;"><span>├── charts
+</span></span><span style="display:flex;"><span>│   └── refact
+</span></span><span style="display:flex;"><span>│       ├── Chart.lock
+</span></span><span style="display:flex;"><span>│       ├── charts
+</span></span><span style="display:flex;"><span>│       │   └── common-4.5.2.tgz
+</span></span><span style="display:flex;"><span>│       ├── Chart.yaml
+</span></span><span style="display:flex;"><span>│       ├── README.md
+</span></span><span style="display:flex;"><span>│       ├── templates
+</span></span><span style="display:flex;"><span>│       │   ├── common.yaml
+</span></span><span style="display:flex;"><span>│       │   └── NOTES.txt
+</span></span><span style="display:flex;"><span>│       └── values.yaml
+</span></span><span style="display:flex;"><span>├── LICENSE
+</span></span><span style="display:flex;"><span>└── README.md
+</span></span></code></pre></div><p>What I normally did in the past when I was including a downstream chart I would add this to my <code>Chart.yaml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">common</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#ae81ff">4.5.2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">https://git.octopusx.de/api/packages/octopusx/helm</span>
+</span></span></code></pre></div><p>Then I would add a <code>common</code> (in this case) block in my <code>values.yaml</code> file, and all of the configs related to this dependency would live inside:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">common</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">image</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">smallcloud/refact_self_hosting</span>
+</span></span></code></pre></div><p>Inspecting the original charts in the k8s-at-home repo however shows us that they aren&rsquo;t doing that. All of the parent chart values are defined in the top scope. How do they do that? The answer is in that extra <code>templates/common.yaml</code> file, let&rsquo;s take a look.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>{{ <span style="color:#ae81ff">include &#34;common.all&#34; . }}</span>
+</span></span></code></pre></div><p>This simple template basically declares that it will render the <code>common.all</code> template declared in the <code>common</code> child chart, which itself consumes the <code>.Values</code> scope and we can skip the extra scope from the import. Neat.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># common: &lt;- no longer needed</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">smallcloud/refact_self_hosting</span>
+</span></span></code></pre></div><h2 id="publishing-the-chart">Publishing the chart</h2>
+<!-- raw HTML omitted -->
+<p>When I was starting work on this part I expected complications. Mostly because I am not very familiar with the actions CI/CD model and I wasn&rsquo;t sure what I need to do to get it to deploy every chart in the <code>charts</code> directory, whenever there is a change. Aaaaaand&hellip; it wasn&rsquo;t a problem at all. The same action I used in the <a href="https://blog.octopusx.de/posts/teapot/">Teapot</a> blog post can be passed list of directories as a wildcard, and it will iterate over them and run the release flow on them all.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Publishing Charts</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">Publishing Helm Charts to the Teapot Registry</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workflow_dispatch</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">main</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;charts/**&#34;</span> <span style="color:#75715e"># So we updated the trigger slightly</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Explore-Gitea-Actions</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-22.04:docker://node:18-bullseye</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Check out repository code</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v4</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Push Helm Chart to Gitea Registry</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">bsord/helm-push@v4.1.0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">username</span>: <span style="color:#ae81ff">${{ secrets.USERNAME }}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">password</span>: <span style="color:#ae81ff">${{ secrets.PUBLIC_PACKAGE_WRITE }}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">registry-url</span>: <span style="color:#e6db74">&#39;https://teapot.octopusx.de/api/packages/octocloudlab/helm&#39;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">force</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">chart-folder</span>: <span style="color:#ae81ff">charts/*</span> <span style="color:#75715e"># And another change in this line, and that&#39;s it</span>
+</span></span></code></pre></div><h2 id="achievement-unlocked">Achievement unlocked!</h2>
+<p>Now, we can use the standardized <code>values.yaml</code> as long as we are using the <code>common</code> library chart. The resulting set of kubernetes templates is functionally identical, with a few extra bits that I hadn&rsquo;t bothered to include before, such as a full complement of labels across all the objects as well as status probes on in the deployment.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/chart-catalog/c/refact main ❯ helm template .
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Source: refact/templates/common.yaml</span>
+</span></span><span style="display:flex;"><span>apiVersion: v1
+</span></span><span style="display:flex;"><span>kind: Service
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  name: release-name-refact
+</span></span><span style="display:flex;"><span>  labels:
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/instance: release-name
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/managed-by: Helm
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/name: refact
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/version: v1.1.0
+</span></span><span style="display:flex;"><span>    helm.sh/chart: refact-0.1.0
+</span></span><span style="display:flex;"><span>  annotations:
+</span></span><span style="display:flex;"><span>spec:
+</span></span><span style="display:flex;"><span>  type: ClusterIP
+</span></span><span style="display:flex;"><span>  ports:
+</span></span><span style="display:flex;"><span>  - port: <span style="color:#ae81ff">8008</span>
+</span></span><span style="display:flex;"><span>    targetPort: http
+</span></span><span style="display:flex;"><span>    protocol: TCP
+</span></span><span style="display:flex;"><span>    name: http
+</span></span><span style="display:flex;"><span>  selector:
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/name: refact
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/instance: release-name
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Source: refact/templates/common.yaml</span>
+</span></span><span style="display:flex;"><span>apiVersion: apps/v1
+</span></span><span style="display:flex;"><span>kind: Deployment
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  name: release-name-refact
+</span></span><span style="display:flex;"><span>  labels:
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/instance: release-name
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/managed-by: Helm
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/name: refact
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/version: v1.1.0
+</span></span><span style="display:flex;"><span>    helm.sh/chart: refact-0.1.0
+</span></span><span style="display:flex;"><span>spec:
+</span></span><span style="display:flex;"><span>  revisionHistoryLimit: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  replicas: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  strategy:
+</span></span><span style="display:flex;"><span>    type: Recreate
+</span></span><span style="display:flex;"><span>  selector:
+</span></span><span style="display:flex;"><span>    matchLabels:
+</span></span><span style="display:flex;"><span>      app.kubernetes.io/name: refact
+</span></span><span style="display:flex;"><span>      app.kubernetes.io/instance: release-name
+</span></span><span style="display:flex;"><span>  template:
+</span></span><span style="display:flex;"><span>    metadata:
+</span></span><span style="display:flex;"><span>      labels:
+</span></span><span style="display:flex;"><span>        app.kubernetes.io/name: refact
+</span></span><span style="display:flex;"><span>        app.kubernetes.io/instance: release-name
+</span></span><span style="display:flex;"><span>    spec:
+</span></span><span style="display:flex;"><span>      serviceAccountName: default
+</span></span><span style="display:flex;"><span>      automountServiceAccountToken: true
+</span></span><span style="display:flex;"><span>      runtimeClassName: nvidia
+</span></span><span style="display:flex;"><span>      dnsPolicy: ClusterFirst
+</span></span><span style="display:flex;"><span>      enableServiceLinks: true
+</span></span><span style="display:flex;"><span>      containers:
+</span></span><span style="display:flex;"><span>        - name: release-name-refact
+</span></span><span style="display:flex;"><span>          image: <span style="color:#e6db74">&#34;smallcloud/refact_self_hosting:latest&#34;</span>
+</span></span><span style="display:flex;"><span>          imagePullPolicy: IfNotPresent
+</span></span><span style="display:flex;"><span>          ports:
+</span></span><span style="display:flex;"><span>            - name: http
+</span></span><span style="display:flex;"><span>              containerPort: <span style="color:#ae81ff">8008</span>
+</span></span><span style="display:flex;"><span>              protocol: TCP
+</span></span><span style="display:flex;"><span>          livenessProbe:
+</span></span><span style="display:flex;"><span>            tcpSocket:
+</span></span><span style="display:flex;"><span>              port: <span style="color:#ae81ff">8008</span>
+</span></span><span style="display:flex;"><span>            initialDelaySeconds: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            failureThreshold: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>            timeoutSeconds: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            periodSeconds: <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>          readinessProbe:
+</span></span><span style="display:flex;"><span>            tcpSocket:
+</span></span><span style="display:flex;"><span>              port: <span style="color:#ae81ff">8008</span>
+</span></span><span style="display:flex;"><span>            initialDelaySeconds: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            failureThreshold: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>            timeoutSeconds: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            periodSeconds: <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>          startupProbe:
+</span></span><span style="display:flex;"><span>            tcpSocket:
+</span></span><span style="display:flex;"><span>              port: <span style="color:#ae81ff">8008</span>
+</span></span><span style="display:flex;"><span>            initialDelaySeconds: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            failureThreshold: <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>            timeoutSeconds: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            periodSeconds: <span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>      affinity:
+</span></span><span style="display:flex;"><span>        nodeAffinity:
+</span></span><span style="display:flex;"><span>          requiredDuringSchedulingIgnoredDuringExecution:
+</span></span><span style="display:flex;"><span>            nodeSelectorTerms:
+</span></span><span style="display:flex;"><span>            - matchExpressions:
+</span></span><span style="display:flex;"><span>              - key: gpu
+</span></span><span style="display:flex;"><span>                operator: Exists
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Source: refact/templates/common.yaml</span>
+</span></span><span style="display:flex;"><span>apiVersion: networking.k8s.io/v1
+</span></span><span style="display:flex;"><span>kind: Ingress
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  name: release-name-refact
+</span></span><span style="display:flex;"><span>  labels:
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/instance: release-name
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/managed-by: Helm
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/name: refact
+</span></span><span style="display:flex;"><span>    app.kubernetes.io/version: v1.1.0
+</span></span><span style="display:flex;"><span>    helm.sh/chart: refact-0.1.0
+</span></span><span style="display:flex;"><span>  annotations:
+</span></span><span style="display:flex;"><span>    kubernetes.io/ingress.class: traefik-210
+</span></span><span style="display:flex;"><span>    traefik.ingress.kubernetes.io/router.entrypoints: websecure,web
+</span></span><span style="display:flex;"><span>    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+</span></span><span style="display:flex;"><span>spec:
+</span></span><span style="display:flex;"><span>  tls:
+</span></span><span style="display:flex;"><span>    - hosts:
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#34;refact.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>      secretName: <span style="color:#e6db74">&#34;wildcard-cert&#34;</span>
+</span></span><span style="display:flex;"><span>  rules:
+</span></span><span style="display:flex;"><span>    - host: <span style="color:#e6db74">&#34;refact.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>      http:
+</span></span><span style="display:flex;"><span>        paths:
+</span></span><span style="display:flex;"><span>          - path: <span style="color:#e6db74">&#34;/&#34;</span>
+</span></span><span style="display:flex;"><span>            pathType: Prefix
+</span></span><span style="display:flex;"><span>            backend:
+</span></span><span style="display:flex;"><span>              service:
+</span></span><span style="display:flex;"><span>                name: release-name-refact
+</span></span><span style="display:flex;"><span>                port:
+</span></span><span style="display:flex;"><span>                  number: <span style="color:#ae81ff">8008</span>
+</span></span></code></pre></div><p>If you want to use my new <code>Refact</code> chart in your own Kubernetes cluster, feel free to add my new <a href="https://teapot.octopusx.de">Teapot</a> repository like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add teapot https://teapot.octopusx.de/api/packages/octocloudlab/helm
+</span></span><span style="display:flex;"><span>helm repo update
+</span></span></code></pre></div><p>Then install it with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install refact teapot/refact --values &lt;your own values file&gt;.yaml
+</span></span></code></pre></div><p>Enjoy!</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        1059 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-11-06 18:19
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/teapot/">
+                    <span class="button__text">Teapot - host your own helm chart registry</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Competent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>
