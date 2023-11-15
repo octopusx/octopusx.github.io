@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 06 Nov 2023 20:19:18 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Nov 2023 23:39:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bluewind - let&#39;s make a smart bluetooth fan smart again!</title>
+      <link>https://blog.octopusx.de/posts/bluewind/</link>
+      <pubDate>Wed, 15 Nov 2023 23:39:00 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/bluewind/</guid>
+      <description>In a recent surprising turn of events, I got to connect with some listeners of Jupiter Broadcasting shows, one of which happens to be involved in organizing the Berlin Hack and Tell meetup, which is a cool monthly event where people do short demos of cool projects they had hacked together. After some chatting with this funky group of tech enthusiasts, I was encouraged to present some of my project that seem to be a perfect fit for Berlin Hack and Tell, so ahead of submitting my lightning talk, I wanted to make a blog post here first to put down in words how this project came to be and what it actually is, in case anyone fancies finding out more about it.</description>
+    </item>
+    
     <item>
       <title>Refact Helm Chart</title>
       <link>https://blog.octopusx.de/posts/refact_chart/</link>

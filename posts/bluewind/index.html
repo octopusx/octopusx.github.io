@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="In a recent surprising turn of events, I got to connect with some listeners of Jupiter Broadcasting shows, one of which happens to be involved in organizing the Berlin Hack and Tell meetup, which is a cool monthly event where people do short demos of cool projects they had hacked together. After some chatting with this funky group of tech enthusiasts, I was encouraged to present some of my project that seem to be a perfect fit for Berlin Hack and Tell, so ahead of submitting my lightning talk, I wanted to make a blog post here first to put down in words how this project came to be and what it actually is, in case anyone fancies finding out more about it." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/bluewind/" />
+
+
+    <title>
+        
+            Bluewind - let&#39;s make a smart bluetooth fan smart again! :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Bluewind - let&#39;s make a smart bluetooth fan smart again!">
+<meta itemprop="description" content="In a recent surprising turn of events, I got to connect with some listeners of Jupiter Broadcasting shows, one of which happens to be involved in organizing the Berlin Hack and Tell meetup, which is a cool monthly event where people do short demos of cool projects they had hacked together. After some chatting with this funky group of tech enthusiasts, I was encouraged to present some of my project that seem to be a perfect fit for Berlin Hack and Tell, so ahead of submitting my lightning talk, I wanted to make a blog post here first to put down in words how this project came to be and what it actually is, in case anyone fancies finding out more about it."><meta itemprop="datePublished" content="2023-11-15T23:39:00+02:00" />
+<meta itemprop="dateModified" content="2023-11-15T23:39:00+02:00" />
+<meta itemprop="wordCount" content="2658"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Bluewind - let&#39;s make a smart bluetooth fan smart again!"/>
+<meta name="twitter:description" content="In a recent surprising turn of events, I got to connect with some listeners of Jupiter Broadcasting shows, one of which happens to be involved in organizing the Berlin Hack and Tell meetup, which is a cool monthly event where people do short demos of cool projects they had hacked together. After some chatting with this funky group of tech enthusiasts, I was encouraged to present some of my project that seem to be a perfect fit for Berlin Hack and Tell, so ahead of submitting my lightning talk, I wanted to make a blog post here first to put down in words how this project came to be and what it actually is, in case anyone fancies finding out more about it."/>
+
+
+
+    <meta property="og:title" content="Bluewind - let&#39;s make a smart bluetooth fan smart again!" />
+<meta property="og:description" content="In a recent surprising turn of events, I got to connect with some listeners of Jupiter Broadcasting shows, one of which happens to be involved in organizing the Berlin Hack and Tell meetup, which is a cool monthly event where people do short demos of cool projects they had hacked together. After some chatting with this funky group of tech enthusiasts, I was encouraged to present some of my project that seem to be a perfect fit for Berlin Hack and Tell, so ahead of submitting my lightning talk, I wanted to make a blog post here first to put down in words how this project came to be and what it actually is, in case anyone fancies finding out more about it." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/bluewind/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-15T23:39:00+02:00" />
+<meta property="article:modified_time" content="2023-11-15T23:39:00+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-11-15 23:39:00 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li>
+        <div class="submenu">
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn">en</a>
+                <div class="dropdown-content">
+                    
+                </div>
+            </li>
+        </div>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        13 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/bluewind/">Bluewind - let&rsquo;s make a smart bluetooth fan smart again!</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>In a recent surprising turn of events, I got to connect with some listeners of Jupiter Broadcasting shows, one of which happens to be involved in organizing the Berlin Hack and Tell meetup, which is a cool monthly event where people do short demos of cool projects they had hacked together. After some chatting with this funky group of tech enthusiasts, I was encouraged to present some of my project that seem to be a perfect fit for Berlin Hack and Tell, so ahead of submitting my lightning talk, I wanted to make a blog post here first to put down in words how this project came to be and what it actually is, in case anyone fancies finding out more about it.</p>
+<h2 id="give-yourself-no-excuse">Give yourself no excuse</h2>
+<p>When it comes to building positive habits, including trying to exercise regularly, I find it important to lower the barrier to entry for myself. One of the ways that I have achieved this is having an indoor cycling setup with a bike on a turbo in front of a TV screen. The bike is always ready, the turbo can be turned on remotely from my phone and controlled by a sports app that suggests me the optimal workout for each day. I try to always have fresh cycling clothes ready. No need for my brain to perform mental gymnastics and participation in a self indulgent competition of making up excuses related to all those minor inconveniences, seemingly rendering me incapable of just jumping on a bike and sweating out some of my frustrations and calories that I could really do with getting rid of.</p>
+<p>As a techie the gadgetry side of sport science is very appealing to me and naturally I have eventually paired my turbo trainer with an expensive bluetooth fan which promised seamless integration into my indoor cycling ecosystem of gadgets. Alas, it was not meant to be. The fan is able to simulate wind speed of up to 25km/h. However the indoor trainer does not simulate correct speed in ERG mode, and that is the mode I predominantly use for my training (using TrainerRoad). The fan can also track your heard rate, but for whatever reason it would never reach the full speed no matter how high my HR had gotten during the workouts I had tried this feature on. This has left me stuck with the manual speed mode, where I must adjust the speed myself between the 4 predefined speed presets. That would not be a big issue had it not been for the fact that in order to use this option I have to either:</p>
+<ul>
+<li>Jump off the bike in order to reach the buttons of this, so called, &ldquo;smart&rdquo; fan</li>
+<li>Switch apps on my phone multiple times mid ride from TrainerRoad to the Wahoo app and back in order to adjust</li>
+</ul>
+<p>This was not ideal and definitely did not match my usual &ldquo;low barrier to entry&rdquo; vision for how I like to enjoy my indoor sweating time. And don&rsquo;t get me wrong, this fan is fantastic (pun intended) and does a great job in the core area of its functionality - being a fan and cooling me down, but I decided to take the matter in my own hands and take it up a notch from good to great!</p>
+<h2 id="research">Research</h2>
+<p>First things first, we need to see what is already available. A search and a look around had uncovered a github repository which we can use as a code donor for our project: <a href="https://github.com/garanj/wearwind">https://github.com/garanj/wearwind</a>. Although it is a Java project, an application for Android wear, we can learn a few interesting facts from it. To start, it is controlling the fan by sending it byte arrays of data in the following format:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> val POWER_ON <span style="color:#f92672">=</span> byteArrayOf<span style="color:#f92672">(</span>4<span style="color:#f92672">,</span> 4<span style="color:#f92672">,</span> 1<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> val POWER_OFF <span style="color:#f92672">=</span> byteArrayOf<span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> 0<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><a href="https://github.com/garanj/wearwind/blob/9b7115b4c070d2f2cfa10cb792bb68d4e517a073/app/src/main/java/com/garan/wearwind/FanControlService.kt#L392">As seen here!</a></p>
+<p>This was a good starting point and following some experimentation I have decoded a few more commands which I found useful, notably sending the unit to sleep:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>SLEEP <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x1</span>]
+</span></span></code></pre></div><p>And setting a speed of choice:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Second byte is the speed, values can range from 0x1 to 0x64</span>
+</span></span><span style="display:flex;"><span>MIN_SPEED <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, <span style="color:#ae81ff">0x1</span>]
+</span></span><span style="display:flex;"><span>FULL_SPEED <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, <span style="color:#ae81ff">0x64</span>]
+</span></span></code></pre></div><p>Here some other commands that I figured out I could send to the device:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>ON <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x2</span>]    <span style="color:#75715e"># Wake up the fan</span>
+</span></span><span style="display:flex;"><span>OFF <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, <span style="color:#ae81ff">0x0</span>]        <span style="color:#75715e"># Shut the fan off, including BLE</span>
+</span></span><span style="display:flex;"><span>SLEEP <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x1</span>]      <span style="color:#75715e"># Shut the fan off, leave BLE on</span>
+</span></span><span style="display:flex;"><span>HR <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x2</span>]         <span style="color:#75715e"># Put device in auto HR mode</span>
+</span></span><span style="display:flex;"><span>SPD <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x3</span>]        <span style="color:#75715e"># Put device in auto speed mode</span>
+</span></span></code></pre></div><p>The beginning of my journey with python and BLE started with doing research on existing libraries and implementations of the BLE stack, where I have discovered the following resources:</p>
+<ul>
+<li><a href="https://github.com/pybluez/pybluez">https://github.com/pybluez/pybluez</a></li>
+<li><a href="https://github.com/ukBaz/BLE_GATT">https://github.com/ukBaz/BLE_GATT</a></li>
+</ul>
+<p>These seemed like they are used in various projects on github, and the pybluez even comes with handy examples for how to do BLE scans:</p>
+<ul>
+<li><a href="https://github.com/pybluez/pybluez/blob/master/examples/ble/scan.py">https://github.com/pybluez/pybluez/blob/master/examples/ble/scan.py</a></li>
+</ul>
+<p>Trying to use this library however I quickly learned an interesting fact: BLE is not supported on many laptop or desktop wifi/ble modules! Having had trouble running this code, on a whim I decided to try it our on a raspberry pi 4 I had laying around, and that worked without a hitch. I was able to scan for BLE devices nearby and read their advertised lists of characteristics:</p>
+<pre tabindex="0"><code>service000a = &#34;00001801-0000-1000-8000-00805f9b34fb&#34;                    # Generic Attribute Profile
+service000a_char000b = &#34;00002a05-0000-1000-8000-00805f9b34fb&#34;           # Service Changed
+service000a_char000b_desc000d = &#34;00002902-0000-1000-8000-00805f9b34fb&#34;  # Client Characteristic Configuration
+service000e = &#34;0000180a-0000-1000-8000-00805f9b34fb&#34;                    # Device Information
+service000e_char000f = &#34;00002a29-0000-1000-8000-00805f9b34fb&#34;           # Manufacturer Name String
+service000e_char0011 = &#34;00002a25-0000-1000-8000-00805f9b34fb&#34;           # Serial Number String
+service000e_char0013 = &#34;00002a27-0000-1000-8000-00805f9b34fb&#34;           # Hardware Revision String
+service000e_char0015 = &#34;00002a26-0000-1000-8000-00805f9b34fb&#34;           # Firmware Revision String
+service0017 = &#34;a026ee01-0a7d-4ab3-97fa-f1500f9feb8b&#34;                    # Vendor specific
+service0017_char0018 = &#34;a026e002-0a7d-4ab3-97fa-f1500f9feb8b&#34;           # Vendor specific
+service0017_char0018_desc001a = &#34;00002902-0000-1000-8000-00805f9b34fb&#34;  # Client Characteristic Configuration
+service0017_char001b = &#34;a026e004-0a7d-4ab3-97fa-f1500f9feb8b&#34;           # Vendor specific
+service0017_char001b_desc001d = &#34;00002902-0000-1000-8000-00805f9b34fb&#34;  # Client Characteristic Configuration
+service001e = &#34;a026ee0c-0a7d-4ab3-97fa-f1500f9feb8b&#34;                    # Vendor specific
+service001e_char001f = &#34;a026e038-0a7d-4ab3-97fa-f1500f9feb8b&#34;           # Vendor specific
+service001e_char001f_desc0021 = &#34;00002902-0000-1000-8000-00805f9b34fb&#34;  # Client Characteristic Configuration
+</code></pre><p>Characteristics are like fields, or ports, that you can either read from or write to, and after some more experimentation I have identified that in order to control the fan I need to send data to characteristic <code>a026e038-0a7d-4ab3-97fa-f1500f9feb8b</code>.</p>
+<p>For a much better explanation of how BLE works and what tools you can use to play with it, I highly recommend this blog post: <a href="https://blog.attify.com/the-practical-guide-to-hacking-bluetooth-low-energy/">The Practical Guide to Hacking Bluetooth Low Energy </a> by Vaibhav Bedi.</p>
+<p>Moving forward, I had struggled to use the basic pybluez library for this type of communication and have switched over to using an easier to use, more abstract library, i.e. <code>bleak</code>: <a href="https://github.com/hbldh/bleak">https://github.com/hbldh/bleak</a>.</p>
+<p>It is during this transition that I realized that the BLE protocol is only used for scanning for devices and exposing their capabilities. In case of my Headwind fan and actually, once I have found out the characteristic and MAC address to send data to, I no longer rely on the BLE stack for anything and could go back to sending data to the fan directly from my laptop. I did not need to scp my code to my local trusty Pi4 no longer from here on out.</p>
+<h2 id="poc">PoC</h2>
+<p>With what we have learned so far, I started off by bundling all of the BLE-related functionality into the <code>Headwind</code> class. This will be our means of talking to the fan and asking it for state information.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> bleak <span style="color:#f92672">import</span> BleakClient
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Config byte arrays</span>
+</span></span><span style="display:flex;"><span>ON <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x2</span>]
+</span></span><span style="display:flex;"><span>OFF <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, <span style="color:#ae81ff">0x0</span>]
+</span></span><span style="display:flex;"><span>SLEEP <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x1</span>]
+</span></span><span style="display:flex;"><span>HR <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x2</span>]
+</span></span><span style="display:flex;"><span>SPD <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x4</span>, <span style="color:#ae81ff">0x3</span>]
+</span></span><span style="display:flex;"><span>MIN_SPEED <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, <span style="color:#ae81ff">0x1</span>]
+</span></span><span style="display:flex;"><span>HALF_SPEED <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, <span style="color:#ae81ff">0x32</span>]
+</span></span><span style="display:flex;"><span>FULL_SPEED <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, <span style="color:#ae81ff">0x64</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Characteristic to read state and write config to</span>
+</span></span><span style="display:flex;"><span>CHARACTERISTIC <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;a026e038-0a7d-4ab3-97fa-f1500f9feb8b&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Headwind</span>:
+</span></span><span style="display:flex;"><span>    fanClient <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    flaskApp <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, flaskApp, address):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>flaskApp <span style="color:#f92672">=</span> flaskApp
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fanClient <span style="color:#f92672">=</span> BleakClient(address)
+</span></span></code></pre></div><p><code>Bleak</code> abstracts the complexity related to establishing the bluetooth connection, and reading and writing data to the bluetooth device.</p>
+<p>In case of the Headwind fan, we have established that to read the state of the fan we need to read the value of the <code>CHARACTERISTIC</code> like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">readSpeed</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>fanClient <span style="color:#66d9ef">as</span> client:
+</span></span><span style="display:flex;"><span>                result <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> client<span style="color:#f92672">.</span>read_gatt_char(CHARACTERISTIC)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># The result will be a byte array</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># In this case it will return something similar to: 0xFD-01-XX-04</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Where XX is the current fan speed</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># Hence we return the 3rd array element to get the speed:</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> result[<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>Ok, so what about changing the speed? It is also fairly straightforward. Take a look.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">writeSpeed</span>(self, speed):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> speed <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Create a byte array that includes:</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># - the mode (first element)</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># - the speed value (second element)</span>
+</span></span><span style="display:flex;"><span>            value <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0x2</span>, speed]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">with</span> self<span style="color:#f92672">.</span>fanClient <span style="color:#66d9ef">as</span> client:
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># Then we write the prepared byte array to the same CHARACTERISTIC address</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">await</span> client<span style="color:#f92672">.</span>write_gatt_char(CHARACTERISTIC, value)
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>
+</span></span></code></pre></div><p>Now that we have established an abstraction for our smart fan, we can just create an instance of it and start controlling it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fan <span style="color:#f92672">=</span> Headwind<span style="color:#f92672">.</span>Headwind(<span style="color:#e6db74">&#34;&lt;bluetooth address&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>fan<span style="color:#f92672">.</span>writeOn()       <span style="color:#75715e"># Wake up the fan</span>
+</span></span><span style="display:flex;"><span>fan<span style="color:#f92672">.</span>readSpeed()     <span style="color:#75715e"># Read the current fan speed</span>
+</span></span><span style="display:flex;"><span>fan<span style="color:#f92672">.</span>writeSpeed(<span style="color:#ae81ff">100</span>) <span style="color:#75715e"># Tell the fan to run at 100% speed</span>
+</span></span><span style="display:flex;"><span>fan<span style="color:#f92672">.</span>writeSleep()    <span style="color:#75715e"># Send the fan back to sleep</span>
+</span></span></code></pre></div><h2 id="buttons">Buttons</h2>
+<p>But how are we going to interact with this fan? What I need is a way to change its speed without getting on and off the bike. The answer, to no one&rsquo;s surprise, is Home Assistant. Initially I looked into writing a proper Home Assistant integration that would expose the fan as a device with various entities that can be probed and controlled. The process of creating new Home Assistant integrations, based on limited quick research, is somewhat convoluted. As someone who comes from a programming background it seems counter intuitive and I will be exploring it at a later date. For now, the fallback plan will be to implement a simple REST API in Flask that we can then expose to Home Assistant via its <code>rest_command</code> interface.</p>
+<h3 id="flask">Flask</h3>
+<p>Flask is a fantastic framework for creating REST APIs, and more, very quickly and simply. Here I have prepared a snipped of what we need in order to create an endpoint that will increase fan speed by 25%. This endpoint will be called each time I &ldquo;press a button&rdquo; in Home Assistant.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>route(<span style="color:#e6db74">&#34;/speed/increase&#34;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;POST&#34;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">setIncreaseSpeed</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># First we read the current speed of the fan</span>
+</span></span><span style="display:flex;"><span>    currentSpeed <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> fan<span style="color:#f92672">.</span>readSpeed()
+</span></span><span style="display:flex;"><span>    newSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># We define the new desired speed, depending on the current speed</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> currentSpeed <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">25</span>:
+</span></span><span style="display:flex;"><span>        newSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> currentSpeed <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">50</span>:
+</span></span><span style="display:flex;"><span>        newSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> currentSpeed <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">75</span>:
+</span></span><span style="display:flex;"><span>        newSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">75</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> currentSpeed <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100</span>:
+</span></span><span style="display:flex;"><span>        newSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Lastly we send the fan our new speed setting</span>
+</span></span><span style="display:flex;"><span>    fan_status <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> fan<span style="color:#f92672">.</span>writeSpeed(newSpeed)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> fan_status:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Failed to increase speed by 25%&#34;</span>, <span style="color:#ae81ff">503</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Increased speed by 25%&#34;</span>, <span style="color:#ae81ff">200</span>
+</span></span></code></pre></div><p>This is one of the endpoints I created, to see the others check out the <code>views.py</code> module in my repository: <a href="https://teapot.octopusx.de/accidentallycompetent/bluewind/src/branch/main/bluewind/views.py">https://teapot.octopusx.de/accidentallycompetent/bluewind/src/branch/main/bluewind/views.py</a></p>
+<p>Now that we have the endpoints implemented, we need to start our bluewind Flask server, so that it is ready to receive the REST API calls:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># If you haven&#39;t done so already, roll out the virtual env and configure bluewind via environment variables</span>
+</span></span><span style="display:flex;"><span>python3 -m venv .venv
+</span></span><span style="display:flex;"><span>source .venv/bin/activate
+</span></span><span style="display:flex;"><span>python3 -m pip install --upgrade pip
+</span></span><span style="display:flex;"><span>pip3 install -r requirements.txt
+</span></span><span style="display:flex;"><span>export FLASK_ADDRESS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;Headwind bluetooth address&gt;&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Then start the server</span>
+</span></span><span style="display:flex;"><span>python3 main.py
+</span></span></code></pre></div><h3 id="home-assistant">Home Assistant</h3>
+<p>Home Assistant does not currently support, to the best of my knowledge, a way to configure rest_command integrations via the web UI, so we need to hop into our configuration.yaml file and add a block much like this one:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">rest_command</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Headwind_on</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">url</span>: <span style="color:#e6db74">&#34;http://192.168.0.111:5000/on&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">method</span>: <span style="color:#e6db74">&#34;POST&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Headwind_sleep</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">url</span>: <span style="color:#e6db74">&#34;http://192.168.0.111:5000/sleep&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">method</span>: <span style="color:#e6db74">&#34;POST&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Headwind_speedup</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">url</span>: <span style="color:#e6db74">&#34;http://192.168.0.111:5000/speed/increase&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">method</span>: <span style="color:#e6db74">&#34;POST&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Headwind_speeddown</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">url</span>: <span style="color:#e6db74">&#34;http://192.168.0.111:5000/speed/decrease&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">method</span>: <span style="color:#e6db74">&#34;POST&#34;</span>
+</span></span></code></pre></div><p>This way we define a number of endpoints that can be called via the <code>rest_command</code> service. In our case the commands will be <code>Headwind_on</code>, <code>Headwind_sleep</code>, <code>Headwind_speedup</code>, and <code>Headwind_speeddown</code>.</p>
+<p>In my Home Assistant setup, my Wahoo smart trainer is powered from an ikea tradfri smart socket, which I can also control from a tradfri button press. I can now easily attach the <code>Headwind_on</code> onto the state of the <code>switch.ikea_socket_office_2</code> entity, turning the fan on whenever the turbo gets turned on, and the opposite with another automation working int he reverse.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Headwind on</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">trigger</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">state</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entity_id</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">switch.ikea_socket_office_2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">to</span>: <span style="color:#e6db74">&#34;on&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">from</span>: <span style="color:#e6db74">&#34;off&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">condition</span>: []
+</span></span><span style="display:flex;"><span><span style="color:#f92672">action</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">rest_command.Headwind_on</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">data</span>: {}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">mode</span>: <span style="color:#ae81ff">single</span>
+</span></span></code></pre></div><p>For my remote control of both my turbo and the Headwind fan I am using a plain old Ikea Tradfri button that is linked with Home Assistant via a Zigbee2MQTT bridge. It is a wireless, coin cell battery powered button with 5 discrete physical buttons, The big middle one, as described above, toggles on and off the Wahoo Kickr Core indoor trainer socket power and in turn the fan. The top and bottom physical buttons, normally used for adjusting light brightness levels in an Ikea smart lighting system, will be repurposed as our speed changing buttons. Each press of the up or down button will increase or decrease the fan speed by 25% respectively.</p>
+<p><img src="tradfri_button.jpg" alt="Ikea Tradfri Button"></p>
+<p>Here is the yaml code defining my this automation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Headwind speed up</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">trigger</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">device</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">domain</span>: <span style="color:#ae81ff">mqtt</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">device_id</span>: <span style="color:#ae81ff">a6a84a4ded13d8a3850a4c323ec737e4</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">action</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">subtype</span>: <span style="color:#ae81ff">brightness_up_click</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">discovery_id</span>: <span style="color:#ae81ff">0xccccccfffe5f0bd7</span> <span style="color:#ae81ff">action_brightness_up_click</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">condition</span>: []
+</span></span><span style="display:flex;"><span><span style="color:#f92672">action</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">rest_command.Headwind_speedup</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">data</span>: {}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">mode</span>: <span style="color:#ae81ff">single</span>
+</span></span></code></pre></div><p>With this setup, I am able to turn all of my indoor riding gear on and of with a single press of a button, and I am able to adjust the fan speed to my liking remotely from my bicycle while riding. In my case I deployed my bluewind API server on a Raspberry Pi 4 that lives permanently in my training room, but it will work on any linux machine with access to a bluetooth receiver that is within signal range of your Wahoo Headwind.</p>
+<p>As ever, you can find all of the project files available on my Teapot Gitea instance: <a href="https://teapot.octopusx.de/accidentallycompetent/bluewind">https://teapot.octopusx.de/accidentallycompetent/bluewind</a></p>
+<h2 id="future-plans">Future Plans</h2>
+<p>As with every project, posting an article on my blog usually means that it is about half way finished. Yes, the basic functionality is here and I can use my new automation already, but there are a few things missing for me to call it good and done.</p>
+<p>For one, I would like to decipher the rest of the byte codes returned by the BLE characteristics of the Headwind fan. I would like to be able to read what mode the fan is in and select different modes, not just operate the manual speed dial remotely.</p>
+<p>Secondly, my current solution omits the issue of scanning and finding the MAC address of your bluetooth fan entirely. This means you need to first scan the aether for some other BLE scanner app in order to find the MAC address and enter it into bluewind&rsquo;s config via an environment variable. Something I would love to be able to do, is to automatically check if whatever device you run the server on is BLE capable or only a standard bluetooth device. If the former, then scan the for local Headwind devices and automatically start communicating with the first one it finds, in case a MAC address is not passed into configuration.</p>
+<p>Lastly, once the above two points are fully addressed, I would like to create a proper Home Assistant integration for bluewind. One that reduces the barrier to entry for all users and is much easier to set up for anyone.</p>
+<p>I hope you&rsquo;ve learned something from this blog entry, I certainly learned a lot about the BLE and bluetooth stacks, and I wish you the best in your future training and coding endeavors! Please check in again in the future to see what I am working on, I do my best to mix and match topics to keep it fresh and interesting!</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        2658 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2023-11-15 21:39
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/refact_chart/">
+                    <span class="button__text">Refact Helm Chart</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Competent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>
