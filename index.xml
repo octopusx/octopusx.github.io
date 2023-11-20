@@ -5,7 +5,7 @@
     <link>https://blog.octopusx.de/</link>
     <description>Recent content on Developer and Self Hoster Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-gb</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
     <lastBuildDate>Wed, 15 Nov 2023 23:39:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -98,6 +98,15 @@ If you can&amp;rsquo;t restore it, you don&amp;rsquo;t really have a backup&amp;
       
       <guid>https://blog.octopusx.de/posts/wireguard/</guid>
       <description>I have been using Unraid as a platform to manage my storage at home as well as hosting a few basic services for me and my family for a good few years now. Despite having a fairly fast internet connection I was not able to expose those services to the internet however as my home router does not support dynamic DNS. As an alternative I knew that I could get a small VM with a public IP address which could host a VPN endpoint for me to build a permanent tunnel to my Unraid box.</description>
+    </item>
+    
+    <item>
+      <title>Mastodon Feed</title>
+      <link>https://blog.octopusx.de/feed/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.octopusx.de/feed/</guid>
+      <description></description>
     </item>
     
   </channel>

@@ -4,7 +4,7 @@
         <link>https://blog.octopusx.de/posts/</link>
         <description>Recent content in Posts on Developer and Self Hoster Blog</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
+        <language>en-gb</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
         <lastBuildDate>Wed, 15 Nov 2023 23:39:00 +0200</lastBuildDate>
         <atom:link href="https://blog.octopusx.de/posts/index.xml" rel="self" type="application/rss+xml" />
@@ -342,7 +342,7 @@ Starting point The starting point is our hand-written set of kubernetes template
 </span></span><span style="display:flex;"><span>                <span style="color:#f92672">port</span>:
 </span></span><span style="display:flex;"><span>                  <span style="color:#f92672">number</span>: <span style="color:#ae81ff">8008</span>
 </span></span></code></pre></div><h2 id="the-new-base">The new base</h2>
-<!-- raw HTML omitted -->
+<!-- create a new repo, how to import the common chart -->
 <p>So, to host my helm charts based on the common library chart I made a new repository: <a href="https://teapot.octopusx.de/octocloudlab/chart-catalog">https://teapot.octopusx.de/octocloudlab/chart-catalog</a>. Nothing special here, basically just a <code>charts</code> folder where all of our, yes you guessed it, charts will live. So we create a folder in that folder, and it is called refact.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.
 </span></span><span style="display:flex;"><span>├── ATTRIBUTION.md
@@ -375,7 +375,7 @@ Starting point The starting point is our hand-written set of kubernetes template
 </span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">smallcloud/refact_self_hosting</span>
 </span></span></code></pre></div><h2 id="publishing-the-chart">Publishing the chart</h2>
-<!-- raw HTML omitted -->
+<!-- adapting the workflow from the k8s-at-home repo -->
 <p>When I was starting work on this part I expected complications. Mostly because I am not very familiar with the actions CI/CD model and I wasn&rsquo;t sure what I need to do to get it to deploy every chart in the <code>charts</code> directory, whenever there is a change. Aaaaaand&hellip; it wasn&rsquo;t a problem at all. The same action I used in the <a href="https://blog.octopusx.de/posts/teapot/">Teapot</a> blog post can be passed list of directories as a wildcard, and it will iterate over them and run the release flow on them all.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Publishing Charts</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">Publishing Helm Charts to the Teapot Registry</span>
