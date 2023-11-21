@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://blog.octopusx.de/posts/bluewind/</loc>
-    <lastmod>2023-11-15T23:39:00+02:00</lastmod>
-  </url><url>
     <loc>https://blog.octopusx.de/</loc>
-    <lastmod>2023-11-15T23:39:00+02:00</lastmod>
+    <lastmod>2023-11-21T23:15:00+02:00</lastmod>
+  </url><url>
+    <loc>https://blog.octopusx.de/posts/enter_the_fediverse/</loc>
+    <lastmod>2023-11-21T23:15:00+02:00</lastmod>
   </url><url>
     <loc>https://blog.octopusx.de/posts/</loc>
+    <lastmod>2023-11-21T23:15:00+02:00</lastmod>
+  </url><url>
+    <loc>https://blog.octopusx.de/posts/bluewind/</loc>
     <lastmod>2023-11-15T23:39:00+02:00</lastmod>
   </url><url>
     <loc>https://blog.octopusx.de/posts/refact_chart/</loc>

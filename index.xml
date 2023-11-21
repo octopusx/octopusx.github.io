@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Wed, 15 Nov 2023 23:39:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Nov 2023 23:15:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enter the Fediverse</title>
+      <link>https://blog.octopusx.de/posts/enter_the_fediverse/</link>
+      <pubDate>Tue, 21 Nov 2023 23:15:00 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/enter_the_fediverse/</guid>
+      <description>Being ancient, as one finds themselves at one point in live, I still remember the times before Facebook. I got into it briefly in my late teens but then dropped it like a stone once I realised that I was spending way too much time doom scrolling&amp;hellip; And that was in the 00&amp;rsquo;s, I find it hard to imagine getting into it now and I am feeling am grateful that having the entire &amp;ldquo;facebook&amp;rdquo; domain blocked on my pihole really is not a problem for anyone in my home.</description>
+    </item>
+    
     <item>
       <title>Bluewind - let&#39;s make a smart bluetooth fan smart again!</title>
       <link>https://blog.octopusx.de/posts/bluewind/</link>

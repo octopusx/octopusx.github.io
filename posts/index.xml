@@ -6,8 +6,115 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-gb</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Wed, 15 Nov 2023 23:39:00 +0200</lastBuildDate>
+        <lastBuildDate>Tue, 21 Nov 2023 23:15:00 +0200</lastBuildDate>
         <atom:link href="https://blog.octopusx.de/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Enter the Fediverse</title>
+            <link>https://blog.octopusx.de/posts/enter_the_fediverse/</link>
+            <pubDate>Tue, 21 Nov 2023 23:15:00 +0200</pubDate>
+            
+            <guid>https://blog.octopusx.de/posts/enter_the_fediverse/</guid>
+            <description>Being ancient, as one finds themselves at one point in live, I still remember the times before Facebook. I got into it briefly in my late teens but then dropped it like a stone once I realised that I was spending way too much time doom scrolling&amp;hellip; And that was in the 00&amp;rsquo;s, I find it hard to imagine getting into it now and I am feeling am grateful that having the entire &amp;ldquo;facebook&amp;rdquo; domain blocked on my pihole really is not a problem for anyone in my home.</description>
+            <content type="html"><![CDATA[<p>Being ancient, as one finds themselves at one point in live, I still remember the times before Facebook. I got into it briefly in my late teens but then dropped it like a stone once I realised that I was spending way too much time doom scrolling&hellip; And that was in the 00&rsquo;s, I find it hard to imagine getting into it now and I am feeling am grateful that having the entire &ldquo;facebook&rdquo; domain blocked on my pihole really is not a problem for anyone in my home. Twitter I never got into, it always felt so impersonal and distant. It felt very corporate and sanitised. Some companies I did business with used it as a support desk, which only enforced this feeling of very little &ldquo;social&rdquo; happening in this &ldquo;social network&rdquo;.</p>
+<p>With that in mind, I was not craving any sort of a replacement for those services, as many have been with the recent mass migrations to the Fediverse. I was enticed by the prospect to join this migration nevertheless, as social networks in their federated iteration are a much healthier fenomenon in my opinion, and as we know they live or die by the interactions and presence of their users. Joining was going to by my 2 cents added to the jar of reasons for the federated future to keep getting more realistic for all.</p>
+<h2 id="how-does-the-fediverse-work">How does the Fediverse work?</h2>
+<p>The Fediverse is a decentralised social network, where users are not tied to any single platform or service. More importantly, they are not locked in by any one vendor or company. Any server can join or leave the network at any time, and user&rsquo;s data is not stored by any centralised entity. One can begin to participate in the social network by creating a user account on one of many free or paid federated servers. The most common type of servers in the Fediverse are <a href="https://joinmastodon.org/">Mastodon servers</a>. The main instance ran by the Mastodon team is <a href="https://mastodon.social/">mastodon.social</a>, and another popular among the FOSS community is <a href="https://fosstodon.org">fosstodon.org</a>.</p>
+<p>I have created and used <a href="https://mastodon.social/@accidentallycompetent">my account on mastodon.social</a> for a few months now, and it definitely gives me a more community-like vibe. I discover and follow accounts of people that I listen to in podcasts or follow via github or even some that I have met in real life (what an idea, eh?).</p>
+<p>Creating an account on someone else&rsquo;s server though wouldn&rsquo;t be the self hoster&rsquo;s way now, would it! Having now been invested in the network somewhat and gained a basic understanding of how it can be used, I decided to start a search for a suitable way to deploy my own instance. First port of call was the full fat Mastodon server. Hosting these has become very popular in the recent months thanks to Techno King himself, and so many a person has tried it and there are a lot of documentation and information about what is involved. You can see <a href="https://www.micahwalter.com/how-much-ive-spent-so-far-running-my-own-mastodon-server-on-aws/">this blog post</a> as an example. I have listened to a Late Night Linux show too at some point where I remembered one of the hosts mentioning that they hosted a server at Canonical for a few people and shortly after they were using up as much 5mbit of bandwidth per second constantly and an extra 50GB of disk space per month! If this were true for my instance I would run out of space in my homelab after around a year and a half&hellip;</p>
+<p>Why does this happen though you may ask? And is this a Mastodon issue, or is it inevitable no matter what server you? So, to an extent it is inevitable, though likely not as bad as it seems, let me explain. Let&rsquo;s say, you&rsquo;re creating your own server and on that server you create your Fediverse account. At that point the only data the server will store is anything you post. Any images or text you put in your status updates. Now, if you crate a few accounts for some friends/family, everyone on the server can see each other&rsquo;s posts, no big deal, you&rsquo;re still just storing only the posts of your own users. The data transfer and storage issues begin when you start following people on other Mastodon/Fediverse servers. Each time you follow someone on another server, your and the other server will form a bond, i.e. federate. In order for your account to get updates on the person you follow on another instance, your server will now permanently connect to the other instance and continuously download and locally store the posts of the other user. So, the more people you follow the more storage you end up using locally. And the more servers you federate with, the more bandwidth you will end up using.</p>
+<h2 id="what-to-host">What to host?</h2>
+<p>As I am a hipster at heart just hosting an instance of an alternative social network was too mainstream for me, I started looking for a lightweight Fediverse server to host instead, one that would hopefully help me keep the &ldquo;operating costs&rdquo; down. I am not paying for the resources used up by the server as I am self hosting, but I am limited by what hardware I have and I would rather have it last me as long as possible without needing to upgrade (again).</p>
+<p>A cursory search has brought me to the <a href="https://gotosocial.org/">GoToSocial page</a> and yeah&hellip; This sounds like just the perfect thing to deploy! The software is still (as of writing of this post) in Alpha (more on that later), but the base functionality is there and people seem to run it successfully. The documentation states that it federates successfully with most common ActivityPub servers out there, so no blockers. Also very importantly the developers and community have a public Matrix channel where you can ask questions, get support and talk about the project, which is always a big plus for me :+1:!
+I joined to say hi and everyone seems to be super friendly and helpful, give it a try at <code>#gotosocial:superseriousbusiness.org</code>.</p>
+<p>I assume you have read ALL MY OTHER POSTS RIGHT!? Sure you did&hellip; So you know what&rsquo;s next&hellip; Helm charts :D Yes, there is a fantastic ready-to-use helm chart for GoToSocial written by the github user <a href="https://github.com/fSocietySocial">fSocietySocial</a>. You can check it out in their repo <a href="https://github.com/fSocietySocial/charts/tree/main/charts/gotosocial">here</a>. It is fully featured and all of the important configuration parameters (as far as I am aware) are cleanly exposed via the values file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">replicaCount</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">superseriousbusiness/gotosocial</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">pullPolicy</span>: <span style="color:#ae81ff">Always</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Overrides the image tag whose default is the chart appVersion.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tag</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">...}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Just look at these options!?</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">logLevel</span>: <span style="color:#e6db74">&#34;info&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">logDBQueries</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">logClientIp</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">logTimestampFormat</span>: <span style="color:#e6db74">&#34;02/01/2006 15:04:05.000&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">applicationName</span>: <span style="color:#e6db74">&#34;gotosocial&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">landingPageUser</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">host</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">accountDomain</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#e6db74">&#34;https&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">bindAddress</span>: <span style="color:#e6db74">&#34;0.0.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">trustedProxies</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;10.0.0.0/8&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;172.16.0.0/12&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;192.168.0.0/16&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">sqliteAddress</span>: <span style="color:#e6db74">&#34;/gotosocial/storage/sqlite.db&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">maxOpenConnsMultiplier</span>: <span style="color:#e6db74">&#34;8&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">sqliteSynchronous</span>: <span style="color:#e6db74">&#34;NORMAL&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">sqliteCacheSize</span>: <span style="color:#e6db74">&#34;8MiB&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">sqliteBusyTimeout</span>: <span style="color:#e6db74">&#34;30m&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">sqliteTmpdir</span>: <span style="color:#e6db74">&#34;/gotosocial/storage/&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">visibilitySweepFreq</span>: <span style="color:#e6db74">&#34;1m&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">cache</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">memoryTarget</span>: <span style="color:#e6db74">&#34;100MiB&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">web</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">templateBaseDir</span>: <span style="color:#e6db74">&#34;./web/template/&#34;</span> 
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">assetBaseDir</span>: <span style="color:#e6db74">&#34;./web/assets/&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">accountsCustomCssLength</span>: <span style="color:#e6db74">&#34;10000&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">deliverToSharedInboxes</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">injectMastodonVersion</span>: <span style="color:#e6db74">&#34;false&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">instance</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">federationMode</span>: <span style="color:#e6db74">&#34;blocklist&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">exposePeers</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">exposeSuspended</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">exposeSuspendedWeb</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">exposePublicTimeline</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">deliverToSharedInboxes</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">accounts</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">registrationOpen</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">approvalRequired</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">reasonRequired</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">allowCustomCSS</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># AND MANY MANY MORE!!!</span>
+</span></span><span style="display:flex;"><span>{<span style="color:#ae81ff">...}</span>
+</span></span></code></pre></div><p>Full file for reference: <a href="https://github.com/fSocietySocial/charts/blob/main/charts/gotosocial/values.yaml">https://github.com/fSocietySocial/charts/blob/main/charts/gotosocial/values.yaml</a></p>
+<p>Installation is the usual stuff for a helm chart:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add fsociety https://charts.fsociety.social
+</span></span><span style="display:flex;"><span>helm repo update
+</span></span><span style="display:flex;"><span>helm upgrade --install gotosocial fsociety/gotosocial --namespace gotosocial --create-namespace --set gotosocial.config.host<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;domain.tld&#39;</span> --set gotosocial.config.accountDomain<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;domain.tld&#39;</span>
+</span></span></code></pre></div><p>As usual, I created a git repo for this on a private gitea server that I can run automation from and where I can override and version control my own values file. Then deployed!</p>
+<h2 id="alpha">Alpha</h2>
+<!-- Talk about the problems encountered -->
+<!-- Talk about not reading the fucking manual and configuring the host and domain wrong -->
+<!-- Talk about how a lot of the configs are kinda one way streets, you will have to re-build the server if you want to change them -->
+<!-- Talk about the problems with federating -->
+<!-- Talk about the inability to figure out how to fix a miss-created user and how we eventually got there -->
+<p>I dived head first into this, excited to try out my new, self hosted federated instance! And, as they say, got to break a few eggs. When I interact with a new helm chart I generally make a copy of the <code>values.yaml</code> and browse for a bit, trying to understand what the important options are and what the defaults seem to be. I used my best judgment and ran <code>helm install gts .</code> and BOOM! It worked XD I was able to create a new user, log in and configure my profile. Then I tried to search for users on other servers and&hellip; nothing. A bunch of errors in the logs later I have narrowed the problem to be my ingress configuration. I can reach my server form local network and externally, yet public Mastodon instances weren&rsquo;t able to get the webfinger for identifying my user account on my server.</p>
+<p>The culprit was the following block of config in the values yaml:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">host</span>: <span style="color:#e6db74">&#34;gts.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">accountDomain</span>: <span style="color:#e6db74">&#34;octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#e6db74">&#34;http&#34;</span>
+</span></span></code></pre></div><p>As I was just rushing for the goal I guesstimated what goes into these fields, however incorrectly. The host is supposed to be the full hostname where the server is reachable from. The accountDomain is what will be used to append to the end of your user&rsquo;s URL to signify which server they are coming from. Now, you can make the two different, but then the second one needs to still server some traffic under that URL for federation handshakes. The easiest thing is to have them be the same.</p>
+<p>Having fixed that I was still getting 404s from the other servers according to my GoToSocial logs. Though I spotted the source of this problem fairly quickly. The other servers were trying to communicate with my instance over http. I assumed that the protocol field config has to be set to https only if I let GoToSocial terminate SSL and not use a reverse proxy, and that was also an incorrect assumption.</p>
+<p>The working config looked as such:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">config</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">host</span>: <span style="color:#e6db74">&#34;gts.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">accountDomain</span>: <span style="color:#e6db74">&#34;gts.octopusx.de&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">protocol</span>: <span style="color:#e6db74">&#34;https&#34;</span>
+</span></span></code></pre></div><p>Tada!</p>
+<p><img src="instance.png" alt="instance screenshot"></p>
+<p>For a better explanation of all of the configuration parameters I encourage you to study the official example available in Github, richly embellished with detailed documentation and explanations, available here: <a href="https://github.com/superseriousbusiness/gotosocial/blob/main/example/config.yaml">https://github.com/superseriousbusiness/gotosocial/blob/main/example/config.yaml</a>. Really well done on the GoToSocial team&rsquo;s part!</p>
+<h2 id="hopes-for-a-brighter-future">Hopes for a brighter future</h2>
+<p>A lot of my blog posts come from stories of struggle, learning and overcoming problems. Setting up this little ActivityPub-compatible server was so straightforward and painless I almost didn&rsquo;t write a post for it. But having chatted with Brent from the Jupiter Broadcasting crew made me realise, that this is actually a good thing! It is a success story worth sharing and GoToSocial is a project worth spreading some positivity about! So here we are. What will come next is checking storage and bandwith usage over time, I am keen to find out how heavy it really is to host a Fediverse server, I might do an update in the future with my findings if the data happens to be interesting. And so, with that, I shall see you again, on another page, or maybe even in the Fediverse!</p>
+]]></content>
+        </item>
         
         <item>
             <title>Bluewind - let&#39;s make a smart bluetooth fan smart again!</title>
