@@ -38,7 +38,7 @@
 <meta itemprop="name" content="Strapping and Booting">
 <meta itemprop="description" content="At work we are using gsuite for most casual web tasks. Gdrive, calendar, all of that. As much as I am all about de-googling in my personal life, I remain to be tied to Google search for the time being. In the recent few months I started testing, then paying for Kagi search for my personal searching needs. This duality is giving me a new level of appreciation that we do have legitimate alternatives to the big monopolists in the search engine space."><meta itemprop="datePublished" content="2024-11-28T22:27:00+02:00" />
 <meta itemprop="dateModified" content="2024-11-28T22:27:00+02:00" />
-<meta itemprop="wordCount" content="2335"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="wordCount" content="2354"><meta itemprop="image" content="https://blog.octopusx.de/"/>
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://blog.octopusx.de/"/>
@@ -127,7 +127,7 @@
           <circle cx="12" cy="12" r="10"></circle>
           <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
-        11 minutes
+        12 minutes
 
         
       </p>
@@ -288,6 +288,7 @@
 </span></span></code></pre></div><p>I must say, I am quite happy with how this turned out. It is certainly going to help me bootstrap VMs and machines faster going forward. There are many other options that you can configure here, the most notable is probably the network config, although the pitfall of the public URL based delivery method for the config file means that the installer needs Internet access before the configuration can be applied, so do bear that in mind.</p>
 <p><img src="desktop.png" alt="Screenshot of an empty Gnome desktop straight after booting into the automatically installed Debian OS."></p>
 <p>Lastly, something to remember is that the <code>d-i partman-auto/disk string /dev/vda</code> line may differ from one install to another. From what I gather, the default disk path in a KVM install of debian will always be <code>/dev/vda</code>, while bare metal would be <code>/dev/sda</code> (for a SCSI or SATA device). Again, for detailed info on this refer to the official docs: <a href="https://www.debian.org/releases/stable/i386/apbs04.en.html#preseed-partman">https://www.debian.org/releases/stable/i386/apbs04.en.html#preseed-partman</a></p>
+<p>Oh, and as a bonus, I also found this sample config helpful to put it all in perspective: <a href="https://www.debian.org/releases/bullseye/example-preseed.txt">https://www.debian.org/releases/bullseye/example-preseed.txt</a>.</p>
 <h2 id="happy-times">Happy times</h2>
 <p>As of the time of writing this, we are yet to attempt this automated install process remotely on my friend&rsquo;s machine. I must say, it is quite exciting that we have the technology to automate and simplify things at a distance, and I am looking forward to see how we will fail at it tomorrow! Though I would be hesitant to bet that any Python coding will be happening on that new machine in the next day or so, knowing our luck. And with that, till next time, dear reader.</p>
 
@@ -308,7 +309,7 @@
           <line x1="16" y1="17" x2="8" y2="17"></line>
           <polyline points="10 9 9 9 8 9"></polyline>
         </svg>
-        2335 Words
+        2354 Words
       </p>
 
       <p>
