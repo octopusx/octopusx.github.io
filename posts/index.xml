@@ -6,8 +6,163 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-gb</language>
         <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-        <lastBuildDate>Fri, 16 Aug 2024 09:51:00 +0200</lastBuildDate>
+        <lastBuildDate>Thu, 28 Nov 2024 22:27:00 +0200</lastBuildDate>
         <atom:link href="https://blog.octopusx.de/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Strapping and Booting</title>
+            <link>https://blog.octopusx.de/posts/strapping_booting/</link>
+            <pubDate>Thu, 28 Nov 2024 22:27:00 +0200</pubDate>
+            
+            <guid>https://blog.octopusx.de/posts/strapping_booting/</guid>
+            <description>At work we are using gsuite for most casual web tasks. Gdrive, calendar, all of that. As much as I am all about de-googling in my personal life, I remain to be tied to Google search for the time being. In the recent few months I started testing, then paying for Kagi search for my personal searching needs. This duality is giving me a new level of appreciation that we do have legitimate alternatives to the big monopolists in the search engine space.</description>
+            <content type="html"><![CDATA[<p>At work we are using gsuite for most casual web tasks. Gdrive, calendar, all of that. As much as I am all about de-googling in my personal life, I remain to be tied to Google search for the time being. In the recent few months I started testing, then paying for <a href="https://kagi.com/">Kagi search</a> for my personal searching needs. This duality is giving me a new level of appreciation that we do have legitimate alternatives to the big monopolists in the search engine space. The slow but steady downwards spiral of Google&rsquo;s product quality is becoming that much more apparent to me, as I start resenting my employer for making me have to endure it.</p>
+<p>This entry isn&rsquo;t about a project, but about trying to find a solution to a seemingly small issue, then going down a rabbit whole and coming out of it with some new knowledge, ready to be slapped on this here website. It required a lot of searching around and learning new things, but we got there in the end.</p>
+<h2 id="just-install-linux-they-said-it-will-be-fine-they-said">Just install Linux they said, it will be fine they said&hellip;</h2>
+<p>A dear friend of mine has gone onto the path of becoming a data scientist and a programmer of sorts, pursuing many a Udemy course in search of Python coding prowess. I volunteered to be a partner in crime for his coding adventure and tried to support him throughout his learning process as best I could, but there was a recurring theme to our regular coding get togethers: we spent half our time getting his computer to work instead of coding. I won&rsquo;t lie, this was exaggerated by two facts: he was running Windows 10, and I know very little about Windows at this point. Bootstrapping WSL2 on his machine helped only partly, as that tool has its own problems (for example, not allowing to utilize VPN connections within the VM) which hamstrung some of our collaboration attempts.</p>
+<h2 id="change">Change</h2>
+<p>It was time for change. I encouraged my friend to give Linux a try, not as a the only OS on his main computer, but on an extra hand-me-down device he had laying around spare. Neither of us were certain that moving to Linux was going to be smooth and painless, so this small step had the best chance of success with little to no sacrifices.</p>
+<p>We settled on Debian. Mainly for the reason that I am running either Debian or its derivatives on the daily, so it would decrease friction in our collaboration. It is also pleasantly stable and free of corpo-influences, that may make it unusable down the road. It was a joy when I received a message that my partner in Python-crime was going through the installation wizard one day, though he reached out because he had found the process less than smooth. Although pretty much all the default settings in the installer should give him a usable OS, he missclicked either here or there, and ended up with a dud of an install. This reminded me&hellip; That there is a way to preseed the installer with all the config necessary, and that I should be able to do if for him, so that he can skip the boring cumbersome part of this ordeal and go straight to the tasty, juicy coding bits instead!</p>
+<h2 id="youre-a-wizard">You&rsquo;re a wizard!</h2>
+<p>If you are familiar with the way VMs are typically deployed in Cloud environments, you will no doubt know the term <code>cloud-init</code>. It is a mechanism that allows to pass scripting and instructions into a virtual machine as it boots in order to automatically provision it. You may even be one of us dinosaurs, who goes way back, and remembers the days before the great on-prem exodus, where pxe-boot ruled the land of auto-provisioning. Admins would prepare special OS bootstrap images, expose them to a machine via DHCP options 66 and 67, and voila, glorious automation!</p>
+<p>As you may imagine, neither of these options were available to me, though I still wanted to help my friend and offer him a pleasant start of his Linux adventure. I remembered somewhere that there is a way to pre-configure the Debian installer with all the options, in order to make the process essentially hands off and foolproof. So I started digging&hellip;</p>
+<h2 id="documentation-sweet-documentation">Documentation, sweet documentation&hellip;</h2>
+<p>A few minutes of searching yielded promising results. I found that, indeed, there is a preseeding mechanism for the DebianInstaller. I first landed here: <a href="https://wiki.debian.org/DebianInstaller/Preseed">https://wiki.debian.org/DebianInstaller/Preseed</a>, then went on to click a bunch of links on this landing page. <a href="https://www.debian.org/releases/stable/i386/apb.en.html">Appendinx B</a> is an invaluable resource going in-depth on all the different options available. It however didn&rsquo;t provide me with an immediate overview of what a minimal functioning <code>preseed.cfg</code> file should look like.</p>
+<p>At first I tried the brute force method, to get a feel for what is possible. I have read that one can use an existing installation of Debian to automatically generate a preseed file, which essentially will collate all the options a user selects manually in the installation wizard for reuse in subsequent installations. I obtained this information from an excellent blog entry on <a href="https://linuxconfig.org/how-to-perform-unattedended-debian-installations-with-preseed">linuxconfig.org</a>. Credit where credit is due, most of the following content on this page comes from said blog entry, so hats off to the Egidio Docile for writing the piece! Nevertheless, I will follow with my findings, in part to create a note for my future self to remind me what I&rsquo;ve done.</p>
+<h2 id="first-try">First try</h2>
+<p>I decided to create a new VM on my trusty framework laptop, going through the Debian installer manually, selecting the options appropriate to my friend&rsquo;s needs. This, as expected, went smoothly. In the now running VM I opened the terminal, installed the necessary utility and generated myself a preseed file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get install debconf-utils
+</span></span><span style="display:flex;"><span>sudo debconf-get-selections --installer &gt; preseed.cfg
+</span></span></code></pre></div><p>Then SCP&rsquo;ed it back onto my framework. At this point I realised, I am not sure how to deliver this config into the installer. I was convinced that the best way forward would be to embed it in the ISO itself. This way there should be no need for my friend to interact with the installer at all, I hoped&hellip; Well, it didn&rsquo;t quite work.</p>
+<p>It is not straightforward it seems to modify an ISO. Searching on Kagi and using their &ldquo;quick answer&rdquo; AI generator, I played with mounting the Debian netinstall ISO, copying its contents into a new directory, plus the <code>preseed.cfg</code> file, then packaging the directory again into a bootable ISO using the <code>genisoimage</code> utility. I was discouraged after a few attempts to boot a VM from my new ISO, and decided that even if I can make it work, the long turnaround time for baking my own ISOs with various <code>preseed.cfg</code> file versions makes it a bad choice for experimentation.</p>
+<p>Thankfully there are multiple other mechanisms that can be used to deliver the preseed file to the installer, and the easiest one is to let it be downloaded during the course of an &ldquo;automatic installation&rdquo;. This has the downside of expecting that my friend will have to enter the URL on their machine to tell the installer where to get the file in question, but it let me iterate quickly and learn how to properly write such a file. As a way to share my <code>preseed.cfg</code> I uploaded it to my Nextcloud instance and created a share link for it. This can then be entered into the installer. On the other end of this, I mounted my Nextcloud storage locally on my framework, so that I could edit the file directly in real time, then boot up a fresh DebianInstaller in a VM and get it to download the current working version, rinse and repeat.</p>
+<p>At this point it became apparent that the automatically generated preseed file would not work, and as some online guides alluded to, such generated files are extremely verbose and working with them can be tricky. Well, nothing was lost, I moved on to plan B, which is to actually learn how to write a functioning preseed file!</p>
+<h2 id="plan-b-with-a-capital-b">Plan B with a capital B</h2>
+<p>Now that I had a way to quickly test preseed files in a VM I decided to try to actually understand what goes into one. Again, I used linuxconfig.org blog post as a baseline, and just collating their snippets produced positive practical results for me:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>d-i debian-installer/language string en
+</span></span><span style="display:flex;"><span>d-i debian-installer/country string US
+</span></span><span style="display:flex;"><span>d-i keyboard-configuration/xkb-keymap <span style="color:#66d9ef">select</span> us
+</span></span><span style="display:flex;"><span>d-i netcfg/get_hostname string machine
+</span></span><span style="display:flex;"><span>d-i netcfg/get_domain string
+</span></span><span style="display:flex;"><span>d-i passwd/root-login boolean false
+</span></span><span style="display:flex;"><span>d-i passwd/user-fullname string Name Surname
+</span></span><span style="display:flex;"><span>d-i passwd/username string username
+</span></span><span style="display:flex;"><span>d-i passwd/user-password-crypted password $6$1osx5k3fldnaKAC/$a0G7hmSFFXUvC3M.vzSPhSqJ1KOh5Y5K5hcn7tBzMpcyJBloLGCFynmHnGx065F5QrDpuSaxlQwmAQrMTxlCl.
+</span></span><span style="display:flex;"><span>d-i time/zone string US/East
+</span></span><span style="display:flex;"><span>d-i partman-partitioning/choose_label string gpt
+</span></span><span style="display:flex;"><span>d-i partman-auto/disk string /dev/vda
+</span></span><span style="display:flex;"><span>d-i partman-lvm/device_remove_lvm boolean true
+</span></span><span style="display:flex;"><span>d-i partman-md/device_remove_md boolean true
+</span></span><span style="display:flex;"><span>d-i partman-lvm/confirm boolean true
+</span></span><span style="display:flex;"><span>d-i partman-lvm/confirm_nooverwrite boolean true
+</span></span><span style="display:flex;"><span>d-i partman-auto/method string lvm
+</span></span><span style="display:flex;"><span>d-i partman-auto-lvm/guided_size string max
+</span></span><span style="display:flex;"><span>d-i partman-auto/choose_recipe <span style="color:#66d9ef">select</span> atomic
+</span></span><span style="display:flex;"><span>d-i partman-partitioning/confirm_write_new_label boolean true
+</span></span><span style="display:flex;"><span>d-i partman/choose_partition <span style="color:#66d9ef">select</span> finish 
+</span></span><span style="display:flex;"><span>d-i partman/confirm boolean true 
+</span></span><span style="display:flex;"><span>d-i partman/confirm_nooverwrite boolean true
+</span></span><span style="display:flex;"><span>d-i apt-setup/use_mirror boolean true
+</span></span><span style="display:flex;"><span>d-i mirror/country string US
+</span></span><span style="display:flex;"><span>d-i mirror/http/mirror <span style="color:#66d9ef">select</span> deb.debian.org
+</span></span><span style="display:flex;"><span>d-i mirror/http/proxy string
+</span></span><span style="display:flex;"><span>d-i apt-setup/cdrom/set-first boolean false
+</span></span><span style="display:flex;"><span>popularity-contest popularity-contest/participate boolean true
+</span></span><span style="display:flex;"><span>tasksel tasksel/first multiselect gnome-desktop,standard,ssh
+</span></span><span style="display:flex;"><span>d-i pkgsel/include string vim git
+</span></span><span style="display:flex;"><span>d-i finish-install/reboot_in_progress note
+</span></span><span style="display:flex;"><span>d-i cdrom-detect/eject boolean false
+</span></span></code></pre></div><p>As per the guide, I used the mkpasswd utility to pre-assign the user a password of &ldquo;password&rdquo;. Yes, I will tell my friend to change it to whatever he wants. It&rsquo;s either that or become a part of a botnet I guess&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install whois
+</span></span><span style="display:flex;"><span>mkpasswd -m sha512crypt
+</span></span></code></pre></div><p>This file takes care of most of the options in the Debain Bookworm installer. Most. It failed for me during the Grub config step, where I was forced to select the boot partition manually. The guide does not mention Grub setting anywhere, so I went back to the official docs to see what&rsquo;s what and get some damn answers.</p>
+<p>Voila!</p>
+<p><img src="grub.png" alt="Image of the Grub bootloader screen with the Debian OS selection."></p>
+<p>Here is the info we needed: <a href="https://www.debian.org/releases/stable/i386/apbs04.en.html#preseed-bootloader">https://www.debian.org/releases/stable/i386/apbs04.en.html#preseed-bootloader</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Grub is the boot loader (for x86).</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is fairly safe to set, it makes grub install automatically to the UEFI</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># partition/boot record if no other operating system is detected on the machine.</span>
+</span></span><span style="display:flex;"><span>d-i grub-installer/only_debian boolean true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This one makes grub-installer install to the UEFI partition/boot record, if</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># it also finds some other OS, which is less safe as it might not be able to</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># boot that other OS.</span>
+</span></span><span style="display:flex;"><span>d-i grub-installer/with_other_os boolean true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Due notably to potential USB sticks, the location of the primary drive can</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># not be determined safely in general, so this needs to be specified:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/bootdev  string /dev/sda</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># To install to the primary device (assuming it is not a USB stick):</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/bootdev  string default</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Alternatively, if you want to install to a location other than the UEFI</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># parition/boot record, uncomment and edit these lines:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/only_debian boolean false</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/with_other_os boolean false</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/bootdev  string (hd0,1)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># To install grub to multiple disks:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/bootdev  string (hd0,1) (hd1,1) (hd2,1)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Optional password for grub, either in clear text</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/password password r00tme</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/password-again password r00tme</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or encrypted using an MD5 hash, see grub-md5-crypt(8).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i grub-installer/password-crypted password [MD5 hash]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Use the following option to add additional boot parameters for the</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># installed system (if supported by the bootloader installer).</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Note: options passed to the installer will be added automatically.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#d-i debian-installer/add-kernel-opts string nousb</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>An MD5 hash <span style="color:#66d9ef">for</span> a password <span style="color:#66d9ef">for</span> grub can be generated using grub-md5-crypt, or using the command from the example in Section B.4.5, “Account setup”. 
+</span></span></code></pre></div><p>As per the above block I was clearly missing the <code>d-i grub-installer/only_debian boolean true</code> and <code>d-i grub-installer/bootdev  string default</code> lines.</p>
+<p>The final config file looks something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>d-i debian-installer/language string en
+</span></span><span style="display:flex;"><span>d-i debian-installer/country string US
+</span></span><span style="display:flex;"><span>d-i keyboard-configuration/xkb-keymap <span style="color:#66d9ef">select</span> us
+</span></span><span style="display:flex;"><span>d-i netcfg/get_hostname string machine
+</span></span><span style="display:flex;"><span>d-i netcfg/get_domain string
+</span></span><span style="display:flex;"><span>d-i passwd/root-login boolean false
+</span></span><span style="display:flex;"><span>d-i passwd/user-fullname string Name Surname
+</span></span><span style="display:flex;"><span>d-i passwd/username string username
+</span></span><span style="display:flex;"><span>d-i passwd/user-password-crypted password $6$1osx5k3fldnaKAC/$a0G7hmSFFXUvC3M.vzSPhSqJ1KOh5Y5K5hcn7tBzMpcyJBloLGCFynmHnGx065F5QrDpuSaxlQwmAQrMTxlCl.
+</span></span><span style="display:flex;"><span>d-i time/zone string US/East
+</span></span><span style="display:flex;"><span>d-i partman-partitioning/choose_label string gpt
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># WARN: The volume name may be different depending where you&#39;re installing!</span>
+</span></span><span style="display:flex;"><span>d-i partman-auto/disk string /dev/vda
+</span></span><span style="display:flex;"><span>d-i partman-lvm/device_remove_lvm boolean true
+</span></span><span style="display:flex;"><span>d-i partman-md/device_remove_md boolean true
+</span></span><span style="display:flex;"><span>d-i partman-lvm/confirm boolean true
+</span></span><span style="display:flex;"><span>d-i partman-lvm/confirm_nooverwrite boolean true
+</span></span><span style="display:flex;"><span>d-i partman-auto/method string lvm
+</span></span><span style="display:flex;"><span>d-i partman-auto-lvm/guided_size string max
+</span></span><span style="display:flex;"><span>d-i partman-auto/choose_recipe <span style="color:#66d9ef">select</span> atomic
+</span></span><span style="display:flex;"><span>d-i partman-partitioning/confirm_write_new_label boolean true
+</span></span><span style="display:flex;"><span>d-i partman/choose_partition <span style="color:#66d9ef">select</span> finish 
+</span></span><span style="display:flex;"><span>d-i partman/confirm boolean true 
+</span></span><span style="display:flex;"><span>d-i partman/confirm_nooverwrite boolean true
+</span></span><span style="display:flex;"><span>d-i apt-setup/use_mirror boolean true
+</span></span><span style="display:flex;"><span>d-i mirror/country string US
+</span></span><span style="display:flex;"><span>d-i mirror/http/mirror <span style="color:#66d9ef">select</span> deb.debian.org
+</span></span><span style="display:flex;"><span>d-i mirror/http/proxy string
+</span></span><span style="display:flex;"><span>d-i apt-setup/cdrom/set-first boolean false
+</span></span><span style="display:flex;"><span>popularity-contest popularity-contest/participate boolean true
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Missing bootloader config</span>
+</span></span><span style="display:flex;"><span>d-i grub-installer/only_debian boolean true
+</span></span><span style="display:flex;"><span>d-i grub-installer/bootdev  string default
+</span></span><span style="display:flex;"><span>tasksel tasksel/first multiselect gnome-desktop,standard,ssh
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Extra packages to install</span>
+</span></span><span style="display:flex;"><span>d-i pkgsel/include string vim git zsh htop curl git ripgrep fd-find bat byobu kitty-terminfo tldr
+</span></span><span style="display:flex;"><span>d-i finish-install/reboot_in_progress note
+</span></span><span style="display:flex;"><span>d-i cdrom-detect/eject boolean false
+</span></span></code></pre></div><p>I must say, I am quite happy with how this turned out. It is certainly going to help me bootstrap VMs and machines faster going forward. There are many other options that you can configure here, the most notable is probably the network config, although the pitfall of the public URL based delivery method for the config file means that the installer needs Internet access before the configuration can be applied, so do bear that in mind.</p>
+<p><img src="desktop.png" alt="Screenshot of an empty Gnome desktop straight after booting into the automatically installed Debian OS."></p>
+<p>Lastly, something to remember is that the <code>d-i partman-auto/disk string /dev/vda</code> line may differ from one install to another. From what I gather, the default disk path in a KVM install of debian will always be <code>/dev/vda</code>, while bare metal would be <code>/dev/sda</code> (for a SCSI or SATA device). Again, for detailed info on this refer to the official docs: <a href="https://www.debian.org/releases/stable/i386/apbs04.en.html#preseed-partman">https://www.debian.org/releases/stable/i386/apbs04.en.html#preseed-partman</a></p>
+<h2 id="happy-times">Happy times</h2>
+<p>As of the time of writing this, we are yet to attempt this automated install process remotely on my friend&rsquo;s machine. I must say, it is quite exciting that we have the technology to automate and simplify things at a distance, and I am looking forward to see how we will fail at it tomorrow! Though I would be hesitant to bet that any Python coding will be happening on that new machine in the next day or so, knowing our luck. And with that, till next time, dear reader.</p>
+]]></content>
+        </item>
         
         <item>
             <title>There and back again - an extraordinary journey on unsuitable motorcycles</title>
