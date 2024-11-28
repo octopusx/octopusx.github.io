@@ -1631,6 +1631,27 @@ Maybe.</p>
         </item>
         
         <item>
+            <title>Jupiter Broadcasting Podcast</title>
+            <link>https://blog.octopusx.de/posts/jb_podcast/</link>
+            <pubDate>Sun, 21 Jul 2024 12:00:00 +0200</pubDate>
+            
+            <guid>https://blog.octopusx.de/posts/jb_podcast/</guid>
+            <description>Just a short one! I am proud to share that I made a guest appearance on the popular and well regarded Linux Unplugged podcast, episode 572! I was invited by the way of coincidence (i.e. being in town at the right time).
+Hesitant at first, I decided to join as in this episode we touched on Garmin smart/sports watches, of which I am a big fan and a long time power user.</description>
+            <content type="html"><![CDATA[<p>Just a short one! I am proud to share that I made a guest appearance on the popular and well regarded <a href="https://linuxunplugged.com">Linux Unplugged podcast</a>, <a href="https://linuxunplugged.com/572">episode 572</a>! I was invited by the way of coincidence (i.e. being in town at the right time).</p>
+<p><img src="guest_badge.png" alt="Screenshot of a part of the website listing me as a special guest of the Jupiter Broadcasting Linux Unplugged podcast."></p>
+<p>Hesitant at first, I decided to join as in this episode we touched on Garmin smart/sports watches, of which I am a big fan and a long time power user. Hope you enjoy this one and indeed my debut in audio format as much as I did. All the best to the whole JB crew, and to the next 500 episodes and more, cheers!</p>
+<h2 id="links">Links</h2>
+<ul>
+<li>Jupiter Broadcasting: <a href="https://www.jupiterbroadcasting.com/">https://www.jupiterbroadcasting.com/</a></li>
+<li>Linux Unplugged: <a href="https://linuxunplugged.com">https://linuxunplugged.com</a></li>
+<li>My guest page: <a href="https://linuxunplugged.com/guests/tomasz">https://linuxunplugged.com/guests/tomasz</a></li>
+<li>My guest appearance episode: <a href="https://linuxunplugged.com/572">https://linuxunplugged.com/572</a></li>
+</ul>
+]]></content>
+        </item>
+        
+        <item>
             <title>Plugin Unplugged - A voice note plugin for Nextcloud</title>
             <link>https://blog.octopusx.de/posts/plugin_unplugged/</link>
             <pubDate>Sat, 24 Feb 2024 23:22:20 +0200</pubDate>
