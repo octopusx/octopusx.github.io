@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 28 Nov 2024 22:27:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 Dec 2024 19:30:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Remember Ingress</title>
+      <link>https://blog.octopusx.de/posts/remember_ingress/</link>
+      <pubDate>Thu, 26 Dec 2024 19:30:00 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/remember_ingress/</guid>
+      <description>Hello back! Long winter evenings are really conducive to just taking a seat and tinkering with things while having a bright computer screen shine right in your face to keep you awake way past your bedtime. It is also the time for me to realise I let a chunk of my homelab duties fall by the wayside, and yet again I find myself in a situation where it will be easier (and probably safer) to just bootstrap a new K8S cluster from scratch, rather than try patching the existing one to make it up to day.</description>
+    </item>
+    
     <item>
       <title>Strapping and Booting</title>
       <link>https://blog.octopusx.de/posts/strapping_booting/</link>

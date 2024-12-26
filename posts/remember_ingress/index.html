@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Hello back! Long winter evenings are really conducive to just taking a seat and tinkering with things while having a bright computer screen shine right in your face to keep you awake way past your bedtime. It is also the time for me to realise I let a chunk of my homelab duties fall by the wayside, and yet again I find myself in a situation where it will be easier (and probably safer) to just bootstrap a new K8S cluster from scratch, rather than try patching the existing one to make it up to day." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/remember_ingress/" />
+
+
+    <title>
+        
+            Remember Ingress :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Remember Ingress">
+<meta itemprop="description" content="Hello back! Long winter evenings are really conducive to just taking a seat and tinkering with things while having a bright computer screen shine right in your face to keep you awake way past your bedtime. It is also the time for me to realise I let a chunk of my homelab duties fall by the wayside, and yet again I find myself in a situation where it will be easier (and probably safer) to just bootstrap a new K8S cluster from scratch, rather than try patching the existing one to make it up to day."><meta itemprop="datePublished" content="2024-12-26T19:30:00+02:00" />
+<meta itemprop="dateModified" content="2024-12-26T19:30:00+02:00" />
+<meta itemprop="wordCount" content="963"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Remember Ingress"/>
+<meta name="twitter:description" content="Hello back! Long winter evenings are really conducive to just taking a seat and tinkering with things while having a bright computer screen shine right in your face to keep you awake way past your bedtime. It is also the time for me to realise I let a chunk of my homelab duties fall by the wayside, and yet again I find myself in a situation where it will be easier (and probably safer) to just bootstrap a new K8S cluster from scratch, rather than try patching the existing one to make it up to day."/>
+
+
+
+    <meta property="og:title" content="Remember Ingress" />
+<meta property="og:description" content="Hello back! Long winter evenings are really conducive to just taking a seat and tinkering with things while having a bright computer screen shine right in your face to keep you awake way past your bedtime. It is also the time for me to realise I let a chunk of my homelab duties fall by the wayside, and yet again I find myself in a situation where it will be easier (and probably safer) to just bootstrap a new K8S cluster from scratch, rather than try patching the existing one to make it up to day." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/remember_ingress/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-12-26T19:30:00+02:00" />
+<meta property="article:modified_time" content="2024-12-26T19:30:00+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2024-12-26 19:30:00 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li><li><a href="../../feed">feed</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        5 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/remember_ingress/">Remember Ingress</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>Hello back! Long winter evenings are really conducive to just taking a seat and tinkering with things while having a bright computer screen shine right in your face to keep you awake way past your bedtime. It is also the time for me to realise I let a chunk of my homelab duties fall by the wayside, and yet again I find myself in a situation where it will be easier (and probably safer) to just bootstrap a new K8S cluster from scratch, rather than try patching the existing one to make it up to day. Like, you know, the pros do it in the cloud. Pets vs cattle, and all that&hellip; My current cluster had a really good run, my oldest node is well over 2 years old at this point!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>~ ❯ k get nodes                                                 8s ○ k3s
+</span></span><span style="display:flex;"><span>NAME                STATUS   ROLES                  AGE     VERSION
+</span></span><span style="display:flex;"><span>k8s01               Ready    control-plane,master   2y51d   v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s03               Ready    worker                 2y50d   v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s05               Ready    storage                2y50d   v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s11               Ready    control-plane,master   594d    v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s13               Ready    storage                242d    v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s14               Ready    worker                 14d     v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s21               Ready    control-plane,master   46d     v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s22               Ready    worker                 45d     v1.27.2+k3s1
+</span></span><span style="display:flex;"><span>k8s23               Ready    storage                45d     v1.27.2+k3s1
+</span></span></code></pre></div><p>Still, I am running k3s version 1.27.2. Which is a few major versions behind, latest one currently being v1.31.4.</p>
+<h2 id="memory">Memory</h2>
+<p>Now, because the last time I set up a new cluster was over two years ago, I don&rsquo;t remember exactly what steps I needed to take to configure certain aspect of the cluster. Things like ingress and load balancers you only really configure once at the beginning, then you don&rsquo;t need to touch them pretty much ever again. In my current cluster I am using MetalLB as the L2 load balancer, then Traefik as the ingress controller. Both of these components have also moved on since the last time I set them up, and despite my best efforts I have also fallen behind a few versions on those. Well, and here we are. At least this time I am taking notes, so the next time I do it I can at least refer to this page. This is a gift from me to my future self.</p>
+<h2 id="metallb">MetalLB</h2>
+<p>I won&rsquo;t copy-paste the entire <code>values.yaml</code> for metallb. I am using the official chart in its vanilla state. I basically am not changing any configuration whatsoever. Basically keeping all default values as found <a href="https://github.com/metallb/metallb/blob/main/charts/metallb/values.yaml">here</a>.</p>
+<p>As I am writing this, I am using version 0.14.9 of the metallb chart.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">metallb</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#ae81ff">Metallb chart, configuring bare metal load balancer</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">application</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">metallb</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.14.9</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">https://metallb.github.io/metallb</span>
+</span></span></code></pre></div><p>It seems to me that unlike in older versions of metallb, the actual configuration for the load balancer gets installed via a couple of custom resources, which are not generated via changes to the <code>values.yaml</code>. Therefore I defined them as following to mach my use case:</p>
+<p>I created <code>addresspool.yaml</code> which defines a default pool of IP addresses that I want to use for my LoadBalancer-type K8S service entries. Since I am using a non-standard IP block, I added each address separate as a list item, masked at <code>/32</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">metallb.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">IPAddressPool</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">metallb-system</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addresses</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">192.168.0.10</span><span style="color:#ae81ff">/32</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">192.168.0.11</span><span style="color:#ae81ff">/32</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">192.168.0.12</span><span style="color:#ae81ff">/32</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">192.168.0.13</span><span style="color:#ae81ff">/32</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">192.168.0.14</span><span style="color:#ae81ff">/32</span>
+</span></span></code></pre></div><p>At first I though that was it, but it turns out that MetalLB will not configure the speaker pods to advertise my service IPs if I don&rsquo;t explicitly tell it to. For that I created another custom resource of kind <code>L2Advertisement</code>. It enables the virtual IP address advertisement feature for each address pool linked. In this case we are linking the <code>default</code> address pool, as defined in the previous step.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">metallb.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">L2Advertisement </span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">metallb-system</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ipAddressPools</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">default</span>
+</span></span></code></pre></div><h2 id="traefik">Traefik</h2>
+<p>In order of messing around and figuring out what to do next, at this point I started to configure Traefik and its dashboard, to make sure that the LB services are working correctly and MetalLB IPs are getting advertised. But knowing what I know now, I wanted to make sure the dashboard is exposed over https and has a proper certificate. So, if you&rsquo;re following step-by-step, this is the time to insert a TLS cert secret to use. I am using a wildcard cert, which I call <code>wildcard-cert</code> like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create secret tls wildcard-cert --cert ./fullchain.pem --key ./privkey.pem -n default
+</span></span></code></pre></div><p>I won&rsquo;t tell you how to obtain your certs, that&rsquo;s its own topic for another time&hellip;</p>
+<p>Just as with MetalLB I am using the official Traefik helm chart, this time version 33.2.1.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-private</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#ae81ff">Traefik chart, configuring private ingress controller</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">application</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#ae81ff">0.1.0</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#ae81ff">33.2.1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">https://traefik.github.io/charts</span>
+</span></span></code></pre></div><p>Again, basing my chart on the default configs. I only made a couple of minor changes to the <code>values.yaml</code>. (The full file can be seen <a href="https://github.com/traefik/traefik-helm-chart/blob/master/traefik/values.yaml">here</a>.)</p>
+<p>I configured this Traefik instance to be the default ingress. Calling it private as this one will be resolvable only on the local network. I usually create a second ingress dedicated to external traffic for services exposed to the internet.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">...}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingressClass</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">isDefaultClass</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;private&#34;</span>
+</span></span></code></pre></div><p>I modified the dashboard ingress route block. I added the &ldquo;websecure&rdquo; entrypoint both to test it, and to have a TLS-protected endpoint where I can check the dashboard. The &ldquo;web&rdquo; endpoint is left there too, though I am yet to set up the https redirect middleware. I am linking the TLS cert that I described in the previous step.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">...}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingressRoute</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">dashboard</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>: {}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>: {}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">matchRule</span>: <span style="color:#ae81ff">Host(`treafik-private-dashboard.domain.com`) &amp;&amp; (PathPrefix(`/dashboard`) || PathPrefix(`/api`))</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">api@internal</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">TraefikService</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">entryPoints</span>: [<span style="color:#e6db74">&#34;websecure&#34;</span>,<span style="color:#e6db74">&#34;web&#34;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">middlewares</span>: []
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">tls</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">wildcard-cert</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">domains</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">main</span>: <span style="color:#ae81ff">treafik-private-dashboard.domain.com</span>
+</span></span></code></pre></div><p>Lastly I enable the dashboard using additional args block.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">...}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">additionalArguments</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#34;--api.dashboard=true&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#34;--log.level=INFO&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#34;--api.insecure=false&#34;</span>
+</span></span></code></pre></div>
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        963 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2024-12-26 17:30
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/strapping_booting/">
+                    <span class="button__text">Strapping and Booting</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Competent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>
