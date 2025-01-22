@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Thu, 26 Dec 2024 19:30:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Jan 2025 00:08:00 +0200</lastBuildDate><atom:link href="https://blog.octopusx.de/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Funky Traefik Dashboards</title>
+      <link>https://blog.octopusx.de/posts/funky_traefik_dashboard/</link>
+      <pubDate>Thu, 23 Jan 2025 00:08:00 +0200</pubDate>
+      
+      <guid>https://blog.octopusx.de/posts/funky_traefik_dashboard/</guid>
+      <description>I have used Traefik for a number of years as my go-to ingress controller for K8S deployments big and small. At the same time, I always feel like I barely know the tool, and the more intricate and arcane parts of its mechanisms elude my understanding. I must admit, that a part of it comes from the general unwillingness to rely on CRDs where standard K8S objects, in my opinion, should suffice.</description>
+    </item>
+    
     <item>
       <title>Remember Ingress</title>
       <link>https://blog.octopusx.de/posts/remember_ingress/</link>

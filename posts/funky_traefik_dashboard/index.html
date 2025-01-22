@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="I have used Traefik for a number of years as my go-to ingress controller for K8S deployments big and small. At the same time, I always feel like I barely know the tool, and the more intricate and arcane parts of its mechanisms elude my understanding. I must admit, that a part of it comes from the general unwillingness to rely on CRDs where standard K8S objects, in my opinion, should suffice." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://blog.octopusx.de/posts/funky_traefik_dashboard/" />
+
+
+    <title>
+        
+            Funky Traefik Dashboards :: Developer and Self Hoster Blog  — A simple theme for Hugo
+        
+    </title>
+
+
+
+
+
+<link rel="stylesheet" href="../../main.b78c3be9451dc4ca61ca377f3dc2cf2e6345a44c2bae46216a322ef366daa399.css" integrity="sha256-t4w76UUdxMphyjd/PcLPLmNFpEwrrkYhajIu82bao5k=">
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="">
+
+
+<meta itemprop="name" content="Funky Traefik Dashboards">
+<meta itemprop="description" content="I have used Traefik for a number of years as my go-to ingress controller for K8S deployments big and small. At the same time, I always feel like I barely know the tool, and the more intricate and arcane parts of its mechanisms elude my understanding. I must admit, that a part of it comes from the general unwillingness to rely on CRDs where standard K8S objects, in my opinion, should suffice."><meta itemprop="datePublished" content="2025-01-23T00:08:00+02:00" />
+<meta itemprop="dateModified" content="2025-01-23T00:08:00+02:00" />
+<meta itemprop="wordCount" content="2046"><meta itemprop="image" content="https://blog.octopusx.de/"/>
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://blog.octopusx.de/"/>
+
+<meta name="twitter:title" content="Funky Traefik Dashboards"/>
+<meta name="twitter:description" content="I have used Traefik for a number of years as my go-to ingress controller for K8S deployments big and small. At the same time, I always feel like I barely know the tool, and the more intricate and arcane parts of its mechanisms elude my understanding. I must admit, that a part of it comes from the general unwillingness to rely on CRDs where standard K8S objects, in my opinion, should suffice."/>
+
+
+
+    <meta property="og:title" content="Funky Traefik Dashboards" />
+<meta property="og:description" content="I have used Traefik for a number of years as my go-to ingress controller for K8S deployments big and small. At the same time, I always feel like I barely know the tool, and the more intricate and arcane parts of its mechanisms elude my understanding. I must admit, that a part of it comes from the general unwillingness to rely on CRDs where standard K8S objects, in my opinion, should suffice." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.octopusx.de/posts/funky_traefik_dashboard/" /><meta property="og:image" content="https://blog.octopusx.de/"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2025-01-23T00:08:00+02:00" />
+<meta property="article:modified_time" content="2025-01-23T00:08:00+02:00" /><meta property="og:site_name" content="Developer and Self Hoster Blog" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2025-01-23 00:08:00 &#43;0200 &#43;0200" />
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text ">
+                kubectl get pods</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../posts">blog</a></li><li><a href="../../feed">feed</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+  <main class="post">
+
+    <div class="post-info">
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        10 minutes
+
+        
+      </p>
+    </div>
+
+    <article>
+      <h1 class="post-title">
+        <a href="https://blog.octopusx.de/posts/funky_traefik_dashboard/">Funky Traefik Dashboards</a>
+      </h1>
+
+      
+
+      
+
+      
+
+      <div class="post-content">
+        <p>I have used Traefik for a number of years as my go-to ingress controller for K8S deployments big and small. At the same time, I always feel like I barely know the tool, and the more intricate and arcane parts of its mechanisms elude my understanding. I must admit, that a part of it comes from the general unwillingness to rely on CRDs where standard K8S objects, in my opinion, should suffice. Otherwise, why bother with the common interface?</p>
+<p>Nevertheless its stability and performance can&rsquo;t be denied, and so here I am, taking to this text-based medium once again to jot down some notes, for the benefits of my future self and anyone else who may stumble upon this page.</p>
+<h1 id="splitting-access">Splitting access</h1>
+<p>In my homelab I host a single multi-node instance of K8S that hosts services available both, exclusively on my lan, as well as from the Internet. To achieve this I create separate ingress controllers, one for each of the use cases. This allows me to forward traffic from the internet to one of them, on its dedicated IP address, but not the other, hosted behind a different load balancer IP on my local net.</p>
+<p>Be default the Traefik K8S helm chart will create a service, which needs to be set to type LoadBalancer. As mentioned in the <a href="https://blog.octopusx.de/posts/remember_ingress/">previous blog entry</a>, this will trigger MetalLB to assign our new ingress instance a dedicated virtual IP address to our new service. Let&rsquo;s say we did that and called this instance of the Traefik helm chart <code>traefik-private</code>. All examples bellow will use the <a href="https://github.com/traefik/traefik-helm-chart">official Traefik helm chart</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>~/Code/k3s/traefik-private main ❯ tree .
+</span></span><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── Chart.lock
+</span></span><span style="display:flex;"><span>├── charts
+</span></span><span style="display:flex;"><span>│   └── traefik-34.1.0.tgz
+</span></span><span style="display:flex;"><span>├── Chart.yaml
+</span></span><span style="display:flex;"><span>├── templates
+</span></span><span style="display:flex;"><span>│   └── dashboard.yaml
+</span></span><span style="display:flex;"><span>└── values.yaml
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> directories, <span style="color:#ae81ff">5</span> files
+</span></span></code></pre></div><p>Since we will be creating a second ingress controller alongside it, we need to take care of a few configuration steps in the <code>values.yaml</code>. We need to make this ingress unique, so that we can assign different applications in our cluster to one or the other ingress controller. We can do this by naming each ingress class and setting one of them to be the default one. In my case, my private ingress will be default.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">..}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Make service type LoadBalancer to give it an IP address on our local network</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">single</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LoadBalancer</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Configure the ingress class kubernetes object itself</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingressClass</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">isDefaultClass</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;private&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Also configure the kubernetesIngress provider, otherwise Traefik won&#39;t consume the relevant ingress entries</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">providers</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetesIngress</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ingressClass</span>: <span style="color:#e6db74">&#34;private&#34;</span>
+</span></span></code></pre></div><p>Now we need to make a copy of this chart, and rename it to something like <code>traefik-public</code>, modify the <code>values.yaml</code> slightly, then install it on our cluster as well, and boom we have two ingresses, each with its own IP address.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">..}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Configure the ingress class kubernetes object itself</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingressClass</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">isDefaultClass</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;public&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Also configure the kubernetesIngress provider, otherwise Traefik won&#39;t consume the relevant ingress entries</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">providers</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetesIngress</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ingressClass</span>: <span style="color:#e6db74">&#34;public&#34;</span>
+</span></span></code></pre></div><p>Voila, this is what we&rsquo;ve got so far in graphical form. Two targets that we have the freedom to configure routing to and from as we please.</p>
+<p><img src="ingress.svg" alt="Ingress IP assignment graph"></p>
+<h1 id="getting-in">Getting in</h1>
+<p>So now to the whole reason why we bother splitting these ingresses on a network level. When I am out and about, I still want to have access to the services that my homelab provides. This usually is done with the use of some sort of a VPN. The basic (or actually not so basic) outline of how to achieve Wireguard-based VPN access to your infra can be, yet again, found in one of <a href="https://blog.octopusx.de/posts/wireguard/">my previous posts</a>. This works very well for the vast majority of services. What it does not work for, are services which need a public presence. For example, a Matrix Synapse server, a Mastodon server, or even a Nextcloud server in case you want to be able to share links to files with people like you can do with popular commercial cloud-based alternatives. The solutions is definitely not to just expose everything, so let&rsquo;s be smart about it.</p>
+<p><img src="fatingress.svg" alt="Full fat diagram of my crazy ingress setup"></p>
+<p>This rather complicated graph (don&rsquo;t bite, it was late at night when I drew it) hopefully allows you to digest the next few paragraphs a little easier. In order to allow public access to services running inside your homelab, you need to find a way to give them public IP addresses. Since we are not opening ports or doing any nonsense that would require your ISP to give you a publicly routable IP, we are going to take advantage of the infra we&rsquo;ve already got plus a little extra.</p>
+<p>In this setup we have 3 important entities. The subnet router within your home network, the Wireguard server in the cloud somewhere and a reverse proxy server, also in the cloud, where the last 2 have public IPs. Logically, you could combine the last two, but I like to keep them separate, both to make the setup cleaner and to separate the two concerns for security reasons.</p>
+<p>The Wireguard network in question is a star and spokes design, meaning we have a central server that every other node connects to, and via this node they can therefore reach every other node. The subnet router and reverse proxy are, although special types of nodes, still just nodes. Addressable directly on the 10.10.0.0/24 subnet as per the diagram. As a VPN user I also get assigned an address on this subnet, and therefore can access all of the spokes once connected. How does my roadwarrior machine know how to find the homelab subnet, where all of my services reside, i.e. 10.0.0.0/24? Two steps. The Wireguard machine advertises that the 10.0.0.0/24 subnet is available via the subnet router node, in this case 10.10.0.5. This is configured using IPTables. The subnet router in turn is configured to forward all traffic coming from the Wireguard host (10.10.0.1) targeted at the subnet 10.0.0.0/24 via its interface on said subnet, so 10.0.0.7. As a result of all this, my roadwarrior node can access both ingresses (10.0.0.5 and 10.0.0.6), and any other hosts on this subnet, including the local DNS server I host, which will translate the URLs to their local addresses.</p>
+<p>The reverse proxy node is more specialised. It is designed for a single function, to forward only select requests coming from the internet on its port 443 to the public ingress IP address only. We can do this by deploying HAproxy on it. Following is an example of a simple HAproxy config file, matching what the diagram above presented:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-apacheconf" data-lang="apacheconf"><span style="display:flex;"><span><span style="color:#75715e"># Configure the frontend, so how we receive traffic on the reverse proxy</span>
+</span></span><span style="display:flex;"><span>frontend traefik_public
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># This needs to be your actual IP address you&#39;re trying to bind, the Xs are only for this example...</span>
+</span></span><span style="display:flex;"><span>        bind X.X.X.6:443
+</span></span><span style="display:flex;"><span>        default_backend    traefik_public_server
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Enable send X-Forwarded-For header</span>
+</span></span><span style="display:flex;"><span>        option             forwardfor
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Now configure backend, so where do we send the requests</span>
+</span></span><span style="display:flex;"><span>backend traefik_public_server                                                                                                 
+</span></span><span style="display:flex;"><span>        balance            roundrobin
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># We select the single IP as a backend, corresponding with our traefik public instance in the homelab</span>
+</span></span><span style="display:flex;"><span>        server             backend01 <span style="color:#ae81ff">10.10.0.6</span>:443 check
+</span></span></code></pre></div><p>The config file is usually located at <code>/etc/haproxy/haproxy.conf</code>. To find out more you can look up the <a href="https://www.haproxy.org/">HAProxy website</a> and the official <a href="https://docs.haproxy.org/">configuration documentation</a>.</p>
+<p>This configuration is simple because we are telling HAproxy to forward all of the HTTPS traffic it receives down to our homelab traefik instance designated as the &ldquo;public&rdquo; one. It can do that because, just like my roadwarrior laptop, it itself is also a node on the wireguard network, and it also knows how to reach 10.10.0.0/24 subnet.</p>
+<p>Finally to the point. We can advertise our public services using a public DNS provider, and tell it to point to the HAproxy, which will happily forward those inwards via the Wireguard net. Therefore, as per this example. we can set test1.example.com to point to X.X.X.6. Likewise, since we don&rsquo;t want people to connect to test2.example.com, so we just won&rsquo;t set that in public DNS right? So, that is correct, however anyone can host their own DNS server or just override their local DNS config on their machine. This means that, because HAproxy in with this configuration forwards all HTTPS traffic indiscriminately to the downstream server, if we only had one ingress in the homelab for all services, we would be exposing them one way or another. So, by splitting them, we have network segregation and an easily configurable infrastructure, where changing the service from public to private and vice versa is as simple as tagging its Kubernetes ingress object with the correct ingress label, then publishing or deleting the public DNS entry. Now, that&rsquo;s neat.</p>
+<h1 id="i-wanna-see-it">I wanna see it!</h1>
+<p>Something I always struggled with in the past was configuring the Traefik dashboard correctly. By correctly I mean so that it actually works. This is double annoying, because we have two ingress controllers, so on average I fail twice per cluster on this task. This is where I normally engage you with a semi-whity story about how I embarked on a journey of discovery and what hardship I overcame to get to where we are not. I ain&rsquo;t doing that now, I just fixed my dashboards, and I ain&rsquo;t breaking them again just to take screenshots for you. Deal with it.</p>
+<p>So, what do I want? I want access to dashboards from both the ingress controllers AND I don&rsquo;t want the whole freaking internet to have access to either of them. That&rsquo;s not so much to ask, is it? The defaults in the Traefik chart enable the dashboards using their fancy CRD <code>ingressRoute</code>. All I will say is, NO. Ok, not really. So we will still need to enable the dashboard <code>ingressRoute</code> item but we will not configure anything but the most basic stuff for it, and we will use a normal honest to God ingress object to actually expose this dashboard.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">...}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingressRoute</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">dashboard</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>: {}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>: {}
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">matchRule</span>: <span style="color:#ae81ff">Host(`dashboard-public.example.com`)</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">api@internal</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">TraefikService</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">entryPoints</span>: [<span style="color:#e6db74">&#34;traefik&#34;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">middlewares</span>: []
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">tls</span>: {}
+</span></span></code></pre></div><p>We will have to do this in both the charts for both ingress controllers, obviously changing the match rule to match the hostname you&rsquo;ve chosen. You will notice that we are selecting the &ldquo;traefik&rdquo; entrypoint, this is on purpose. We need to enable this entrypoint now, like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">...}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">traefik</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">expose</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">default</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">exposedPort</span>: <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
+</span></span></code></pre></div><p>This will make sure that the ingress controllers will not respond to our <code>dashboard-public.example.com</code> or whatever on the normal ports that they serve traffic to real users, like 443 or 80. This is important for the public ingress especially, as that would mean people on the internet could mess with your dashboard if they could figure out the hostname you gave it, and we don&rsquo;t want that. What do we want? We want the private ingress controller to serve both dashboards, so that I can view it when I am authenticated on my VPN damn it!</p>
+<p>I started digging and found this: <a href="https://github.com/traefik/traefik-helm-chart/issues/143">https://github.com/traefik/traefik-helm-chart/issues/143</a>. Traefik devs basically said, ain&rsquo;t nobody got time for this BS, just make a generic service and ingress entries and begone demon! So off I went.</p>
+<p>Since we already set the dashboards to be available on the <code>traefik</code> port 8080, and both Traefik ingresses will have created a service each for this, I have foregone that part, and instead went for just an extra ingress object per controller.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Ingress</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-public-dashboard</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># This here annotation is the key btw:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetes.io/ingress.class</span>: <span style="color:#ae81ff">traefik-private</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">traefik.ingress.kubernetes.io/router.entrypoints</span>: <span style="color:#ae81ff">websecure,web</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tls</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">dashboard-public.example.com</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">wildcard-cert</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">host</span>: <span style="color:#ae81ff">dashboard-public.example.com</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">http</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">paths</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">pathType</span>: <span style="color:#ae81ff">Prefix</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">backend</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">service</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">name</span>: <span style="color:#ae81ff">traefik-public</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">port</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">number</span>: <span style="color:#ae81ff">8080</span>
+</span></span></code></pre></div><p>Both ingress object will look the same, you just need to change the name, host rule and target service name. Importantly the annotations need to stay the same. This will mean that only the ingress controller that I called <code>traefik-private</code> (in this case available via 10.0.0.5) will configure entries for both dashboards, and put them on its <code>websecure</code> and <code>web</code> entrypoints, which are the standard port 443 and 80 bois. Here you go Hilmar, I know you struggled with this, now you know how to do it and I can always refer back to this page also. Phew&hellip;</p>
+
+      </div>
+    </article>
+
+    <hr />
+
+    <div class="post-info">
+      
+      
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        2046 Words
+      </p>
+
+      <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        
+          2025-01-22 22:08
+        
+
+         
+          
+        
+      </p>
+    </div>
+
+    
+    <div class="pagination">
+        
+        <div class="pagination__title">
+            <span class="pagination__title-h">Read other posts</span>
+            <hr />
+        </div>
+        
+
+        <div class="pagination__buttons">
+            
+
+            
+            <span class="button next">
+                <a href="https://blog.octopusx.de/posts/remember_ingress/">
+                    <span class="button__text">Remember Ingress</span>
+                    <span class="button__icon">→</span>
+                </a>
+            </span>
+            
+        </div>
+    </div>
+
+
+    
+
+    
+
+  </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            
+            <span><a href="https://blog.octopusx.de/"></a></span>
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span><a href="https://blog.octopusx.de/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            
+        </div>
+    </div>
+    
+    
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span><span>Made with &#10084; by <a href="https://github.com/octopusx">Accidentally Competent</a></span>
+        </div>
+    </div>
+    
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="../../bundle.min.bd0f0ac9666624c2a336739d6ea5e4bbdbc1915e288c3970cec82782d5095baf4541e629f0ee23052820f9bb967778058ed0b6c5f62334390306f11722e6923e.js" integrity="sha512-vQ8KyWZmJMKjNnOdbqXku9vBkV4ojDlwzsgngtUJW69FQeYp8O4jBSgg&#43;buWd3gFjtC2xfYjNDkDBvEXIuaSPg=="></script>
+
+
+
+    </body>
+</html>

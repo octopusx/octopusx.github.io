@@ -3,10 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.octopusx.de/</loc>
-    <lastmod>2024-12-26T19:30:00+02:00</lastmod>
+    <lastmod>2025-01-23T00:08:00+02:00</lastmod>
+  </url><url>
+    <loc>https://blog.octopusx.de/posts/funky_traefik_dashboard/</loc>
+    <lastmod>2025-01-23T00:08:00+02:00</lastmod>
   </url><url>
     <loc>https://blog.octopusx.de/posts/</loc>
-    <lastmod>2024-12-26T19:30:00+02:00</lastmod>
+    <lastmod>2025-01-23T00:08:00+02:00</lastmod>
   </url><url>
     <loc>https://blog.octopusx.de/posts/remember_ingress/</loc>
     <lastmod>2024-12-26T19:30:00+02:00</lastmod>
