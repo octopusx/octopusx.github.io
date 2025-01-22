@@ -173,27 +173,27 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingressClass</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">isDefaultClass</span>: <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;private&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;traefik-private&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Also configure the kubernetesIngress provider, otherwise Traefik won&#39;t consume the relevant ingress entries</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">providers</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetesIngress</span>:
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ingressClass</span>: <span style="color:#e6db74">&#34;private&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ingressClass</span>: <span style="color:#e6db74">&#34;traefik-private&#34;</span>
 </span></span></code></pre></div><p>Now we need to make a copy of this chart, and rename it to something like <code>traefik-public</code>, modify the <code>values.yaml</code> slightly, then install it on our cluster as well, and boom we have two ingresses, each with its own IP address.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">traefik</span>:
 </span></span><span style="display:flex;"><span>  {<span style="color:#ae81ff">..}</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Configure the ingress class kubernetes object itself</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">ingressClass</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">isDefaultClass</span>: <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;public&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">isDefaultClass</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;traefik-public&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Also configure the kubernetesIngress provider, otherwise Traefik won&#39;t consume the relevant ingress entries</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">providers</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">kubernetesIngress</span>:
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">enabled</span>: <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ingressClass</span>: <span style="color:#e6db74">&#34;public&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ingressClass</span>: <span style="color:#e6db74">&#34;traefik-public&#34;</span>
 </span></span></code></pre></div><p>Voila, this is what we&rsquo;ve got so far in graphical form. Two targets that we have the freedom to configure routing to and from as we please.</p>
 <p><img src="ingress.svg" alt="Ingress IP assignment graph"></p>
 <h1 id="getting-in">Getting in</h1>
